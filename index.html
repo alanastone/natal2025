@@ -5,446 +5,669 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Musical de Natal 2025</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #c41e3a;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
         }
-        table {
-            width: 90%;
-            max-width: 500px;
-            margin: 0 auto;
-            border-collapse: collapse;
-            background-color: white;
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
+
+        .header {
             text-align: center;
-            border: 1px solid #ddd;
+            color: white;
+            margin-bottom: 30px;
         }
-        th {
-            background-color: #007BFF;
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .quick-links {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .quick-links h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #c41e3a;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .link-card {
+            background: #2c5530;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-weight: 500;
+        }
+
+        .link-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            background: #228B22;
             color: white;
         }
-        a {
-            color: #007BFF;
+
+        .songs-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .songs-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #c41e3a;
+        }
+
+        .songs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .song-card {
+            background: #2c5530;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .song-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            background: #228B22;
+        }
+
+        .song-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .song-card:hover::before {
+            left: 100%;
+        }
+
+        .song-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .song-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .song-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .song-details {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .song-details.active {
+            display: block;
+        }
+
+        .song-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            gap: 15px;
+        }
+
+        .song-details h3 {
+            color: #c41e3a;
+            margin: 0;
+            font-size: 1.6rem;
+            flex: 1;
+            text-align: center;
+        }
+
+        .audio-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .audio-item {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #c41e3a;
+        }
+
+        .audio-item h4 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .audio-item audio {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .drive-link {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
             text-decoration: none;
-            transition: color 0.3s ease;
+            display: inline-block;
+            margin-top: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
-        a:hover {
-            color: #0056b3;
+
+        .drive-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+            color: white;
         }
-        .content {
-            padding: 10px;
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
-            display: none; /* Inicialmente ocultas */
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .hidden {
-            display: none; /* Esconde a div */
+
+        .back-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .stop-all-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stop-all-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .songs-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .song-card {
+                padding: 15px;
+            }
+
+            .song-details {
+                padding: 20px;
+            }
+
+            .song-header {
+                gap: 10px;
+            }
+
+            .song-details h3 {
+                font-size: 1.3rem;
+            }
+
+            .back-btn, .stop-all-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .audio-list {
+                gap: 12px;
+            }
+
+            .audio-item {
+                padding: 15px;
+            }
+
+            .links-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 10px;
+            }
+
+            .link-card {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .songs-section {
+                padding: 20px;
+            }
+
+            .song-details {
+                padding: 15px;
+            }
+
+            .audio-item {
+                padding: 12px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎄 Musical de Natal 2025 🎵</h1>
+        </div>
 
-    <h1 style="text-align: center;">Musical de Natal 2025</h1>
+        <!-- Quick Links -->
+        <div class="quick-links">
+            <h2>📚 Recursos Gerais</h2>
+            <div class="links-grid">
+                <a href="https://drive.google.com/file/d/1CrS9x-YBR6Av6pwROeyQ_R-9ncs9KRjM/view?usp=sharing" target="_blank" class="link-card">
+                    📄 Letras
+                </a>
+                <a href="https://www.canva.com/design/DAGTS1b-2uA/wuEPBxls4tqtA5QsvywenA/edit" target="_blank" class="link-card">
+                    📅 Ensaios
+                </a>
+                <a href="https://open.spotify.com/playlist/7cgKJrmw4FDMLm1gLIFHdJ?si=5qayAZkoRyKKl-_oGSRKww&nd=1&dlsi=6504e53df6764794" target="_blank" class="link-card">
+                    🎵 Youtube
+                </a>
+            </div>
+        </div>
 
-    <table>
-        <tr>
-            <th colspan="4">Geral</th>
-        </tr>
-        <tr>
-            <td><a href="https://drive.google.com/file/d/1CrS9x-YBR6Av6pwROeyQ_R-9ncs9KRjM/view?usp=sharing" target="_blank">Letras</a></td>
-            <td><a href="https://www.canva.com/design/DAGTS1b-2uA/wuEPBxls4tqtA5QsvywenA/edit" target="_blank">Calendário de Ensaios</a></td>
-            <td><a href="https://www.youtube.com/watch?v=mSXgE_SS2y8&list=PLWaADBxwbjQK9InaSgqfma39JAiug1v4r" target="_blank">Playlist no YouTube</a></td>
-        </tr>
-    </table>
-    
-    
-    <h2 style="text-align: center;">Músicas</h2>
-    <table>
-        <tr>
-            <td><a href="#" onclick="showTable(1)">01 - Isaías 9</a></td>
-            <td><a href="#" onclick="showTable(2)">02 - Maria</a></td>
-            <td><a href="#" onclick="showTable(3)">03 - Noite Santa e Agnus Dei</a></td>
-        </tr>
-        <tr>
-            <td><a href="#" onclick="showTable(4)">04 - Magos do Oriente</a></td>
-            <td><a href="#" onclick="showTable(5)">05 - Isaías 53 e Foi na Cruz</a></td>
-            <td><a href="#" onclick="showTable(6)">06 - O Leão e o Cordeiro</a></td>
-        </tr>
-        <tr>
-            <td><a href="#" onclick="showTable(7)">07 - O Dia da Vitória</a></td>
-            <td><a href="#" onclick="showTable(8)">08 - Lhe Amostrando Jesus</a></td>
-            <td></td>
-        </tr>
-    </table>
-    <hr />
-    <div id="table1" class="content">
-        <table>
-            <tr>
-                <th colspan="2">01 - Isaías 9</th>
-            </tr>
-             <tr>
-                <td>Playback</td>
-                <td>
-                    <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/01_isaias_9.mp3" controls></audio>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div id="table2" class="content">
-    <table>
-        <tr>
-            <th colspan="2">02 - Maria</th>
-        </tr>
-        <tr>
-            <td>Original</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/02_maria.mp3" controls></audio>
-            </td>
-        </tr>
-         <tr>
-            <td>Playback</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/02_maria.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Melodia</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_melodia_maria.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Soprano 1</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_soprano_1_maria.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Soprano 2 (Mais alto no final)</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_soprano_2_maria.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2"><a href="https://drive.google.com/drive/folders/1RWDpRn6Svpi5hBxPtfDtUrWivQPAGF77" target="_blank">Pasta no drive</a></td>
-        </tr>
-    </table>
-    </div>
+        <!-- Songs Section -->
+        <div class="songs-section">
+            <h2 id="songs-title">🎼 Músicas</h2>
 
-    <div id="table3" class="content">
-    <table>
-        <tr>
-            <th colspan="2">03 - Noite Santa e Agnus Dei</th>
-        </tr>
-        <tr>
-            <td>Original</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/03_noite_santa_e_agnus_dei.mp3" controls></audio>
-            </td>
-        </tr>
-         <tr>
-            <td>Playback</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/03_noite_santa_e_agnus_dei.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Soprano</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_soprano_noite_santa_e_agnus_dei.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Contralto</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_contralto_noite_santa_e_agnus_dei.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Tenor</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_tenor_noite_santa_e_agnus_dei.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2"><a href="https://drive.google.com/drive/folders/1ERgN57DYGHCxT1zu5JOOOZrzqvOeJ3uK" target="_blank">Pasta no drive</a></td>
-        </tr>
-    </table>
-    </div>
-    
-    <!-- MAGOS DO ORIENTE  -->
-    <div id="table4" class="content">
-    <table>
-        <tr>
-            <th colspan="2">04 - Magos do Oriente</th>
-        </tr>
-        <tr>
-            <td>Original</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/04_magos_do_oriente.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Playback</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/04_magos_do_oriente.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Soprano 1 (Voz principal) </td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/04_magos_do_oriente/04_soprano_1_magos_do_oriente.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Soprano 2 (Mais alto no final)</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/04_magos_do_oriente/04_soprano_2_magos_do_oriente.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Contralto e Melodia</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/04_magos_do_oriente/04_melodia_magos_do_oriente.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Mezo</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/04_magos_do_oriente/04_contralto_magos_do_oriente.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Tenor</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/04_magos_do_oriente/04_tenor_magos_do_oriente.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Baixo</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/04_magos_do_oriente/04_baixo_magos_do_oriente.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2"><a href="https://drive.google.com/drive/folders/1693nyZwU5jCeRv3VSY0I5wvsPxJwNkTP?usp=drive_link" target="_blank">Pasta no drive</a></td>
-        </tr>
-    </table>
-    </div>
+            <div class="songs-grid">
+                <div class="song-card" onclick="showSong(1)">
+                    <div class="song-content">
+                        <div class="song-number">01</div>
+                        <div class="song-title">Isaías 9</div>
+                    </div>
+                </div>
+                <div class="song-card" onclick="showSong(2)">
+                    <div class="song-content">
+                        <div class="song-number">02</div>
+                        <div class="song-title">Maria</div>
+                    </div>
+                </div>
+                <div class="song-card" onclick="showSong(3)">
+                    <div class="song-content">
+                        <div class="song-number">03</div>
+                        <div class="song-title">Noite Santa e Agnus Dei</div>
+                    </div>
+                </div>
+                <div class="song-card" onclick="showSong(4)">
+                    <div class="song-content">
+                        <div class="song-number">04</div>
+                        <div class="song-title">Magos do Oriente</div>
+                    </div>
+                </div>
+                <div class="song-card" onclick="showSong(5)">
+                    <div class="song-content">
+                        <div class="song-number">05</div>
+                        <div class="song-title">Isaías 53 e Foi na Cruz</div>
+                    </div>
+                </div>
+                <div class="song-card" onclick="showSong(6)">
+                    <div class="song-content">
+                        <div class="song-number">06</div>
+                        <div class="song-title">O Leão e o Cordeiro</div>
+                    </div>
+                </div>
+                <div class="song-card" onclick="showSong(7)">
+                    <div class="song-content">
+                        <div class="song-number">07</div>
+                        <div class="song-title">O Dia da Vitória</div>
+                    </div>
+                </div>
+                <div class="song-card" onclick="showSong(8)">
+                    <div class="song-content">
+                        <div class="song-number">08</div>
+                        <div class="song-title">Lhe Amostrando Jesus</div>
+                    </div>
+                </div>
+            </div>
 
-    <!-- ISAÍAS 53 E FOI NA CRUZ -->
-    <div id="table5" class="content">
-    <table>
-        <tr>
-            <th colspan="2">05 - Isaías 53 e Foi na Cruz</th>
-        </tr>
-        <tr>
-            <td>Original</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/05_isaias_53_e_foi_na_cruz.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Playback</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/05_isaias_53_e_foi_na_cruz.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr class="hidden">
-            <td>Soprano</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_soprano_isaias_53_e_foi_na_cruz.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr class="hidden">
-            <td>Contralto</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_contralto_isaias_53_e_foi_na_cruz.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr class="hidden">
-            <td>Tenor</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_tenor_isaias_53_e_foi_na_cruz.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2"><a href="https://drive.google.com/drive/folders/1xLn8oRfbj2qKJRK5Jzcqs5Ne20dhkVpm?usp=drive_link" target="_blank">Pasta no drive</a></td>
-        </tr>
-    </table>
-    </div>
+            <!-- Song Details Sections -->
+            <div id="song1" class="song-details">
+                <div class="song-header">
+                    <button class="back-btn" onclick="hideSongs()">←</button>
+                    <h3>01 - Isaías 9</h3>
+                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
+                </div>
+                <div class="audio-list">
+                    <div class="audio-item">
+                        <h4>🎵 Original</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/01_isaias_9.mp3" controls></audio>
+                    </div>
+                </div>
+            </div>
 
-    <!-- O LEÃO E O CORDEIRO -->
-    <div id="table6" class="content">
-    <table>
-        <tr>
-            <th colspan="2">06 - O Leão e o Cordeiro</th>
-        </tr>
-        <tr>
-            <td>Original</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/06_o_leao_e_o_cordeiro.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Playback</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/06_o_leao_e_o_cordeiro.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Soprano</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_soprano_o_leao_e_o_cordeiro.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Contralto</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_contralto_o_leao_e_o_cordeiro.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Tenor</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_tenor_o_leao_e_o_cordeiro.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Baixo</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_baixo_o_leao_e_o_cordeiro.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2"><a href="https://drive.google.com/drive/folders/1i1yO0YMX6svfaZBRDwMMvYz_z1sL-lSX?usp=drive_link" target="_blank">Pasta no drive</a></td>
-        </tr>
-    </table>
-    </div>
+            <div id="song2" class="song-details">
+                <div class="song-header">
+                    <button class="back-btn" onclick="hideSongs()">←</button>
+                    <h3>02 - Maria</h3>
+                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
+                </div>
+                <div class="audio-list">
+                    <div class="audio-item">
+                        <h4>🎵 Original</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/02_maria.mp3" controls></audio>
+                    </div>
+                </div>
+            </div>
 
-    <!-- O DIA DA VITÓRIA -->
-    <div id="table7" class="content">
-    <table>
-        <tr>
-            <th colspan="2">07 - O Dia da Vitória</th>
-        </tr>
-        <tr>
-            <td>Original</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/07_o_dia_da_vitoria.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Playback</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/07_o_dia_da_vitoria.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Soprano</td>
-            <td>
-                Igual a voz principal
-            </td>
-        </tr>
-        <tr>
-            <td>Contralto e Tenor</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_contralto_o_dia_da_vitoria.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Mezo</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_mezo_o_dia_da_vitoria.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2"><a href="https://drive.google.com/drive/folders/1stcqgaSDohNChyAgjDPTdG0KpO123Xpj?usp=drive_link" target="_blank">Pasta no drive</a></td>
-        </tr>
-    </table>
-    </div>
-    
-    <!-- LHE AMOSTRANDO JESUS -->
-    <div id="table8" class="content">
-    <table>
-        <tr>
-            <th colspan="2">08 - Lhe Amostrando Jesus</th>
-        </tr>
-        <tr>
-            <td>Original</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/08_lhe_amostrando_jesus.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Playback</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/08_lhe_amostrando_jesus.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Soprano</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_soprano_lhe_amostrando_jesus.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Contralto</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_contralto_lhe_amostrando_jesus.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>Baixo</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_baixo_lhe_amostrando_jesus.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>1º Tenor (agudo)</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_tenor_1_lhe_amostrando_jesus.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td>2º Tenor (grave)</td>
-            <td>
-                <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_tenor_2_lhe_amostrando_jesus.mp3" controls></audio>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2"><a href="https://drive.google.com/drive/folders/1gW3Oj2cUKAXQF_EC9j4gQUtDUtn7_RJ-?usp=drive_link" target="_blank">Pasta no drive</a></td>
-        </tr>
-    </table>
-    </div>
+            <div id="song3" class="song-details">
+                <div class="song-header">
+                    <button class="back-btn" onclick="hideSongs()">←</button>
+                    <h3>03 - Noite Santa e Agnus Dei</h3>
+                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
+                </div>
+                <div class="audio-list">
+                    <div class="audio-item">
+                        <h4>🎵 Original</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/03_noite_santa_e_agnus_dei.mp3" controls></audio>
+                    </div>
+                </div>
+            </div>
 
+            <div id="song4" class="song-details">
+                <div class="song-header">
+                    <button class="back-btn" onclick="hideSongs()">←</button>
+                    <h3>04 - Magos do Oriente</h3>
+                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
+                </div>
+                <div class="audio-list">
+                    <div class="audio-item">
+                        <h4>🎵 Original</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/04_magos_do_oriente.mp3" controls></audio>
+                    </div>
+                    <div class="audio-item">
+                        <h4>🎤 Playback</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/04_magos_do_oriente.mp3" controls></audio>
+                    </div>
+                    <div class="audio-item">
+                        <h4>🎶 Soprano 1 (Voz principal)</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/04_magos_do_oriente/04_soprano_1_magos_do_oriente.mp3" controls></audio>
+                    </div>
+                    <div class="audio-item">
+                        <h4>🎶 Soprano 2 (Mais alto no final)</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/04_magos_do_oriente/04_soprano_2_magos_do_oriente.mp3" controls></audio>
+                    </div>
+                    <div class="audio-item">
+                        <h4>🎼 Contralto e Melodia</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/04_magos_do_oriente/04_melodia_magos_do_oriente.mp3" controls></audio>
+                    </div>
+                    <div class="audio-item">
+                        <h4>🎶 Mezo</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/04_magos_do_oriente/04_contralto_magos_do_oriente.mp3" controls></audio>
+                    </div>
+                    <div class="audio-item">
+                        <h4>🎶 Tenor</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/04_magos_do_oriente/04_tenor_magos_do_oriente.mp3" controls></audio>
+                    </div>
+                    <div class="audio-item">
+                        <h4>🎶 Baixo</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/04_magos_do_oriente/04_baixo_magos_do_oriente.mp3" controls></audio>
+                    </div>
+                </div>
+            </div>
+
+            <div id="song5" class="song-details">
+                <div class="song-header">
+                    <button class="back-btn" onclick="hideSongs()">←</button>
+                    <h3>05 - Isaías 53 e Foi na Cruz</h3>
+                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
+                </div>
+                <div class="audio-list">
+                    <div class="audio-item">
+                        <h4>🎵 Original</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/05_isaias_53_e_foi_na_cruz.mp3" controls></audio>
+                    </div>
+                </div>
+            </div>
+
+            <div id="song6" class="song-details">
+                <div class="song-header">
+                    <button class="back-btn" onclick="hideSongs()">←</button>
+                    <h3>06 - O Leão e o Cordeiro</h3>
+                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
+                </div>
+                <div class="audio-list">
+                    <div class="audio-item">
+                        <h4>🎵 Original</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/06_o_leao_e_o_cordeiro.mp3" controls></audio>
+                    </div>
+                </div>
+            </div>
+
+            <div id="song7" class="song-details">
+                <div class="song-header">
+                    <button class="back-btn" onclick="hideSongs()">←</button>
+                    <h3>07 - O Dia da Vitória</h3>
+                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
+                </div>
+                <div class="audio-list">
+                    <div class="audio-item">
+                        <h4>🎵 Original</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/07_o_dia_da_vitoria.mp3" controls></audio>
+                    </div>
+                </div>
+            </div>
+
+            <div id="song8" class="song-details">
+                <div class="song-header">
+                    <button class="back-btn" onclick="hideSongs()">←</button>
+                    <h3>08 - Lhe Amostrando Jesus</h3>
+                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
+                </div>
+                <div class="audio-list">
+                    <div class="audio-item">
+                        <h4>🎵 Original</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/08_lhe_amostrando_jesus.mp3" controls></audio>
+                    </div>
+                    <div class="audio-item">
+                        <h4>🎶 Soprano</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_soprano_lhe_amostrando_jesus.mp3" controls></audio>
+                    </div>
+                    <div class="audio-item">
+                        <h4>🎶 Contralto</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_contralto_lhe_amostrando_jesus.mp3" controls></audio>
+                    </div>
+                    <div class="audio-item">
+                        <h4>🎶 Baixo</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_baixo_lhe_amostrando_jesus.mp3" controls></audio>
+                    </div>
+                    <div class="audio-item">
+                        <h4>🎶 1º Tenor (agudo)</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_tenor_1_lhe_amostrando_jesus.mp3" controls></audio>
+                    </div>
+                    <div class="audio-item">
+                        <h4>🎶 2º Tenor (grave)</h4>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_tenor_2_lhe_amostrando_jesus.mp3" controls></audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        function showTable(tableNumber) {
-            stopAllAudio()
-            // Esconde todas as tabelas
-            var tables = document.querySelectorAll('.content');
-            tables.forEach(function(table) {
-                table.style.display = 'none';
+        function showSong(songNumber) {
+            // Hide all song details
+            hideSongs();
+
+            // Stop all audio first
+            stopAllAudio();
+
+            // Hide the songs grid and title
+            document.querySelector('.songs-grid').style.display = 'none';
+            document.getElementById('songs-title').style.display = 'none';
+
+            // Show the selected song
+            const songElement = document.getElementById('song' + songNumber);
+            if (songElement) {
+                songElement.classList.add('active');
+
+                // Smooth scroll to the song details
+                songElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        function hideSongs() {
+            const allSongs = document.querySelectorAll('.song-details');
+            allSongs.forEach(song => {
+                song.classList.remove('active');
             });
 
-            // Mostra a tabela selecionada
-            document.getElementById('table' + tableNumber).style.display = 'block';
+            // Show the songs grid and title again
+            document.querySelector('.songs-grid').style.display = 'grid';
+            document.getElementById('songs-title').style.display = 'block';
         }
 
         function stopAllAudio() {
-            const audioPlayers = document.querySelectorAll('.audioPlayer'); // Seleciona todos os players com a classe 'audioPlayer'
+            const audioPlayers = document.querySelectorAll('.audioPlayer');
             audioPlayers.forEach(audio => {
-                audio.pause(); // Pausa o áudio
-                audio.currentTime = 0; // Reinicia a reprodução para o início
+                audio.pause();
+                audio.currentTime = 0;
             });
         }
-    </script> 
 
+        // Add click event to stop audio when clicking outside
+        document.addEventListener('click', function(e) {
+            // If clicking on a song card, don't stop audio
+            if (e.target.closest('.song-card')) {
+                return;
+            }
+
+            // If clicking on audio controls, don't stop audio
+            if (e.target.closest('.audio-item') || e.target.closest('.audio-controls')) {
+                return;
+            }
+        });
+
+        // Improved mobile experience
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add touch feedback for mobile
+            if ('ontouchstart' in window) {
+                const songCards = document.querySelectorAll('.song-card');
+                songCards.forEach(card => {
+                    card.addEventListener('touchstart', function() {
+                        this.style.transform = 'scale(0.95)';
+                    });
+
+                    card.addEventListener('touchend', function() {
+                        this.style.transform = '';
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
