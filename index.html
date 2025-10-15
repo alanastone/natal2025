@@ -299,6 +299,15 @@
                 padding: 15px;
             }
 
+            .song-content {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .song-number {
+                font-size: 1.2rem;
+            }
+
             .song-details {
                 padding: 20px;
             }
@@ -759,17 +768,26 @@
         // Check if audio file exists and hide item if not
         function checkAudioFile(audioElement) {
             const audioItem = audioElement.closest('.audio-item');
+            const audioSrc = audioElement.src;
 
+            // Use fetch to check if file exists (works better on mobile)
+            fetch(audioSrc, { method: 'HEAD' })
+                .then(response => {
+                    if (response.ok) {
+                        audioItem.style.display = 'block';
+                    } else {
+                        audioItem.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    // File doesn't exist or network error
+                    audioItem.style.display = 'none';
+                });
+
+            // Fallback: also listen for audio error events
             audioElement.addEventListener('error', function() {
                 audioItem.style.display = 'none';
             });
-
-            audioElement.addEventListener('loadeddata', function() {
-                audioItem.style.display = 'block';
-            });
-
-            // Test if file exists by trying to load it
-            audioElement.load();
         }
 
         // Improved mobile experience
