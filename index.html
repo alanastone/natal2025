@@ -40,6 +40,7 @@
         .header p {
             font-size: 1.2rem;
             opacity: 0.9;
+            margin: 0;
         }
 
         .quick-links {
@@ -85,7 +86,7 @@
         .songs-section {
             background: white;
             border-radius: 15px;
-            padding: 30px;
+            padding: 15px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         }
 
@@ -158,11 +159,6 @@
 
         .song-details {
             display: none;
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-top: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
             animation: slideDown 0.3s ease;
         }
 
@@ -205,21 +201,195 @@
 
         .audio-item {
             background: #f8f9ff;
-            padding: 20px;
+            padding: 10px;
             border-radius: 12px;
             border-left: 4px solid #c41e3a;
+            margin-bottom: 10px;
         }
 
         .audio-item h4 {
             color: #333;
             margin-bottom: 15px;
             font-size: 1.1rem;
+            transition: color 0.3s ease;
         }
 
-        .audio-item audio {
-            width: 100%;
-            border-radius: 8px;
+        .audio-item.playing h4 {
+            color: #c41e3a;
         }
+
+
+        .audio-item audio {
+            display: none;
+        }
+
+        .custom-audio-player {
+            width: 100%;
+            background: #fff;
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            margin-top: 8px;
+        }
+
+        .audio-progress-row {
+            margin-bottom: 8px;
+        }
+
+        .progress-container {
+            position: relative;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #c41e3a;
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        .progress-thumb {
+            position: absolute;
+            top: 50%;
+            width: 14px;
+            height: 14px;
+            background: #c41e3a;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: grab;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .progress-thumb:active {
+            cursor: grabbing;
+        }
+
+        .audio-controls-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .audio-time {
+            font-size: 0.85rem;
+            color: #666;
+            min-width: 70px;
+            flex-shrink: 0;
+        }
+
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .play-btn, .custom-ff-btn, .custom-rw-btn {
+            background: transparent;
+            color: #666;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: color 0.2s ease;
+            flex-shrink: 0;
+            padding: 4px;
+            user-select: none;
+        }
+
+        .play-btn {
+            font-size: 1.2rem;
+            background: #2c5530;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+        }
+
+        .play-btn.playing {
+            background: #dc3545;
+        }
+
+        @media (hover: hover) {
+            .play-btn:hover {
+                background: #228B22;
+            }
+
+            .play-btn.playing:hover {
+                background: #c82333;
+            }
+
+            .custom-ff-btn:hover, .custom-rw-btn:hover {
+                color: #c41e3a;
+            }
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 70px;
+            justify-content: flex-end;
+            flex-shrink: 0;
+        }
+
+        .volume-btn {
+            background: transparent;
+            color: #666;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: color 0.2s ease;
+            user-select: none;
+            padding: 4px;
+        }
+
+        @media (hover: hover) {
+            .volume-btn:hover {
+                color: #c41e3a;
+            }
+        }
+
+        .volume-slider {
+            width: 50px;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            background: #c41e3a;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 12px;
+            height: 12px;
+            background: #c41e3a;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
 
         .drive-link {
             background: linear-gradient(135deg, #4CAF50, #45a049);
@@ -294,12 +464,19 @@
                 padding: 15px;
             }
 
+            .header {
+                margin-bottom: 15px;
+            }
+
             .header h1 {
-                font-size: 2rem;
+                font-size: 1.5rem;
+                margin-bottom: 5px;
+                line-height: 1.1;
             }
 
             .header p {
-                font-size: 1rem;
+                font-size: 0.9rem;
+                margin: 0;
             }
 
             .songs-grid {
@@ -318,10 +495,6 @@
 
             .song-number {
                 font-size: 1.2rem;
-            }
-
-            .song-details {
-                padding: 20px;
             }
 
             .song-header {
@@ -367,7 +540,7 @@
             }
 
             .song-details {
-                padding: 15px;
+                padding: 0px;
             }
 
             .audio-item {
@@ -380,7 +553,7 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>🎄 Musical de Natal 2025 🎵</h1>
+            <h1>🎄 Musical de Natal 2025</h1>
         </div>
 
         <!-- Quick Links -->
@@ -463,27 +636,141 @@
                 <div class="audio-list">
                     <div class="audio-item">
                         <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/01_isaias_9.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/01_isaias_9.mp3"></audio>
+                        <div class="custom-audio-player">
+                            <div class="audio-progress-row">
+                                <div class="progress-container">
+                                    <div class="progress-bar"></div>
+                                    <div class="progress-thumb"></div>
+                                </div>
+                            </div>
+                            <div class="audio-controls-row">
+                                <div class="audio-time">0:00 / 0:00</div>
+                                <div class="audio-controls">
+                                    <button class="custom-rw-btn">&lt;&lt;</button>
+                                    <button class="play-btn">▶</button>
+                                    <button class="custom-ff-btn">&gt;&gt;</button>
+                                </div>
+                                <div class="volume-control">
+                                    <button class="volume-btn">🔊</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="audio-item">
                         <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/01_isaias_9.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/01_isaias_9.mp3"></audio>
+                        <div class="custom-audio-player">
+                            <div class="audio-progress-row">
+                                <div class="progress-container">
+                                    <div class="progress-bar"></div>
+                                    <div class="progress-thumb"></div>
+                                </div>
+                            </div>
+                            <div class="audio-controls-row">
+                                <div class="audio-time">0:00 / 0:00</div>
+                                <div class="audio-controls">
+                                    <button class="custom-rw-btn">&lt;&lt;</button>
+                                    <button class="play-btn">▶</button>
+                                    <button class="custom-ff-btn">&gt;&gt;</button>
+                                </div>
+                                <div class="volume-control">
+                                    <button class="volume-btn">🔊</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Soprano</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_soprano_isaias_9.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_soprano_isaias_9.mp3"></audio>
+                        <div class="custom-audio-player">
+                            <div class="audio-progress-row">
+                                <div class="progress-container">
+                                    <div class="progress-bar"></div>
+                                    <div class="progress-thumb"></div>
+                                </div>
+                            </div>
+                            <div class="audio-controls-row">
+                                <div class="audio-time">0:00 / 0:00</div>
+                                <div class="audio-controls">
+                                    <button class="custom-rw-btn">&lt;&lt;</button>
+                                    <button class="play-btn">▶</button>
+                                    <button class="custom-ff-btn">&gt;&gt;</button>
+                                </div>
+                                <div class="volume-control">
+                                    <button class="volume-btn">🔊</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Contralto</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_contralto_isaias_9.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_contralto_isaias_9.mp3"></audio>
+                        <div class="custom-audio-player">
+                            <div class="audio-progress-row">
+                                <div class="progress-container">
+                                    <div class="progress-bar"></div>
+                                    <div class="progress-thumb"></div>
+                                </div>
+                            </div>
+                            <div class="audio-controls-row">
+                                <div class="audio-time">0:00 / 0:00</div>
+                                <div class="audio-controls">
+                                    <button class="custom-rw-btn">&lt;&lt;</button>
+                                    <button class="play-btn">▶</button>
+                                    <button class="custom-ff-btn">&gt;&gt;</button>
+                                </div>
+                                <div class="volume-control">
+                                    <button class="volume-btn">🔊</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Tenor</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_tenor_isaias_9.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_tenor_isaias_9.mp3"></audio>
+                        <div class="custom-audio-player">
+                            <div class="audio-progress-row">
+                                <div class="progress-container">
+                                    <div class="progress-bar"></div>
+                                    <div class="progress-thumb"></div>
+                                </div>
+                            </div>
+                            <div class="audio-controls-row">
+                                <div class="audio-time">0:00 / 0:00</div>
+                                <div class="audio-controls">
+                                    <button class="custom-rw-btn">&lt;&lt;</button>
+                                    <button class="play-btn">▶</button>
+                                    <button class="custom-ff-btn">&gt;&gt;</button>
+                                </div>
+                                <div class="volume-control">
+                                    <button class="volume-btn">🔊</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Baixo</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_baixo_isaias_9.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_baixo_isaias_9.mp3"></audio>
+                        <div class="custom-audio-player">
+                            <div class="audio-progress-row">
+                                <div class="progress-container">
+                                    <div class="progress-bar"></div>
+                                    <div class="progress-thumb"></div>
+                                </div>
+                            </div>
+                            <div class="audio-controls-row">
+                                <div class="audio-time">0:00 / 0:00</div>
+                                <div class="audio-controls">
+                                    <button class="custom-rw-btn">&lt;&lt;</button>
+                                    <button class="play-btn">▶</button>
+                                    <button class="custom-ff-btn">&gt;&gt;</button>
+                                </div>
+                                <div class="volume-control">
+                                    <button class="volume-btn">🔊</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -497,27 +784,27 @@
                 <div class="audio-list">
                     <div class="audio-item">
                         <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/02_maria.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/02_maria.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/02_maria.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/02_maria.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Soprano</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_soprano_maria.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_soprano_maria.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Contralto</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_contralto_maria.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_contralto_maria.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Tenor</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_tenor_maria.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_tenor_maria.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Baixo</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_baixo_maria.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_baixo_maria.mp3"</audio>
                     </div>
                 </div>
             </div>
@@ -531,27 +818,27 @@
                 <div class="audio-list">
                     <div class="audio-item">
                         <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/03_noite_santa_e_agnus_dei.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/03_noite_santa_e_agnus_dei.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/03_noite_santa_e_agnus_dei.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/03_noite_santa_e_agnus_dei.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Soprano</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_soprano_noite_santa_e_agnus_dei.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_soprano_noite_santa_e_agnus_dei.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Contralto</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_contralto_noite_santa_e_agnus_dei.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_contralto_noite_santa_e_agnus_dei.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Tenor</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_tenor_noite_santa_e_agnus_dei.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_tenor_noite_santa_e_agnus_dei.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Baixo</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_baixo_noite_santa_e_agnus_dei.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_baixo_noite_santa_e_agnus_dei.mp3"</audio>
                     </div>
                 </div>
             </div>
@@ -565,11 +852,11 @@
                 <div class="audio-list">
                     <div class="audio-item">
                         <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/04_magos_do_oriente.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/04_magos_do_oriente.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/04_magos_do_oriente.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/04_magos_do_oriente.mp3"</audio>
                     </div>
                 </div>
             </div>
@@ -583,27 +870,27 @@
                 <div class="audio-list">
                     <div class="audio-item">
                         <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/05_isaias_53_e_foi_na_cruz.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/05_isaias_53_e_foi_na_cruz.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/05_isaias_53_e_foi_na_cruz.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/05_isaias_53_e_foi_na_cruz.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Soprano</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_soprano_isaias_53_e_foi_na_cruz.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_soprano_isaias_53_e_foi_na_cruz.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Contralto</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_contralto_isaias_53_e_foi_na_cruz.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_contralto_isaias_53_e_foi_na_cruz.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Tenor</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_tenor_isaias_53_e_foi_na_cruz.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_tenor_isaias_53_e_foi_na_cruz.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Baixo</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_baixo_isaias_53_e_foi_na_cruz.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_baixo_isaias_53_e_foi_na_cruz.mp3"</audio>
                     </div>
                 </div>
             </div>
@@ -617,27 +904,27 @@
                 <div class="audio-list">
                     <div class="audio-item">
                         <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/06_o_leao_e_o_cordeiro.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/06_o_leao_e_o_cordeiro.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/06_o_leao_e_o_cordeiro.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/06_o_leao_e_o_cordeiro.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Soprano</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_soprano_o_leao_e_o_cordeiro.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_soprano_o_leao_e_o_cordeiro.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Contralto</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_contralto_o_leao_e_o_cordeiro.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_contralto_o_leao_e_o_cordeiro.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Tenor</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_tenor_o_leao_e_o_cordeiro.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_tenor_o_leao_e_o_cordeiro.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Baixo</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_baixo_o_leao_e_o_cordeiro.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_baixo_o_leao_e_o_cordeiro.mp3"</audio>
                     </div>
                 </div>
             </div>
@@ -651,27 +938,27 @@
                 <div class="audio-list">
                     <div class="audio-item">
                         <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/07_o_dia_da_vitoria.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/07_o_dia_da_vitoria.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/07_o_dia_da_vitoria.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/07_o_dia_da_vitoria.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Soprano</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_soprano_o_dia_da_vitoria.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_soprano_o_dia_da_vitoria.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Contralto</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_contralto_o_dia_da_vitoria.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_contralto_o_dia_da_vitoria.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Tenor</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_tenor_o_dia_da_vitoria.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_tenor_o_dia_da_vitoria.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Baixo</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_baixo_o_dia_da_vitoria.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_baixo_o_dia_da_vitoria.mp3"</audio>
                     </div>
                 </div>
             </div>
@@ -685,31 +972,31 @@
                 <div class="audio-list">
                     <div class="audio-item">
                         <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/08_lhe_amostrando_jesus.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/08_lhe_amostrando_jesus.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/08_lhe_amostrando_jesus.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/08_lhe_amostrando_jesus.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Soprano</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_soprano_lhe_amostrando_jesus.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_soprano_lhe_amostrando_jesus.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Contralto</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_contralto_lhe_amostrando_jesus.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_contralto_lhe_amostrando_jesus.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 1º Tenor (agudo)</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_tenor_1_lhe_amostrando_jesus.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_tenor_1_lhe_amostrando_jesus.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 2º Tenor (grave)</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_tenor_2_lhe_amostrando_jesus.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_tenor_2_lhe_amostrando_jesus.mp3"</audio>
                     </div>
                     <div class="audio-item">
                         <h4>🎶 Baixo</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_baixo_lhe_amostrando_jesus.mp3" controls></audio>
+                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_baixo_lhe_amostrando_jesus.mp3"</audio>
                     </div>
                 </div>
             </div>
@@ -761,6 +1048,147 @@
                 audio.pause();
                 audio.currentTime = 0;
             });
+
+            // Remove playing class from all audio items and buttons
+            const audioItems = document.querySelectorAll('.audio-item');
+            const playButtons = document.querySelectorAll('.play-btn');
+            audioItems.forEach(item => {
+                item.classList.remove('playing');
+                // Remove playing icon from title
+                const playingIcon = item.querySelector('.playing-icon');
+                if (playingIcon) {
+                    playingIcon.remove();
+                }
+            });
+            playButtons.forEach(btn => {
+                btn.classList.remove('playing');
+                btn.textContent = '▶';
+            });
+        }
+
+        function stopAudioFromOtherSongs(currentAudioElement) {
+            const currentSongDetails = currentAudioElement.closest('.song-details');
+
+            // Get all song details except the current one
+            const allSongDetails = document.querySelectorAll('.song-details');
+            allSongDetails.forEach(songDetails => {
+                if (songDetails !== currentSongDetails) {
+                    // Stop all audio in this other song
+                    const audioPlayers = songDetails.querySelectorAll('.audioPlayer');
+                    audioPlayers.forEach(audio => {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    });
+
+                    // Remove playing classes and icons from this other song
+                    const audioItems = songDetails.querySelectorAll('.audio-item');
+                    const playButtons = songDetails.querySelectorAll('.play-btn');
+                    audioItems.forEach(item => {
+                        item.classList.remove('playing');
+                        const playingIcon = item.querySelector('.playing-icon');
+                        if (playingIcon) {
+                            playingIcon.remove();
+                        }
+                    });
+                    playButtons.forEach(btn => {
+                        btn.classList.remove('playing');
+                        btn.textContent = '▶';
+                    });
+                }
+            });
+        }
+
+        // Audio control functionality (fast forward and rewind)
+        function setupAudioControls() {
+            const ffButtons = document.querySelectorAll('.ff-btn');
+            const rwButtons = document.querySelectorAll('.rw-btn');
+
+            // Setup fast forward buttons
+            ffButtons.forEach(btn => {
+                setupButton(btn, 'forward');
+            });
+
+            // Setup rewind buttons
+            rwButtons.forEach(btn => {
+                setupButton(btn, 'rewind');
+            });
+        }
+
+        function setupButton(btn, direction) {
+            const audioPlayer = btn.closest('.audio-item').querySelector('audio');
+            let holdTimer = null;
+            let actionInterval = null;
+            let tapCount = 0;
+            let tapTimer = null;
+            let isHolding = false;
+
+            // Handle double tap for 10s skip/rewind
+            const handleTap = () => {
+                tapCount++;
+
+                if (tapCount === 1) {
+                    tapTimer = setTimeout(() => {
+                        tapCount = 0;
+                    }, 300);
+                } else if (tapCount === 2) {
+                    // Double tap - skip/rewind 10 seconds
+                    clearTimeout(tapTimer);
+                    tapCount = 0;
+                    if (direction === 'forward') {
+                        audioPlayer.currentTime = Math.min(audioPlayer.currentTime + 10, audioPlayer.duration || 0);
+                    } else {
+                        audioPlayer.currentTime = Math.max(audioPlayer.currentTime - 10, 0);
+                    }
+                }
+            };
+
+            // Start holding for continuous action
+            const startHold = () => {
+                isHolding = true;
+                holdTimer = setTimeout(() => {
+                    if (isHolding) {
+                        actionInterval = setInterval(() => {
+                            if (direction === 'forward') {
+                                if (audioPlayer.currentTime < (audioPlayer.duration || 0)) {
+                                    audioPlayer.currentTime = Math.min(audioPlayer.currentTime + 1, audioPlayer.duration || 0);
+                                } else {
+                                    clearInterval(actionInterval);
+                                }
+                            } else {
+                                if (audioPlayer.currentTime > 0) {
+                                    audioPlayer.currentTime = Math.max(audioPlayer.currentTime - 1, 0);
+                                } else {
+                                    clearInterval(actionInterval);
+                                }
+                            }
+                        }, 100);
+                    }
+                }, 500); // Start continuous after 500ms hold
+            };
+
+            const stopHold = () => {
+                isHolding = false;
+                clearTimeout(holdTimer);
+                clearInterval(actionInterval);
+            };
+
+            // Mouse events
+            btn.addEventListener('click', handleTap);
+            btn.addEventListener('mousedown', startHold);
+            btn.addEventListener('mouseup', stopHold);
+            btn.addEventListener('mouseleave', stopHold);
+
+            // Touch events
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Prevent mouse events from firing
+                handleTap();
+                startHold();
+            });
+            btn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                stopHold();
+            });
+            btn.addEventListener('touchcancel', stopHold);
         }
 
         // Add click event to stop audio when clicking outside
@@ -801,13 +1229,323 @@
             });
         }
 
+        // Custom audio player functionality
+        function createCustomAudioPlayer(audioElement) {
+            // Create custom player HTML if it doesn't exist
+            if (!audioElement.nextElementSibling || !audioElement.nextElementSibling.classList.contains('custom-audio-player')) {
+                const customPlayer = document.createElement('div');
+                customPlayer.className = 'custom-audio-player';
+                customPlayer.innerHTML = `
+                    <div class="audio-progress-row">
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                            <div class="progress-thumb"></div>
+                        </div>
+                    </div>
+                    <div class="audio-controls-row">
+                        <div class="audio-time">0:00 / 0:00</div>
+                        <div class="audio-controls">
+                            <button class="custom-rw-btn">&lt;&lt;</button>
+                            <button class="play-btn">▶</button>
+                            <button class="custom-ff-btn">&gt;&gt;</button>
+                        </div>
+                        <div class="volume-control">
+                            <button class="volume-btn">🔊</button>
+                        </div>
+                    </div>
+                `;
+                audioElement.parentNode.insertBefore(customPlayer, audioElement.nextSibling);
+            }
+
+            const customPlayer = audioElement.nextElementSibling;
+            const progressContainer = customPlayer.querySelector('.progress-container');
+            const progressBar = customPlayer.querySelector('.progress-bar');
+            const progressThumb = customPlayer.querySelector('.progress-thumb');
+            const timeDisplay = customPlayer.querySelector('.audio-time');
+            const playBtn = customPlayer.querySelector('.play-btn');
+            const rwBtn = customPlayer.querySelector('.custom-rw-btn');
+            const ffBtn = customPlayer.querySelector('.custom-ff-btn');
+            const volumeBtn = customPlayer.querySelector('.volume-btn');
+
+            let isDragging = false;
+
+            // Update progress and time
+            function updateProgress() {
+                if (!isDragging && audioElement.duration) {
+                    const progress = (audioElement.currentTime / audioElement.duration) * 100;
+                    progressBar.style.width = progress + '%';
+                    progressThumb.style.left = progress + '%';
+                }
+
+                const current = formatTime(audioElement.currentTime || 0);
+                const total = formatTime(audioElement.duration || 0);
+                timeDisplay.textContent = `${current} / ${total}`;
+            }
+
+            // Format time helper
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            // Progress bar click/drag functionality
+            function updateAudioTime(e) {
+                const rect = progressContainer.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                const newTime = percent * audioElement.duration;
+                if (newTime >= 0 && newTime <= audioElement.duration) {
+                    audioElement.currentTime = newTime;
+                    updateProgress();
+                }
+            }
+
+            progressContainer.addEventListener('click', updateAudioTime);
+
+            progressThumb.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    updateAudioTime(e);
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+
+            // Touch events for mobile
+            progressThumb.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                e.preventDefault();
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                if (isDragging) {
+                    const touch = e.touches[0];
+                    updateAudioTime(touch);
+                }
+            });
+
+            document.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+
+            // Get song info for media session
+            function getSongInfo(audioElement) {
+                const audioItem = audioElement.closest('.audio-item');
+                const songDetails = audioElement.closest('.song-details');
+                const songTitle = songDetails ? songDetails.querySelector('h3').textContent : 'Musical de Natal 2025';
+                const audioType = audioItem ? audioItem.querySelector('h4').textContent : '';
+
+                return {
+                    title: `${songTitle} - ${audioType}`,
+                    artist: 'Musical de Natal 2025',
+                    album: 'Natal 2025'
+                };
+            }
+
+            // Update media session metadata
+            function updateMediaSession(audioElement) {
+                if ('mediaSession' in navigator) {
+                    const songInfo = getSongInfo(audioElement);
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: songInfo.title,
+                        artist: songInfo.artist,
+                        album: songInfo.album,
+                        artwork: [
+                            { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎄</text></svg>', sizes: '96x96', type: 'image/svg+xml' }
+                        ]
+                    });
+
+                    // Set up media session action handlers
+                    navigator.mediaSession.setActionHandler('play', () => {
+                        audioElement.play();
+                    });
+                    navigator.mediaSession.setActionHandler('pause', () => {
+                        audioElement.pause();
+                    });
+                    navigator.mediaSession.setActionHandler('seekbackward', () => {
+                        audioElement.currentTime = Math.max(audioElement.currentTime - 10, 0);
+                    });
+                    navigator.mediaSession.setActionHandler('seekforward', () => {
+                        audioElement.currentTime = Math.min(audioElement.currentTime + 10, audioElement.duration || 0);
+                    });
+                }
+            }
+
+            // Play/pause button
+            playBtn.addEventListener('click', () => {
+                if (audioElement.paused) {
+                    // Stop audio from other songs only (not same song)
+                    stopAudioFromOtherSongs(audioElement);
+                    updateMediaSession(audioElement);
+                    audioElement.play();
+                    playBtn.textContent = '⏸';
+                    playBtn.classList.add('playing');
+                    audioElement.closest('.audio-item').classList.add('playing');
+                    // Add playing icon to title
+                    const title = audioElement.closest('.audio-item').querySelector('h4');
+                    if (!title.querySelector('.playing-icon')) {
+                        title.innerHTML += ' <span class="playing-icon">🔊</span>';
+                    }
+                } else {
+                    audioElement.pause();
+                    playBtn.textContent = '▶';
+                    playBtn.classList.remove('playing');
+                    audioElement.closest('.audio-item').classList.remove('playing');
+                    // Remove playing icon from title
+                    const playingIcon = audioElement.closest('.audio-item').querySelector('.playing-icon');
+                    if (playingIcon) {
+                        playingIcon.remove();
+                    }
+                }
+            });
+
+            // Audio events
+            audioElement.addEventListener('loadedmetadata', updateProgress);
+            audioElement.addEventListener('timeupdate', updateProgress);
+            audioElement.addEventListener('ended', () => {
+                playBtn.textContent = '▶';
+                playBtn.classList.remove('playing');
+                audioElement.closest('.audio-item').classList.remove('playing');
+                // Remove playing icon from title
+                const playingIcon = audioElement.closest('.audio-item').querySelector('.playing-icon');
+                if (playingIcon) {
+                    playingIcon.remove();
+                }
+            });
+            audioElement.addEventListener('pause', () => {
+                playBtn.textContent = '▶';
+                playBtn.classList.remove('playing');
+                audioElement.closest('.audio-item').classList.remove('playing');
+                // Remove playing icon from title
+                const playingIcon = audioElement.closest('.audio-item').querySelector('.playing-icon');
+                if (playingIcon) {
+                    playingIcon.remove();
+                }
+            });
+            audioElement.addEventListener('play', () => {
+                playBtn.textContent = '⏸';
+                playBtn.classList.add('playing');
+                audioElement.closest('.audio-item').classList.add('playing');
+                // Add playing icon to title
+                const title = audioElement.closest('.audio-item').querySelector('h4');
+                if (!title.querySelector('.playing-icon')) {
+                    title.innerHTML += ' <span class="playing-icon">🔊</span>';
+                }
+            });
+
+            // Setup fast forward/rewind with existing logic
+            setupCustomButton(rwBtn, 'rewind', audioElement);
+            setupCustomButton(ffBtn, 'forward', audioElement);
+
+            // Volume control
+            let isMuted = false;
+            volumeBtn.addEventListener('click', () => {
+                if (isMuted) {
+                    audioElement.volume = 1;
+                    volumeBtn.textContent = '🔊';
+                    isMuted = false;
+                } else {
+                    audioElement.volume = 0;
+                    volumeBtn.textContent = '🔇';
+                    isMuted = true;
+                }
+            });
+        }
+
+        // Modified setup button function for custom players
+        function setupCustomButton(btn, direction, audioPlayer) {
+            let holdTimer = null;
+            let actionInterval = null;
+            let tapCount = 0;
+            let tapTimer = null;
+            let isHolding = false;
+
+            // Handle double tap for 10s skip/rewind
+            const handleTap = () => {
+                tapCount++;
+
+                if (tapCount === 1) {
+                    tapTimer = setTimeout(() => {
+                        tapCount = 0;
+                    }, 300);
+                } else if (tapCount === 2) {
+                    // Double tap - skip/rewind 10 seconds
+                    clearTimeout(tapTimer);
+                    tapCount = 0;
+                    if (direction === 'forward') {
+                        audioPlayer.currentTime = Math.min(audioPlayer.currentTime + 10, audioPlayer.duration || 0);
+                    } else {
+                        audioPlayer.currentTime = Math.max(audioPlayer.currentTime - 10, 0);
+                    }
+                }
+            };
+
+            // Start holding for continuous action
+            const startHold = () => {
+                isHolding = true;
+                holdTimer = setTimeout(() => {
+                    if (isHolding) {
+                        actionInterval = setInterval(() => {
+                            if (direction === 'forward') {
+                                if (audioPlayer.currentTime < (audioPlayer.duration || 0)) {
+                                    audioPlayer.currentTime = Math.min(audioPlayer.currentTime + 1, audioPlayer.duration || 0);
+                                } else {
+                                    clearInterval(actionInterval);
+                                }
+                            } else {
+                                if (audioPlayer.currentTime > 0) {
+                                    audioPlayer.currentTime = Math.max(audioPlayer.currentTime - 1, 0);
+                                } else {
+                                    clearInterval(actionInterval);
+                                }
+                            }
+                        }, 100);
+                    }
+                }, 500); // Start continuous after 500ms hold
+            };
+
+            const stopHold = () => {
+                isHolding = false;
+                clearTimeout(holdTimer);
+                clearInterval(actionInterval);
+            };
+
+            // Mouse events
+            btn.addEventListener('click', handleTap);
+            btn.addEventListener('mousedown', startHold);
+            btn.addEventListener('mouseup', stopHold);
+            btn.addEventListener('mouseleave', stopHold);
+
+            // Touch events
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Prevent mouse events from firing
+                handleTap();
+                startHold();
+            });
+            btn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                stopHold();
+            });
+            btn.addEventListener('touchcancel', stopHold);
+        }
+
         // Improved mobile experience
         document.addEventListener('DOMContentLoaded', function() {
-            // Check all audio files when page loads
+            // Create custom players for all audio elements
             const audioPlayers = document.querySelectorAll('.audioPlayer');
             audioPlayers.forEach(audio => {
+                createCustomAudioPlayer(audio);
                 checkAudioFile(audio);
             });
+
+            // Setup audio control buttons (legacy - now handled in createCustomAudioPlayer)
+            setupAudioControls();
 
             // Add touch feedback for mobile
             if ('ontouchstart' in window) {
