@@ -73,11 +73,13 @@
             font-weight: 500;
         }
 
-        .link-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            background: #228B22;
-            color: white;
+        @media (hover: hover) {
+            .link-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+                background: #228B22;
+                color: white;
+            }
         }
 
         .songs-section {
@@ -112,25 +114,29 @@
             overflow: hidden;
         }
 
-        .song-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            background: #228B22;
+        @media (hover: hover) {
+            .song-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+                background: #228B22;
+            }
         }
 
-        .song-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
+        @media (hover: hover) {
+            .song-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+                transition: left 0.5s;
+            }
 
-        .song-card:hover::before {
-            left: 100%;
+            .song-card:hover::before {
+                left: 100%;
+            }
         }
 
         .song-content {
@@ -228,10 +234,12 @@
             font-weight: 500;
         }
 
-        .drive-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
-            color: white;
+        @media (hover: hover) {
+            .drive-link:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+                color: white;
+            }
         }
 
         .back-btn {
@@ -250,9 +258,11 @@
             justify-content: center;
         }
 
-        .back-btn:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
+        @media (hover: hover) {
+            .back-btn:hover {
+                background: #5a6268;
+                transform: translateY(-2px);
+            }
         }
 
         .stop-all-btn {
@@ -271,9 +281,11 @@
             justify-content: center;
         }
 
-        .stop-all-btn:hover {
-            background: #c82333;
-            transform: translateY(-2px);
+        @media (hover: hover) {
+            .stop-all-btn:hover {
+                background: #c82333;
+                transform: translateY(-2px);
+            }
         }
 
         /* Mobile Responsiveness */
@@ -373,16 +385,15 @@
 
         <!-- Quick Links -->
         <div class="quick-links">
-            <h2>📚 Recursos Gerais</h2>
             <div class="links-grid">
-                <a href="" target="_blank" class="link-card">
+                <!-- <a href="" target="_blank" class="link-card">
                     📄 Letras: Em breve
                 </a>
                 <a href="" target="_blank" class="link-card">
                     📅 Ensaios: Em breve
-                </a>
+                </a> -->
                 <a href="https://www.youtube.com/watch?v=mSXgE_SS2y8&list=PLWaADBxwbjQK9InaSgqfma39JAiug1v4r" target="_blank" class="link-card">
-                    🎵 Youtube
+                    🎵 Playlist no Youtube
                 </a>
             </div>
         </div>
