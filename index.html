@@ -1255,42 +1255,34 @@
                     <div class="playlist-track" data-index="0">
                         <span class="track-number">01</span>
                         <span class="track-title">Isaías 9</span>
-                        <span class="track-status"></span>
                     </div>
                     <div class="playlist-track" data-index="1">
                         <span class="track-number">02</span>
                         <span class="track-title">Maria</span>
-                        <span class="track-status"></span>
                     </div>
                     <div class="playlist-track" data-index="2">
                         <span class="track-number">03</span>
                         <span class="track-title">Noite Santa e Agnus Dei</span>
-                        <span class="track-status"></span>
                     </div>
                     <div class="playlist-track" data-index="3">
                         <span class="track-number">04</span>
                         <span class="track-title">Magos do Oriente</span>
-                        <span class="track-status"></span>
                     </div>
                     <div class="playlist-track" data-index="4">
                         <span class="track-number">05</span>
                         <span class="track-title">Isaías 53 e Foi na Cruz</span>
-                        <span class="track-status"></span>
                     </div>
                     <div class="playlist-track" data-index="5">
                         <span class="track-number">06</span>
                         <span class="track-title">O Leão e o Cordeiro</span>
-                        <span class="track-status"></span>
                     </div>
                     <div class="playlist-track" data-index="6">
                         <span class="track-number">07</span>
                         <span class="track-title">O Dia da Vitória</span>
-                        <span class="track-status"></span>
                     </div>
                     <div class="playlist-track" data-index="7">
                         <span class="track-number">08</span>
                         <span class="track-title">Lhe Amostrando Jesus</span>
-                        <span class="track-status"></span>
                     </div>
                 </div>
             </div>
@@ -1872,10 +1864,7 @@
             playlistAudio = document.getElementById('playlist-audio');
             playlistPlayer = document.querySelector('#playlist-section .custom-audio-player');
 
-            // Setup playlist custom player manually
-            setupPlaylistPlayer();
-
-            // Load first track
+            // Load first track (without auto-play)
             loadTrack(0);
 
             // Add auto-advance functionality
@@ -1981,21 +1970,12 @@
             // Clear all track statuses
             document.querySelectorAll('.playlist-track').forEach((track, index) => {
                 track.classList.remove('current');
-                const status = track.querySelector('.track-status');
-                status.textContent = '';
             });
 
             // Set current track
             const currentTrack = document.querySelector(`[data-index="${currentTrackIndex}"]`);
             if (currentTrack) {
                 currentTrack.classList.add('current');
-                const status = currentTrack.querySelector('.track-status');
-
-                if (playlistAudio && !playlistAudio.paused) {
-                    status.textContent = '▶';
-                } else {
-                    status.textContent = '⏸';
-                }
             }
         }
 
@@ -2003,9 +1983,7 @@
         function skipToNext() {
             if (currentTrackIndex < playlistTracks.length - 1) {
                 loadTrack(currentTrackIndex + 1);
-                if (playlistAudio && !playlistAudio.paused) {
-                    playlistAudio.play();
-                }
+                playlistAudio.play();
             }
         }
 
@@ -2021,9 +1999,7 @@
             // If we're within 3 seconds or at beginning, go to previous song
             if (currentTrackIndex > 0) {
                 loadTrack(currentTrackIndex - 1);
-                if (playlistAudio && !playlistAudio.paused) {
-                    playlistAudio.play();
-                }
+                playlistAudio.play();
             } else {
                 // If first song, just restart it
                 if (playlistAudio) {
@@ -2042,6 +2018,16 @@
             const rwBtn = playlistPlayer.querySelector('.custom-rw-btn');
             const ffBtn = playlistPlayer.querySelector('.custom-ff-btn');
             const volumeBtn = playlistPlayer.querySelector('.volume-btn');
+
+            // Debug: Check if elements are found
+            console.log('Play button found:', playBtn);
+            console.log('Playlist audio element:', playlistAudio);
+
+            // Guard: Make sure all required elements exist
+            if (!playBtn || !playlistAudio || !progressContainer || !timeDisplay) {
+                console.error('Missing required elements for playlist player setup');
+                return;
+            }
 
             let isDragging = false;
 
@@ -2112,14 +2098,16 @@
 
             // Play/pause button
             playBtn.addEventListener('click', () => {
-                if (playlistAudio.paused) {
+                if (playBtn.textContent == '▶') {
                     playlistAudio.play();
-                    playBtn.textContent = '⏸';
+                    playBtn.textContent = '▶';
                     playBtn.classList.add('playing');
+                    console.log('Started playing audio');
                 } else {
                     playlistAudio.pause();
-                    playBtn.textContent = '▶';
+                    playBtn.textContent = '⏸';
                     playBtn.classList.remove('playing');
+                    console.log('Paused audio');
                 }
             });
 
@@ -2127,19 +2115,27 @@
             playlistAudio.addEventListener('loadedmetadata', updateProgress);
             playlistAudio.addEventListener('timeupdate', updateProgress);
             playlistAudio.addEventListener('ended', () => {
+                console.log('Audio ended');
                 playBtn.textContent = '▶';
                 playBtn.classList.remove('playing');
                 updateTrackStatus();
             });
-            playlistAudio.addEventListener('pause', () => {
-                playBtn.textContent = '▶';
-                playBtn.classList.remove('playing');
+            playlistAudio.addEventListener('click', () => {
+                if (playBtn.textContent == '▶') {
+                    playlistAudio.play();
+                    playBtn.textContent = '⏸';
+                    playBtn.classList.add('playing');
+                } else {
+                    console.log('Audio paused');
+                    playlistAudio.pause();
+                    playBtn.textContent = '▶';
+                    playBtn.classList.remove('playing');
+                }
+                
                 updateTrackStatus();
             });
-            playlistAudio.addEventListener('play', () => {
-                playBtn.textContent = '⏸';
-                playBtn.classList.add('playing');
-                updateTrackStatus();
+            playlistAudio.addEventListener('canplay', () => {
+                console.log('Audio can play, duration:', playlistAudio.duration);
             });
 
             // Setup fast forward/rewind buttons
