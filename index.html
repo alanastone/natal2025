@@ -1693,19 +1693,12 @@
             playlistAudio = document.getElementById('playlist-audio');
             playlistPlayer = document.querySelector('#playlist-section .custom-audio-player');
 
+            // Setup playlist player (this attaches all event listeners including 'ended')
+            setupPlaylistPlayer();
+
             // Load first track (without auto-play)
             loadTrack(0);
 
-            // Add auto-advance functionality
-            playlistAudio.addEventListener('ended', () => {
-                if (currentTrackIndex < playlistTracks.length - 1) {
-                    loadTrack(currentTrackIndex + 1);
-                    playlistAudio.play();
-                } else {
-                    // End of playlist
-                    stopPlaylist();
-                }
-            });
 
             // Update status when play/pause changes
             playlistAudio.addEventListener('play', updateTrackStatus);
@@ -1717,6 +1710,7 @@
                     loadTrack(index);
                     if (playlistAudio.paused) {
                         playlistAudio.play();
+                        updatePlaylistMediaSession();
                     }
                 });
             });
@@ -1798,6 +1792,7 @@
                 loadTrack(currentTrackIndex + 1);
                 if (playlistAudio && !playlistAudio.paused) {
                     playlistAudio.play();
+                    updatePlaylistMediaSession();
                 }
             } else {
                 // End of playlist
@@ -1810,6 +1805,7 @@
                 loadTrack(currentTrackIndex - 1);
                 if (playlistAudio && !playlistAudio.paused) {
                     playlistAudio.play();
+                    updatePlaylistMediaSession();
                 }
             }
         }
@@ -1871,6 +1867,7 @@
             if (currentTrackIndex < playlistTracks.length - 1) {
                 loadTrack(currentTrackIndex + 1);
                 playlistAudio.play();
+                updatePlaylistMediaSession();
             }
         }
 
@@ -1887,6 +1884,7 @@
             if (currentTrackIndex > 0) {
                 loadTrack(currentTrackIndex - 1);
                 playlistAudio.play();
+                updatePlaylistMediaSession();
             } else {
                 // If first song, just restart it
                 if (playlistAudio) {
@@ -1897,6 +1895,7 @@
 
         // Setup playlist player manually
         function setupPlaylistPlayer() {
+            console.log('Setting up playlist player with event listeners...');
             const progressContainer = playlistPlayer.querySelector('.progress-container');
             const progressBar = playlistPlayer.querySelector('.progress-bar');
             const progressThumb = playlistPlayer.querySelector('.progress-thumb');
@@ -1983,35 +1982,23 @@
                 isDragging = false;
             });
 
-            // Play/pause button
-            playBtn.addEventListener('click', () => {
-                if (playBtn.textContent == '▶') {
-                    updatePlaylistMediaSession();
-                    playlistAudio.play();
-                    playBtn.textContent = '⏸';
-                    playBtn.classList.add('playing');
-                    console.log('Started playing audio');
-                } else {
-                    playlistAudio.pause();
-                    playBtn.textContent = '▶';
-                    playBtn.classList.remove('playing');
-                    console.log('Paused audio');
-                }
-            });
-
             // Audio events
             playlistAudio.addEventListener('loadedmetadata', updateProgress);
             playlistAudio.addEventListener('timeupdate', updateProgress);
             playlistAudio.addEventListener('ended', () => {
-                console.log('Audio ended');
+                console.log('Audio ended - auto-advancing using skipToNext()');
                 playBtn.textContent = '▶';
                 playBtn.classList.remove('playing');
                 updateTrackStatus();
+
+                // Auto-advance using the same method as skip button
+                skipToNext();
             });
+            console.log('Added ended event listener to playlist audio');
             playlistAudio.addEventListener('click', () => {
                 if (playBtn.textContent == '▶') {
-                    updatePlaylistMediaSession();
                     playlistAudio.play();
+                    updatePlaylistMediaSession();
                     playBtn.textContent = '⏸';
                     playBtn.classList.add('playing');
                 } else {
@@ -2194,6 +2181,7 @@
 
             // Start playing
             playlistAudio.play();
+            updatePlaylistMediaSession();
         }
 
         function getFileNameFromSrc(src) {
