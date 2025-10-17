@@ -1798,6 +1798,26 @@
                             { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎄</text></svg>', sizes: '96x96', type: 'image/svg+xml' }
                         ]
                     });
+
+                    // Set up playlist media session action handlers
+                    navigator.mediaSession.setActionHandler('play', () => {
+                        if (playlistAudio) playlistAudio.play();
+                    });
+                    navigator.mediaSession.setActionHandler('pause', () => {
+                        if (playlistAudio) playlistAudio.pause();
+                    });
+                    navigator.mediaSession.setActionHandler('seekbackward', () => {
+                        if (playlistAudio) playlistAudio.currentTime = Math.max(playlistAudio.currentTime - 10, 0);
+                    });
+                    navigator.mediaSession.setActionHandler('seekforward', () => {
+                        if (playlistAudio) playlistAudio.currentTime = Math.min(playlistAudio.currentTime + 10, playlistAudio.duration || 0);
+                    });
+                    navigator.mediaSession.setActionHandler('previoustrack', () => {
+                        skipToPrevious();
+                    });
+                    navigator.mediaSession.setActionHandler('nexttrack', () => {
+                        skipToNext();
+                    });
                 }
 
                 updateTrackStatus();
