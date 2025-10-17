@@ -33,6 +33,13 @@
             box-sizing: border-box;
         }
 
+        .container.playlist-mode {
+            padding: 15px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
         .header {
             text-align: center;
             color: white;
@@ -624,21 +631,43 @@
             .playlist-header h2 {
                 font-size: 1.3rem;
             }
+
+            .playlist-section {
+                padding: 20px;
+            }
+
+            .container.playlist-mode {
+                padding: 10px;
+            }
+
+            .playlist-list {
+                padding-right: 2px;
+            }
+
+            .playlist-list::-webkit-scrollbar {
+                width: 4px;
+            }
         }
 
         .playlist-section {
             background: white;
             border-radius: 15px;
-            padding: 30px;
+            padding: 20px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+            margin: 0;
         }
 
         .playlist-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             gap: 15px;
+            flex-shrink: 0;
         }
 
         .playlist-header h2 {
@@ -651,10 +680,11 @@
 
         .playlist-player {
             background: #f8f9ff;
-            padding: 20px;
+            padding: 10px;
             border-radius: 12px;
             border-left: 4px solid #c41e3a;
             margin-bottom: 25px;
+            flex-shrink: 0;
         }
 
         .current-song-title {
@@ -692,16 +722,45 @@
             }
         }
 
-        .playlist-list h3 {
+        .playlist-list {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            min-height: 0;
+            padding-right: 5px;
+        }
+
+        .playlist-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .playlist-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .playlist-list::-webkit-scrollbar-thumb {
+            background: #c41e3a;
+            border-radius: 3px;
+        }
+
+        .playlist-list::-webkit-scrollbar-thumb:hover {
+            background: #a01729;
+        }
+
+        .playlist-tracks-title {
             color: #c41e3a;
             margin-bottom: 15px;
             font-size: 1.2rem;
+            margin-top: 0;
+            flex-shrink: 0;
         }
 
         .playlist-tracks {
             display: flex;
             flex-direction: column;
             gap: 8px;
+            padding-bottom: 20px;
         }
 
         .playlist-track {
@@ -710,9 +769,9 @@
             padding: 12px 15px;
             background: #f8f9ff;
             border-radius: 8px;
-            cursor: pointer;
             transition: background 0.2s ease;
             gap: 15px;
+            position: relative;
         }
 
         .playlist-track.current {
@@ -725,11 +784,6 @@
             font-weight: bold;
         }
 
-        @media (hover: hover) {
-            .playlist-track:hover {
-                background: #e0e7ff;
-            }
-        }
 
         .track-number {
             font-weight: bold;
@@ -740,12 +794,105 @@
         .track-title {
             flex: 1;
             color: #333;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+
+        .track-title:hover {
+            background: rgba(196, 30, 58, 0.1);
+            color: #c41e3a;
         }
 
         .track-status {
             font-size: 1.2rem;
             min-width: 25px;
             text-align: center;
+        }
+
+        .collapse-btn {
+            background: transparent;
+            border: none;
+            font-size: 0.8rem;
+            color: #666;
+            cursor: pointer;
+            padding: 4px;
+            margin-left: auto;
+            transition: transform 0.2s ease, color 0.2s ease;
+            border-radius: 4px;
+        }
+
+        .collapse-btn:hover {
+            color: #c41e3a;
+            background: rgba(196, 30, 58, 0.1);
+        }
+
+        .collapse-btn.expanded {
+            transform: rotate(180deg);
+        }
+
+        .sub-tracks {
+            margin-left: 20px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .sub-tracks::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #c41e3a;
+            border-radius: 1px;
+        }
+
+        .sub-track {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            background: #f0f2ff;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            gap: 12px;
+            margin-bottom: 4px;
+            margin-left: 30px;
+            position: relative;
+        }
+
+        .sub-track::before {
+            content: '';
+            position: absolute;
+            left: -18px;
+            top: 50%;
+            width: 12px;
+            height: 2px;
+            background: #c41e3a;
+            transform: translateY(-50%);
+        }
+
+        .sub-track:hover {
+            background: #e0e7ff;
+        }
+
+        .sub-track.current {
+            background: #e8f5e8;
+            border-left: 4px solid #2c5530;
+        }
+
+        .sub-track.current .sub-track-title {
+            color: #2c5530;
+            font-weight: bold;
+        }
+
+        .sub-track-title {
+            flex: 1;
+            color: #555;
+            font-size: 0.9rem;
         }
 
         @media (max-width: 380px) {
@@ -1277,40 +1424,199 @@
                 </div>
             </div>
 
+            <h3 class="playlist-tracks-title">Lista de Reprodução</h3>
             <div class="playlist-list">
-                <h3>Lista de Reprodução</h3>
                 <div class="playlist-tracks">
                     <div class="playlist-track" data-index="0">
                         <span class="track-number">01</span>
                         <span class="track-title">Isaías 9</span>
+                        <button class="collapse-btn" onclick="toggleSubTracks(0)">▼</button>
+                    </div>
+                    <div class="sub-tracks" id="sub-tracks-0" style="display: none;">
+                        <div class="sub-track" data-main-index="0" data-sub-type="vocal">
+                            <span class="sub-track-title">🎙️ Vocal isolado</span>
+                        </div>
+                        <div class="sub-track" data-main-index="0" data-sub-type="playback">
+                            <span class="sub-track-title">🎤 Playback</span>
+                        </div>
+                        <div class="sub-track" data-main-index="0" data-sub-type="soprano">
+                            <span class="sub-track-title">🎶 Soprano</span>
+                        </div>
+                        <div class="sub-track" data-main-index="0" data-sub-type="contralto">
+                            <span class="sub-track-title">🎶 Contralto</span>
+                        </div>
+                        <div class="sub-track" data-main-index="0" data-sub-type="tenor">
+                            <span class="sub-track-title">🎶 Tenor</span>
+                        </div>
+                        <div class="sub-track" data-main-index="0" data-sub-type="baixo">
+                            <span class="sub-track-title">🎶 Baixo</span>
+                        </div>
                     </div>
                     <div class="playlist-track" data-index="1">
                         <span class="track-number">02</span>
                         <span class="track-title">Maria</span>
+                        <button class="collapse-btn" onclick="toggleSubTracks(1)">▼</button>
+                    </div>
+                    <div class="sub-tracks" id="sub-tracks-1" style="display: none;">
+                        <div class="sub-track" data-main-index="1" data-sub-type="vocal">
+                            <span class="sub-track-title">🎙️ Vocal isolado</span>
+                        </div>
+                        <div class="sub-track" data-main-index="1" data-sub-type="playback">
+                            <span class="sub-track-title">🎤 Playback</span>
+                        </div>
+                        <div class="sub-track" data-main-index="1" data-sub-type="soprano">
+                            <span class="sub-track-title">🎶 Soprano</span>
+                        </div>
+                        <div class="sub-track" data-main-index="1" data-sub-type="contralto">
+                            <span class="sub-track-title">🎶 Contralto</span>
+                        </div>
+                        <div class="sub-track" data-main-index="1" data-sub-type="tenor">
+                            <span class="sub-track-title">🎶 Tenor</span>
+                        </div>
+                        <div class="sub-track" data-main-index="1" data-sub-type="baixo">
+                            <span class="sub-track-title">🎶 Baixo</span>
+                        </div>
                     </div>
                     <div class="playlist-track" data-index="2">
                         <span class="track-number">03</span>
                         <span class="track-title">Noite Santa e Agnus Dei</span>
+                        <button class="collapse-btn" onclick="toggleSubTracks(2)">▼</button>
+                    </div>
+                    <div class="sub-tracks" id="sub-tracks-2" style="display: none;">
+                        <div class="sub-track" data-main-index="2" data-sub-type="vocal">
+                            <span class="sub-track-title">🎙️ Vocal isolado</span>
+                        </div>
+                        <div class="sub-track" data-main-index="2" data-sub-type="playback">
+                            <span class="sub-track-title">🎤 Playback</span>
+                        </div>
+                        <div class="sub-track" data-main-index="2" data-sub-type="soprano">
+                            <span class="sub-track-title">🎶 Soprano</span>
+                        </div>
+                        <div class="sub-track" data-main-index="2" data-sub-type="contralto">
+                            <span class="sub-track-title">🎶 Contralto</span>
+                        </div>
+                        <div class="sub-track" data-main-index="2" data-sub-type="tenor">
+                            <span class="sub-track-title">🎶 Tenor</span>
+                        </div>
+                        <div class="sub-track" data-main-index="2" data-sub-type="baixo">
+                            <span class="sub-track-title">🎶 Baixo</span>
+                        </div>
                     </div>
                     <div class="playlist-track" data-index="3">
                         <span class="track-number">04</span>
                         <span class="track-title">Magos do Oriente</span>
+                        <button class="collapse-btn" onclick="toggleSubTracks(3)">▼</button>
+                    </div>
+                    <div class="sub-tracks" id="sub-tracks-3" style="display: none;">
+                        <div class="sub-track" data-main-index="3" data-sub-type="vocal">
+                            <span class="sub-track-title">🎙️ Vocal isolado</span>
+                        </div>
+                        <div class="sub-track" data-main-index="3" data-sub-type="playback">
+                            <span class="sub-track-title">🎤 Playback</span>
+                        </div>
                     </div>
                     <div class="playlist-track" data-index="4">
                         <span class="track-number">05</span>
                         <span class="track-title">Isaías 53 e Foi na Cruz</span>
+                        <button class="collapse-btn" onclick="toggleSubTracks(4)">▼</button>
+                    </div>
+                    <div class="sub-tracks" id="sub-tracks-4" style="display: none;">
+                        <div class="sub-track" data-main-index="4" data-sub-type="vocal">
+                            <span class="sub-track-title">🎙️ Vocal isolado</span>
+                        </div>
+                        <div class="sub-track" data-main-index="4" data-sub-type="playback">
+                            <span class="sub-track-title">🎤 Playback</span>
+                        </div>
+                        <div class="sub-track" data-main-index="4" data-sub-type="soprano">
+                            <span class="sub-track-title">🎶 Soprano</span>
+                        </div>
+                        <div class="sub-track" data-main-index="4" data-sub-type="contralto">
+                            <span class="sub-track-title">🎶 Contralto</span>
+                        </div>
+                        <div class="sub-track" data-main-index="4" data-sub-type="tenor">
+                            <span class="sub-track-title">🎶 Tenor</span>
+                        </div>
+                        <div class="sub-track" data-main-index="4" data-sub-type="baixo">
+                            <span class="sub-track-title">🎶 Baixo</span>
+                        </div>
                     </div>
                     <div class="playlist-track" data-index="5">
                         <span class="track-number">06</span>
                         <span class="track-title">O Leão e o Cordeiro</span>
+                        <button class="collapse-btn" onclick="toggleSubTracks(5)">▼</button>
+                    </div>
+                    <div class="sub-tracks" id="sub-tracks-5" style="display: none;">
+                        <div class="sub-track" data-main-index="5" data-sub-type="vocal">
+                            <span class="sub-track-title">🎙️ Vocal isolado</span>
+                        </div>
+                        <div class="sub-track" data-main-index="5" data-sub-type="playback">
+                            <span class="sub-track-title">🎤 Playback</span>
+                        </div>
+                        <div class="sub-track" data-main-index="5" data-sub-type="soprano">
+                            <span class="sub-track-title">🎶 Soprano</span>
+                        </div>
+                        <div class="sub-track" data-main-index="5" data-sub-type="contralto">
+                            <span class="sub-track-title">🎶 Contralto</span>
+                        </div>
+                        <div class="sub-track" data-main-index="5" data-sub-type="tenor">
+                            <span class="sub-track-title">🎶 Tenor</span>
+                        </div>
+                        <div class="sub-track" data-main-index="5" data-sub-type="baixo">
+                            <span class="sub-track-title">🎶 Baixo</span>
+                        </div>
                     </div>
                     <div class="playlist-track" data-index="6">
                         <span class="track-number">07</span>
                         <span class="track-title">O Dia da Vitória</span>
+                        <button class="collapse-btn" onclick="toggleSubTracks(6)">▼</button>
+                    </div>
+                    <div class="sub-tracks" id="sub-tracks-6" style="display: none;">
+                        <div class="sub-track" data-main-index="6" data-sub-type="vocal">
+                            <span class="sub-track-title">🎙️ Vocal isolado</span>
+                        </div>
+                        <div class="sub-track" data-main-index="6" data-sub-type="playback">
+                            <span class="sub-track-title">🎤 Playback</span>
+                        </div>
+                        <div class="sub-track" data-main-index="6" data-sub-type="soprano">
+                            <span class="sub-track-title">🎶 Soprano</span>
+                        </div>
+                        <div class="sub-track" data-main-index="6" data-sub-type="contralto">
+                            <span class="sub-track-title">🎶 Contralto</span>
+                        </div>
+                        <div class="sub-track" data-main-index="6" data-sub-type="tenor">
+                            <span class="sub-track-title">🎶 Tenor</span>
+                        </div>
+                        <div class="sub-track" data-main-index="6" data-sub-type="baixo">
+                            <span class="sub-track-title">🎶 Baixo</span>
+                        </div>
                     </div>
                     <div class="playlist-track" data-index="7">
                         <span class="track-number">08</span>
                         <span class="track-title">Lhe Amostrando Jesus</span>
+                        <button class="collapse-btn" onclick="toggleSubTracks(7)">▼</button>
+                    </div>
+                    <div class="sub-tracks" id="sub-tracks-7" style="display: none;">
+                        <div class="sub-track" data-main-index="7" data-sub-type="vocal">
+                            <span class="sub-track-title">🎙️ Vocal isolado</span>
+                        </div>
+                        <div class="sub-track" data-main-index="7" data-sub-type="playback">
+                            <span class="sub-track-title">🎤 Playback</span>
+                        </div>
+                        <div class="sub-track" data-main-index="7" data-sub-type="soprano">
+                            <span class="sub-track-title">🎶 Soprano</span>
+                        </div>
+                        <div class="sub-track" data-main-index="7" data-sub-type="contralto">
+                            <span class="sub-track-title">🎶 Contralto</span>
+                        </div>
+                        <div class="sub-track" data-main-index="7" data-sub-type="tenor1">
+                            <span class="sub-track-title">🎶 1º Tenor (agudo)</span>
+                        </div>
+                        <div class="sub-track" data-main-index="7" data-sub-type="tenor2">
+                            <span class="sub-track-title">🎶 2º Tenor (grave)</span>
+                        </div>
+                        <div class="sub-track" data-main-index="7" data-sub-type="baixo">
+                            <span class="sub-track-title">🎶 Baixo</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1523,6 +1829,11 @@
             const audioItem = audioElement.closest('.audio-item');
             const audioSrc = audioElement.src;
 
+            // Skip if this is not a regular audio item (e.g., playlist audio)
+            if (!audioItem) {
+                return;
+            }
+
             // Use fetch to check if file exists (works better on mobile)
             fetch(audioSrc, { method: 'HEAD' })
                 .then(response => {
@@ -1539,7 +1850,9 @@
 
             // Fallback: also listen for audio error events
             audioElement.addEventListener('error', function() {
-                audioItem.style.display = 'none';
+                if (audioItem) {
+                    audioItem.style.display = 'none';
+                }
             });
         }
 
@@ -1885,8 +2198,11 @@
             document.querySelector('.songs-section').style.display = 'none';
             document.querySelector('.quick-links').style.display = 'none';
 
+            // Add playlist mode class to container
+            document.querySelector('.container').classList.add('playlist-mode');
+
             // Show playlist section
-            document.getElementById('playlist-section').style.display = 'block';
+            document.getElementById('playlist-section').style.display = 'flex';
 
             // Initialize playlist player
             playlistAudio = document.getElementById('playlist-audio');
@@ -1910,15 +2226,18 @@
             playlistAudio.addEventListener('play', updateTrackStatus);
             playlistAudio.addEventListener('pause', updateTrackStatus);
 
-            // Add track click functionality
-            document.querySelectorAll('.playlist-track').forEach((track, index) => {
-                track.addEventListener('click', () => {
+            // Add track title click functionality (not the whole track)
+            document.querySelectorAll('.playlist-track .track-title').forEach((trackTitle, index) => {
+                trackTitle.addEventListener('click', () => {
                     loadTrack(index);
                     if (playlistAudio.paused) {
                         playlistAudio.play();
                     }
                 });
             });
+
+            // Check which sub-track files exist and hide those that don't
+            checkSubTrackFiles();
         }
 
         function hidePlaylist() {
@@ -1927,6 +2246,9 @@
                 playlistAudio.pause();
                 playlistAudio.currentTime = 0;
             }
+
+            // Remove playlist mode class from container
+            document.querySelector('.container').classList.remove('playlist-mode');
 
             // Hide playlist section
             document.getElementById('playlist-section').style.display = 'none';
@@ -1947,6 +2269,7 @@
         function loadTrack(index) {
             if (index >= 0 && index < playlistTracks.length) {
                 currentTrackIndex = index;
+                currentSubTrack = null; // Reset sub-track when loading main track
                 const track = playlistTracks[index];
 
                 playlistAudio.src = track.src;
@@ -1955,6 +2278,17 @@
                 const songDisplay = document.getElementById('current-song-display');
                 if (songDisplay) {
                     songDisplay.textContent = `${String(index + 1).padStart(2, '0')} - ${track.title}`;
+                }
+
+                // Close any expanded sub-tracks when switching songs
+                if (currentExpandedTrack !== null) {
+                    const prevSubTracks = document.getElementById(`sub-tracks-${currentExpandedTrack}`);
+                    const prevCollapseBtn = document.querySelector(`[data-index="${currentExpandedTrack}"] .collapse-btn`);
+                    if (prevSubTracks) {
+                        prevSubTracks.style.display = 'none';
+                        prevCollapseBtn.classList.remove('expanded');
+                    }
+                    currentExpandedTrack = null;
                 }
 
                 // Update media session
@@ -1970,6 +2304,7 @@
                 }
 
                 updateTrackStatus();
+                updateTrackHighlighting();
             }
         }
 
@@ -1995,16 +2330,7 @@
         }
 
         function updateTrackStatus() {
-            // Clear all track statuses
-            document.querySelectorAll('.playlist-track').forEach((track, index) => {
-                track.classList.remove('current');
-            });
-
-            // Set current track
-            const currentTrack = document.querySelector(`[data-index="${currentTrackIndex}"]`);
-            if (currentTrack) {
-                currentTrack.classList.add('current');
-            }
+            updateTrackHighlighting();
         }
 
         // Skip to next song function
@@ -2183,6 +2509,207 @@
                     isMuted = true;
                 }
             });
+        }
+
+        // Playlist sub-tracks functionality
+        let currentExpandedTrack = null;
+        let currentSubTrack = null;
+
+        // Check if sub-track audio files exist and hide those that don't
+        function checkSubTrackFiles() {
+            playlistTracks.forEach((track, mainIndex) => {
+                const subTrackTypes = ['vocal', 'playback', 'soprano', 'contralto', 'tenor', 'baixo'];
+
+                // For song 8 (index 7), also check tenor1 and tenor2
+                if (mainIndex === 7) {
+                    subTrackTypes.push('tenor1', 'tenor2');
+                }
+
+                subTrackTypes.forEach(subType => {
+                    const subTrackElement = document.querySelector(`[data-main-index="${mainIndex}"][data-sub-type="${subType}"]`);
+                    if (subTrackElement) {
+                        let audioSrc;
+
+                        switch(subType) {
+                            case 'vocal':
+                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/${getFileNameFromSrc(track.src)}-vocals.mp3`;
+                                break;
+                            case 'playback':
+                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/${getFileNameFromSrc(track.src)}.mp3`;
+                                break;
+                            case 'soprano':
+                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_soprano_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
+                                break;
+                            case 'contralto':
+                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_contralto_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
+                                break;
+                            case 'tenor':
+                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_tenor_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
+                                break;
+                            case 'tenor1':
+                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_tenor_1_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
+                                break;
+                            case 'tenor2':
+                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_tenor_2_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
+                                break;
+                            case 'baixo':
+                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_baixo_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
+                                break;
+                        }
+
+                        // Check if file exists
+                        if (audioSrc) {
+                            fetch(audioSrc, { method: 'HEAD' })
+                                .then(response => {
+                                    if (response.ok) {
+                                        subTrackElement.style.display = 'flex';
+                                    } else {
+                                        subTrackElement.style.display = 'none';
+                                    }
+                                })
+                                .catch(error => {
+                                    subTrackElement.style.display = 'none';
+                                });
+                        }
+                    }
+                });
+            });
+        }
+
+        function toggleSubTracks(trackIndex) {
+            const subTracks = document.getElementById(`sub-tracks-${trackIndex}`);
+            const collapseBtn = document.querySelector(`[data-index="${trackIndex}"] .collapse-btn`);
+
+            // Close any previously expanded track
+            if (currentExpandedTrack !== null && currentExpandedTrack !== trackIndex) {
+                const prevSubTracks = document.getElementById(`sub-tracks-${currentExpandedTrack}`);
+                const prevCollapseBtn = document.querySelector(`[data-index="${currentExpandedTrack}"] .collapse-btn`);
+                if (prevSubTracks) {
+                    prevSubTracks.style.display = 'none';
+                    prevCollapseBtn.classList.remove('expanded');
+                }
+            }
+
+            // Toggle current track
+            if (subTracks.style.display === 'none' || subTracks.style.display === '') {
+                subTracks.style.display = 'block';
+                collapseBtn.classList.add('expanded');
+                currentExpandedTrack = trackIndex;
+
+                // Add click listeners to sub-tracks
+                const subTrackElements = subTracks.querySelectorAll('.sub-track');
+                subTrackElements.forEach(subTrack => {
+                    subTrack.addEventListener('click', () => {
+                        const mainIndex = parseInt(subTrack.getAttribute('data-main-index'));
+                        const subType = subTrack.getAttribute('data-sub-type');
+                        playSubTrack(mainIndex, subType);
+                    });
+                });
+            } else {
+                subTracks.style.display = 'none';
+                collapseBtn.classList.remove('expanded');
+                currentExpandedTrack = null;
+            }
+        }
+
+        function playSubTrack(mainIndex, subType) {
+            // Update current track index
+            currentTrackIndex = mainIndex;
+            currentSubTrack = subType;
+
+            // Get the correct audio source based on sub-type
+            const track = playlistTracks[mainIndex];
+            let audioSrc;
+            let displaySuffix;
+
+            switch(subType) {
+                case 'vocal':
+                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/${getFileNameFromSrc(track.src)}-vocals.mp3`;
+                    displaySuffix = ' - Vocal isolado';
+                    break;
+                case 'playback':
+                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/${getFileNameFromSrc(track.src)}.mp3`;
+                    displaySuffix = ' - Playback';
+                    break;
+                case 'soprano':
+                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_soprano_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
+                    displaySuffix = ' - Soprano';
+                    break;
+                case 'contralto':
+                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_contralto_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
+                    displaySuffix = ' - Contralto';
+                    break;
+                case 'tenor':
+                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_tenor_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
+                    displaySuffix = ' - Tenor';
+                    break;
+                case 'tenor1':
+                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_tenor_1_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
+                    displaySuffix = ' - 1º Tenor (agudo)';
+                    break;
+                case 'tenor2':
+                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_tenor_2_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
+                    displaySuffix = ' - 2º Tenor (grave)';
+                    break;
+                case 'baixo':
+                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_baixo_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
+                    displaySuffix = ' - Baixo';
+                    break;
+                default:
+                    audioSrc = track.src;
+                    displaySuffix = '';
+            }
+
+            // Update audio source
+            playlistAudio.src = audioSrc;
+
+            // Update current song display
+            const songDisplay = document.getElementById('current-song-display');
+            if (songDisplay) {
+                songDisplay.textContent = `${String(mainIndex + 1).padStart(2, '0')} - ${track.title}${displaySuffix}`;
+            }
+
+            // Update track highlighting
+            updateTrackHighlighting();
+
+            // Start playing
+            playlistAudio.play();
+        }
+
+        function getFileNameFromSrc(src) {
+            const parts = src.split('/');
+            const fileName = parts[parts.length - 1];
+            return fileName.replace('.mp3', '');
+        }
+
+        function getFileNumberFromSrc(src) {
+            const fileName = getFileNameFromSrc(src);
+            const match = fileName.match(/^(\d+)_/);
+            return match ? match[1] : '01';
+        }
+
+        function updateTrackHighlighting() {
+            // Clear all highlighting
+            document.querySelectorAll('.playlist-track').forEach(track => {
+                track.classList.remove('current');
+            });
+            document.querySelectorAll('.sub-track').forEach(subTrack => {
+                subTrack.classList.remove('current');
+            });
+
+            // Highlight current main track
+            const currentMainTrack = document.querySelector(`[data-index="${currentTrackIndex}"]`);
+            if (currentMainTrack) {
+                currentMainTrack.classList.add('current');
+            }
+
+            // Highlight current sub-track if any
+            if (currentSubTrack) {
+                const currentSubTrackElement = document.querySelector(`[data-main-index="${currentTrackIndex}"][data-sub-type="${currentSubTrack}"]`);
+                if (currentSubTrackElement) {
+                    currentSubTrackElement.classList.add('current');
+                }
+            }
         }
 
         // Improved mobile experience
