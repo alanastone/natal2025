@@ -630,11 +630,11 @@
             }
 
             .current-song-title h4 {
-                font-size: 0.9rem;
+                font-size: 1rem;
             }
 
             .playlist-header h2 {
-                font-size: 1.3rem;
+                font-size: 1rem;
             }
 
             .playlist-section {
@@ -678,7 +678,7 @@
         .playlist-header h2 {
             color: #c41e3a;
             margin: 0;
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             flex: 1;
             text-align: center;
         }
@@ -699,7 +699,7 @@
 
         .current-song-title h4 {
             color: #c41e3a;
-            font-size: 1rem;
+            font-size: 1.2rem;
             margin: 0;
             font-weight: bold;
             white-space: nowrap;
@@ -991,7 +991,6 @@
                 </div>
             </div>
 
-            <h3 class="playlist-tracks-title">Lista de Reprodução</h3>
             <div class="playlist-list">
                 <div class="playlist-tracks">
                     <!-- Playlist tracks will be generated dynamically from songs.json -->
@@ -1790,9 +1789,13 @@
 
                 // Update media session
                 if ('mediaSession' in navigator) {
+                    // Get the original variation to show the track type
+                    const originalVariation = track.songConfig.variations.find(v => v.type === 'original');
+                    const trackType = originalVariation ? getVariationDisplayName(originalVariation) : '🎵 Original';
+
                     navigator.mediaSession.metadata = new MediaMetadata({
-                        title: `${String(index + 1).padStart(2, '0')} - ${track.title}`,
-                        artist: 'Musical de Natal 2025',
+                        title: `${track.title}`,
+                        artist: `${trackType} - Musical de Natal 2025`,
                         album: 'Natal 2025',
                         artwork: [
                             { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎄</text></svg>', sizes: '96x96', type: 'image/svg+xml' }
@@ -2160,9 +2163,41 @@
 
             // Update current song display with variation name
             const songDisplay = document.getElementById('current-song-display');
+            const displayName = getVariationDisplayName(variation);
             if (songDisplay) {
-                const displayName = getVariationDisplayName(variation);
                 songDisplay.textContent = `${songConfig.number} - ${track.title} - ${displayName}`;
+            }
+
+            // Update media session for sub-track
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: `${track.title}`,
+                    artist: `${displayName} - Musical de Natal 2025`,
+                    album: 'Natal 2025',
+                    artwork: [
+                        { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎄</text></svg>', sizes: '96x96', type: 'image/svg+xml' }
+                    ]
+                });
+
+                // Set up playlist media session action handlers (same as main track)
+                navigator.mediaSession.setActionHandler('play', () => {
+                    if (playlistAudio) playlistAudio.play();
+                });
+                navigator.mediaSession.setActionHandler('pause', () => {
+                    if (playlistAudio) playlistAudio.pause();
+                });
+                navigator.mediaSession.setActionHandler('seekbackward', () => {
+                    if (playlistAudio) playlistAudio.currentTime = Math.max(playlistAudio.currentTime - 10, 0);
+                });
+                navigator.mediaSession.setActionHandler('seekforward', () => {
+                    if (playlistAudio) playlistAudio.currentTime = Math.min(playlistAudio.currentTime + 10, playlistAudio.duration || 0);
+                });
+                navigator.mediaSession.setActionHandler('previoustrack', () => {
+                    skipToPrevious();
+                });
+                navigator.mediaSession.setActionHandler('nexttrack', () => {
+                    skipToNext();
+                });
             }
 
             // Update track highlighting
