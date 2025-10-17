@@ -490,17 +490,18 @@
             }
 
             .header {
-                margin-bottom: 15px;
+                margin-bottom: 10px;
+                display: none;
             }
 
             .header h1 {
-                font-size: 1.5rem;
-                margin-bottom: 5px;
+                font-size: 1.2rem;
+                margin-bottom: 3px;
                 line-height: 1.1;
             }
 
             .header p {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
                 margin: 0;
             }
 
@@ -580,7 +581,11 @@
 
         @media (max-width: 480px) {
             .header h1 {
-                font-size: 1.4rem;
+                font-size: 1.1rem;
+            }
+
+            .header p {
+                font-size: 0.75rem;
             }
         }
 
@@ -625,7 +630,7 @@
             }
 
             .current-song-title h4 {
-                font-size: 1.1rem;
+                font-size: 0.9rem;
             }
 
             .playlist-header h2 {
@@ -694,9 +699,13 @@
 
         .current-song-title h4 {
             color: #c41e3a;
-            font-size: 1.3rem;
+            font-size: 1rem;
             margin: 0;
             font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
 
         .skip-prev-btn, .skip-next-btn {
@@ -897,7 +906,11 @@
 
         @media (max-width: 380px) {
             .header h1 {
-                font-size: 1.2rem;
+                font-size: 1rem;
+            }
+
+            .header p {
+                font-size: 0.7rem;
             }
         }
     </style>
@@ -932,460 +945,14 @@
         <div class="songs-section">
             <h2 id="songs-title">🎼 Músicas</h2>
 
-            <div class="songs-grid">
-                <div class="song-card" onclick="showSong(1)">
-                    <div class="song-content">
-                        <div class="song-number">01</div>
-                        <div class="song-title">Isaías 9</div>
-                    </div>
-                </div>
-                <div class="song-card" onclick="showSong(2)">
-                    <div class="song-content">
-                        <div class="song-number">02</div>
-                        <div class="song-title">Maria</div>
-                    </div>
-                </div>
-                <div class="song-card" onclick="showSong(3)">
-                    <div class="song-content">
-                        <div class="song-number">03</div>
-                        <div class="song-title">Noite Santa e Agnus Dei</div>
-                    </div>
-                </div>
-                <div class="song-card" onclick="showSong(4)">
-                    <div class="song-content">
-                        <div class="song-number">04</div>
-                        <div class="song-title">Magos do Oriente</div>
-                    </div>
-                </div>
-                <div class="song-card" onclick="showSong(5)">
-                    <div class="song-content">
-                        <div class="song-number">05</div>
-                        <div class="song-title">Isaías 53 e Foi na Cruz</div>
-                    </div>
-                </div>
-                <div class="song-card" onclick="showSong(6)">
-                    <div class="song-content">
-                        <div class="song-number">06</div>
-                        <div class="song-title">O Leão e o Cordeiro</div>
-                    </div>
-                </div>
-                <div class="song-card" onclick="showSong(7)">
-                    <div class="song-content">
-                        <div class="song-number">07</div>
-                        <div class="song-title">O Dia da Vitória</div>
-                    </div>
-                </div>
-                <div class="song-card" onclick="showSong(8)">
-                    <div class="song-content">
-                        <div class="song-number">08</div>
-                        <div class="song-title">Lhe Amostrando Jesus</div>
-                    </div>
-                </div>
+            <div id="songs-grid" class="songs-grid">
+                <!-- Songs will be generated dynamically from songs.json -->
             </div>
 
             <!-- Song Details Sections -->
-            <div id="song1" class="song-details">
-                <div class="song-header">
-                    <button class="back-btn" onclick="hideSongs()">←</button>
-                    <h3>01 - Isaías 9</h3>
-                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
-                </div>
-                <div class="audio-list">
-                    <div class="audio-item">
-                        <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/01_isaias_9.mp3"></audio>
-                        <div class="custom-audio-player">
-                            <div class="audio-progress-row">
-                                <div class="progress-container">
-                                    <div class="progress-bar"></div>
-                                    <div class="progress-thumb"></div>
-                                </div>
-                            </div>
-                            <div class="audio-controls-row">
-                                <div class="audio-time">0:00 / 0:00</div>
-                                <div class="audio-controls">
-                                    <button class="custom-rw-btn">&lt;&lt;</button>
-                                    <button class="play-btn">▶</button>
-                                    <button class="custom-ff-btn">&gt;&gt;</button>
-                                </div>
-                                <div class="volume-control">
-                                    <button class="volume-btn">🔊</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/01_isaias_9.mp3"></audio>
-                        <div class="custom-audio-player">
-                            <div class="audio-progress-row">
-                                <div class="progress-container">
-                                    <div class="progress-bar"></div>
-                                    <div class="progress-thumb"></div>
-                                </div>
-                            </div>
-                            <div class="audio-controls-row">
-                                <div class="audio-time">0:00 / 0:00</div>
-                                <div class="audio-controls">
-                                    <button class="custom-rw-btn">&lt;&lt;</button>
-                                    <button class="play-btn">▶</button>
-                                    <button class="custom-ff-btn">&gt;&gt;</button>
-                                </div>
-                                <div class="volume-control">
-                                    <button class="volume-btn">🔊</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Soprano</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_soprano_isaias_9.mp3"></audio>
-                        <div class="custom-audio-player">
-                            <div class="audio-progress-row">
-                                <div class="progress-container">
-                                    <div class="progress-bar"></div>
-                                    <div class="progress-thumb"></div>
-                                </div>
-                            </div>
-                            <div class="audio-controls-row">
-                                <div class="audio-time">0:00 / 0:00</div>
-                                <div class="audio-controls">
-                                    <button class="custom-rw-btn">&lt;&lt;</button>
-                                    <button class="play-btn">▶</button>
-                                    <button class="custom-ff-btn">&gt;&gt;</button>
-                                </div>
-                                <div class="volume-control">
-                                    <button class="volume-btn">🔊</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Contralto</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_contralto_isaias_9.mp3"></audio>
-                        <div class="custom-audio-player">
-                            <div class="audio-progress-row">
-                                <div class="progress-container">
-                                    <div class="progress-bar"></div>
-                                    <div class="progress-thumb"></div>
-                                </div>
-                            </div>
-                            <div class="audio-controls-row">
-                                <div class="audio-time">0:00 / 0:00</div>
-                                <div class="audio-controls">
-                                    <button class="custom-rw-btn">&lt;&lt;</button>
-                                    <button class="play-btn">▶</button>
-                                    <button class="custom-ff-btn">&gt;&gt;</button>
-                                </div>
-                                <div class="volume-control">
-                                    <button class="volume-btn">🔊</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Tenor</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_tenor_isaias_9.mp3"></audio>
-                        <div class="custom-audio-player">
-                            <div class="audio-progress-row">
-                                <div class="progress-container">
-                                    <div class="progress-bar"></div>
-                                    <div class="progress-thumb"></div>
-                                </div>
-                            </div>
-                            <div class="audio-controls-row">
-                                <div class="audio-time">0:00 / 0:00</div>
-                                <div class="audio-controls">
-                                    <button class="custom-rw-btn">&lt;&lt;</button>
-                                    <button class="play-btn">▶</button>
-                                    <button class="custom-ff-btn">&gt;&gt;</button>
-                                </div>
-                                <div class="volume-control">
-                                    <button class="volume-btn">🔊</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Baixo</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_baixo_isaias_9.mp3"></audio>
-                        <div class="custom-audio-player">
-                            <div class="audio-progress-row">
-                                <div class="progress-container">
-                                    <div class="progress-bar"></div>
-                                    <div class="progress-thumb"></div>
-                                </div>
-                            </div>
-                            <div class="audio-controls-row">
-                                <div class="audio-time">0:00 / 0:00</div>
-                                <div class="audio-controls">
-                                    <button class="custom-rw-btn">&lt;&lt;</button>
-                                    <button class="play-btn">▶</button>
-                                    <button class="custom-ff-btn">&gt;&gt;</button>
-                                </div>
-                                <div class="volume-control">
-                                    <button class="volume-btn">🔊</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div id="song-details-container">
+                <!-- Song details will be generated dynamically from songs.json -->
             </div>
-
-            <div id="song2" class="song-details">
-                <div class="song-header">
-                    <button class="back-btn" onclick="hideSongs()">←</button>
-                    <h3>02 - Maria</h3>
-                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
-                </div>
-                <div class="audio-list">
-                    <div class="audio-item">
-                        <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/02_maria.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎙️ Vocal isolado</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/02_maria-vocals.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/02_maria.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Soprano</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_soprano_maria.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Contralto</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_contralto_maria.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Tenor</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_tenor_maria.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Baixo</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_baixo_maria.mp3"></audio>
-                    </div>
-                </div>
-            </div>
-
-            <div id="song3" class="song-details">
-                <div class="song-header">
-                    <button class="back-btn" onclick="hideSongs()">←</button>
-                    <h3>03 - Noite Santa e Agnus Dei</h3>
-                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
-                </div>
-                <div class="audio-list">
-                    <div class="audio-item">
-                        <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/03_noite_santa_e_agnus_dei.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎙️ Vocal isolado</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/03_noite_santa_e_agnus_dei-vocals.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/03_noite_santa_e_agnus_dei.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Soprano</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_soprano_noite_santa_e_agnus_dei.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Contralto</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_contralto_noite_santa_e_agnus_dei.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Tenor</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_tenor_noite_santa_e_agnus_dei.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Baixo</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_baixo_noite_santa_e_agnus_dei.mp3"</audio>
-                    </div>
-                </div>
-            </div>
-
-            <div id="song4" class="song-details">
-                <div class="song-header">
-                    <button class="back-btn" onclick="hideSongs()">←</button>
-                    <h3>04 - Magos do Oriente</h3>
-                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
-                </div>
-                <div class="audio-list">
-                    <div class="audio-item">
-                        <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/04_magos_do_oriente.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎙️ Vocal isolado</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/04_magos_do_oriente-vocals.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/04_magos_do_oriente.mp3"</audio>
-                    </div>
-                </div>
-            </div>
-
-            <div id="song5" class="song-details">
-                <div class="song-header">
-                    <button class="back-btn" onclick="hideSongs()">←</button>
-                    <h3>05 - Isaías 53 e Foi na Cruz</h3>
-                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
-                </div>
-                <div class="audio-list">
-                    <div class="audio-item">
-                        <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/05_isaias_53_e_foi_na_cruz.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎙️ Vocal isolado</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/05_isaias_53_e_foi_na_cruz-vocals.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/05_isaias_53_e_foi_na_cruz.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Soprano</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_soprano_isaias_53_e_foi_na_cruz.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Contralto</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_contralto_isaias_53_e_foi_na_cruz.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Tenor</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_tenor_isaias_53_e_foi_na_cruz.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Baixo</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_baixo_isaias_53_e_foi_na_cruz.mp3"</audio>
-                    </div>
-                </div>
-            </div>
-
-            <div id="song6" class="song-details">
-                <div class="song-header">
-                    <button class="back-btn" onclick="hideSongs()">←</button>
-                    <h3>06 - O Leão e o Cordeiro</h3>
-                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
-                </div>
-                <div class="audio-list">
-                    <div class="audio-item">
-                        <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/06_o_leao_e_o_cordeiro.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎙️ Vocal isolado</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/06_o_leao_e_o_cordeiro-vocals.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/06_o_leao_e_o_cordeiro.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Soprano</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_soprano_o_leao_e_o_cordeiro.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Contralto</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_contralto_o_leao_e_o_cordeiro.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Tenor</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_tenor_o_leao_e_o_cordeiro.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Baixo</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_baixo_o_leao_e_o_cordeiro.mp3"</audio>
-                    </div>
-                </div>
-            </div>
-
-            <div id="song7" class="song-details">
-                <div class="song-header">
-                    <button class="back-btn" onclick="hideSongs()">←</button>
-                    <h3>07 - O Dia da Vitória</h3>
-                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
-                </div>
-                <div class="audio-list">
-                    <div class="audio-item">
-                        <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/07_o_dia_da_vitoria.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎙️ Vocal isolado</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/07_o_dia_da_vitoria-vocals.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/07_o_dia_da_vitoria.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Soprano</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_soprano_o_dia_da_vitoria.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Contralto</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_contralto_o_dia_da_vitoria.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Tenor</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_tenor_o_dia_da_vitoria.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Baixo</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_baixo_o_dia_da_vitoria.mp3"</audio>
-                    </div>
-                </div>
-            </div>
-
-            <div id="song8" class="song-details">
-                <div class="song-header">
-                    <button class="back-btn" onclick="hideSongs()">←</button>
-                    <h3>08 - Lhe Amostrando Jesus</h3>
-                    <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
-                </div>
-                <div class="audio-list">
-                    <div class="audio-item">
-                        <h4>🎵 Original</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/08_lhe_amostrando_jesus.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎙️ Vocal isolado</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/08_lhe_amostrando_jesus-vocals.mp3"></audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎤 Playback</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/08_lhe_amostrando_jesus.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Soprano</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_soprano_lhe_amostrando_jesus.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Contralto</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_contralto_lhe_amostrando_jesus.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 1º Tenor (agudo)</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_tenor_1_lhe_amostrando_jesus.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 2º Tenor (grave)</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_tenor_2_lhe_amostrando_jesus.mp3"</audio>
-                    </div>
-                    <div class="audio-item">
-                        <h4>🎶 Baixo</h4>
-                        <audio class="audioPlayer" src="https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_baixo_lhe_amostrando_jesus.mp3"</audio>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
         <!-- Playlist Section -->
@@ -1427,203 +994,115 @@
             <h3 class="playlist-tracks-title">Lista de Reprodução</h3>
             <div class="playlist-list">
                 <div class="playlist-tracks">
-                    <div class="playlist-track" data-index="0">
-                        <span class="track-number">01</span>
-                        <span class="track-title">Isaías 9</span>
-                        <button class="collapse-btn" onclick="toggleSubTracks(0)">▼</button>
-                    </div>
-                    <div class="sub-tracks" id="sub-tracks-0" style="display: none;">
-                        <div class="sub-track" data-main-index="0" data-sub-type="vocal">
-                            <span class="sub-track-title">🎙️ Vocal isolado</span>
-                        </div>
-                        <div class="sub-track" data-main-index="0" data-sub-type="playback">
-                            <span class="sub-track-title">🎤 Playback</span>
-                        </div>
-                        <div class="sub-track" data-main-index="0" data-sub-type="soprano">
-                            <span class="sub-track-title">🎶 Soprano</span>
-                        </div>
-                        <div class="sub-track" data-main-index="0" data-sub-type="contralto">
-                            <span class="sub-track-title">🎶 Contralto</span>
-                        </div>
-                        <div class="sub-track" data-main-index="0" data-sub-type="tenor">
-                            <span class="sub-track-title">🎶 Tenor</span>
-                        </div>
-                        <div class="sub-track" data-main-index="0" data-sub-type="baixo">
-                            <span class="sub-track-title">🎶 Baixo</span>
-                        </div>
-                    </div>
-                    <div class="playlist-track" data-index="1">
-                        <span class="track-number">02</span>
-                        <span class="track-title">Maria</span>
-                        <button class="collapse-btn" onclick="toggleSubTracks(1)">▼</button>
-                    </div>
-                    <div class="sub-tracks" id="sub-tracks-1" style="display: none;">
-                        <div class="sub-track" data-main-index="1" data-sub-type="vocal">
-                            <span class="sub-track-title">🎙️ Vocal isolado</span>
-                        </div>
-                        <div class="sub-track" data-main-index="1" data-sub-type="playback">
-                            <span class="sub-track-title">🎤 Playback</span>
-                        </div>
-                        <div class="sub-track" data-main-index="1" data-sub-type="soprano">
-                            <span class="sub-track-title">🎶 Soprano</span>
-                        </div>
-                        <div class="sub-track" data-main-index="1" data-sub-type="contralto">
-                            <span class="sub-track-title">🎶 Contralto</span>
-                        </div>
-                        <div class="sub-track" data-main-index="1" data-sub-type="tenor">
-                            <span class="sub-track-title">🎶 Tenor</span>
-                        </div>
-                        <div class="sub-track" data-main-index="1" data-sub-type="baixo">
-                            <span class="sub-track-title">🎶 Baixo</span>
-                        </div>
-                    </div>
-                    <div class="playlist-track" data-index="2">
-                        <span class="track-number">03</span>
-                        <span class="track-title">Noite Santa e Agnus Dei</span>
-                        <button class="collapse-btn" onclick="toggleSubTracks(2)">▼</button>
-                    </div>
-                    <div class="sub-tracks" id="sub-tracks-2" style="display: none;">
-                        <div class="sub-track" data-main-index="2" data-sub-type="vocal">
-                            <span class="sub-track-title">🎙️ Vocal isolado</span>
-                        </div>
-                        <div class="sub-track" data-main-index="2" data-sub-type="playback">
-                            <span class="sub-track-title">🎤 Playback</span>
-                        </div>
-                        <div class="sub-track" data-main-index="2" data-sub-type="soprano">
-                            <span class="sub-track-title">🎶 Soprano</span>
-                        </div>
-                        <div class="sub-track" data-main-index="2" data-sub-type="contralto">
-                            <span class="sub-track-title">🎶 Contralto</span>
-                        </div>
-                        <div class="sub-track" data-main-index="2" data-sub-type="tenor">
-                            <span class="sub-track-title">🎶 Tenor</span>
-                        </div>
-                        <div class="sub-track" data-main-index="2" data-sub-type="baixo">
-                            <span class="sub-track-title">🎶 Baixo</span>
-                        </div>
-                    </div>
-                    <div class="playlist-track" data-index="3">
-                        <span class="track-number">04</span>
-                        <span class="track-title">Magos do Oriente</span>
-                        <button class="collapse-btn" onclick="toggleSubTracks(3)">▼</button>
-                    </div>
-                    <div class="sub-tracks" id="sub-tracks-3" style="display: none;">
-                        <div class="sub-track" data-main-index="3" data-sub-type="vocal">
-                            <span class="sub-track-title">🎙️ Vocal isolado</span>
-                        </div>
-                        <div class="sub-track" data-main-index="3" data-sub-type="playback">
-                            <span class="sub-track-title">🎤 Playback</span>
-                        </div>
-                    </div>
-                    <div class="playlist-track" data-index="4">
-                        <span class="track-number">05</span>
-                        <span class="track-title">Isaías 53 e Foi na Cruz</span>
-                        <button class="collapse-btn" onclick="toggleSubTracks(4)">▼</button>
-                    </div>
-                    <div class="sub-tracks" id="sub-tracks-4" style="display: none;">
-                        <div class="sub-track" data-main-index="4" data-sub-type="vocal">
-                            <span class="sub-track-title">🎙️ Vocal isolado</span>
-                        </div>
-                        <div class="sub-track" data-main-index="4" data-sub-type="playback">
-                            <span class="sub-track-title">🎤 Playback</span>
-                        </div>
-                        <div class="sub-track" data-main-index="4" data-sub-type="soprano">
-                            <span class="sub-track-title">🎶 Soprano</span>
-                        </div>
-                        <div class="sub-track" data-main-index="4" data-sub-type="contralto">
-                            <span class="sub-track-title">🎶 Contralto</span>
-                        </div>
-                        <div class="sub-track" data-main-index="4" data-sub-type="tenor">
-                            <span class="sub-track-title">🎶 Tenor</span>
-                        </div>
-                        <div class="sub-track" data-main-index="4" data-sub-type="baixo">
-                            <span class="sub-track-title">🎶 Baixo</span>
-                        </div>
-                    </div>
-                    <div class="playlist-track" data-index="5">
-                        <span class="track-number">06</span>
-                        <span class="track-title">O Leão e o Cordeiro</span>
-                        <button class="collapse-btn" onclick="toggleSubTracks(5)">▼</button>
-                    </div>
-                    <div class="sub-tracks" id="sub-tracks-5" style="display: none;">
-                        <div class="sub-track" data-main-index="5" data-sub-type="vocal">
-                            <span class="sub-track-title">🎙️ Vocal isolado</span>
-                        </div>
-                        <div class="sub-track" data-main-index="5" data-sub-type="playback">
-                            <span class="sub-track-title">🎤 Playback</span>
-                        </div>
-                        <div class="sub-track" data-main-index="5" data-sub-type="soprano">
-                            <span class="sub-track-title">🎶 Soprano</span>
-                        </div>
-                        <div class="sub-track" data-main-index="5" data-sub-type="contralto">
-                            <span class="sub-track-title">🎶 Contralto</span>
-                        </div>
-                        <div class="sub-track" data-main-index="5" data-sub-type="tenor">
-                            <span class="sub-track-title">🎶 Tenor</span>
-                        </div>
-                        <div class="sub-track" data-main-index="5" data-sub-type="baixo">
-                            <span class="sub-track-title">🎶 Baixo</span>
-                        </div>
-                    </div>
-                    <div class="playlist-track" data-index="6">
-                        <span class="track-number">07</span>
-                        <span class="track-title">O Dia da Vitória</span>
-                        <button class="collapse-btn" onclick="toggleSubTracks(6)">▼</button>
-                    </div>
-                    <div class="sub-tracks" id="sub-tracks-6" style="display: none;">
-                        <div class="sub-track" data-main-index="6" data-sub-type="vocal">
-                            <span class="sub-track-title">🎙️ Vocal isolado</span>
-                        </div>
-                        <div class="sub-track" data-main-index="6" data-sub-type="playback">
-                            <span class="sub-track-title">🎤 Playback</span>
-                        </div>
-                        <div class="sub-track" data-main-index="6" data-sub-type="soprano">
-                            <span class="sub-track-title">🎶 Soprano</span>
-                        </div>
-                        <div class="sub-track" data-main-index="6" data-sub-type="contralto">
-                            <span class="sub-track-title">🎶 Contralto</span>
-                        </div>
-                        <div class="sub-track" data-main-index="6" data-sub-type="tenor">
-                            <span class="sub-track-title">🎶 Tenor</span>
-                        </div>
-                        <div class="sub-track" data-main-index="6" data-sub-type="baixo">
-                            <span class="sub-track-title">🎶 Baixo</span>
-                        </div>
-                    </div>
-                    <div class="playlist-track" data-index="7">
-                        <span class="track-number">08</span>
-                        <span class="track-title">Lhe Amostrando Jesus</span>
-                        <button class="collapse-btn" onclick="toggleSubTracks(7)">▼</button>
-                    </div>
-                    <div class="sub-tracks" id="sub-tracks-7" style="display: none;">
-                        <div class="sub-track" data-main-index="7" data-sub-type="vocal">
-                            <span class="sub-track-title">🎙️ Vocal isolado</span>
-                        </div>
-                        <div class="sub-track" data-main-index="7" data-sub-type="playback">
-                            <span class="sub-track-title">🎤 Playback</span>
-                        </div>
-                        <div class="sub-track" data-main-index="7" data-sub-type="soprano">
-                            <span class="sub-track-title">🎶 Soprano</span>
-                        </div>
-                        <div class="sub-track" data-main-index="7" data-sub-type="contralto">
-                            <span class="sub-track-title">🎶 Contralto</span>
-                        </div>
-                        <div class="sub-track" data-main-index="7" data-sub-type="tenor1">
-                            <span class="sub-track-title">🎶 1º Tenor (agudo)</span>
-                        </div>
-                        <div class="sub-track" data-main-index="7" data-sub-type="tenor2">
-                            <span class="sub-track-title">🎶 2º Tenor (grave)</span>
-                        </div>
-                        <div class="sub-track" data-main-index="7" data-sub-type="baixo">
-                            <span class="sub-track-title">🎶 Baixo</span>
-                        </div>
-                    </div>
+                    <!-- Playlist tracks will be generated dynamically from songs.json -->
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Global songs configuration loaded from JSON
+        let songsConfig = [];
+
+        // Load songs configuration from JSON
+        async function loadSongsConfig() {
+            try {
+                console.log('Loading songs from local data...');
+                songsConfig = getSongsData();
+                console.log('Successfully loaded songs config with', songsConfig.length, 'songs');
+                return songsConfig;
+            } catch (error) {
+                console.error('Failed to load songs configuration:', error);
+                songsConfig = [];
+                return songsConfig;
+            }
+        }
+
+
+        // Helper function to get display name for variation
+        function getVariationDisplayName(variation) {
+            if (variation.name) {
+                return variation.name;
+            }
+
+            switch (variation.type) {
+                case 'original':
+                    return 'Original';
+                case 'vocal':
+                    return 'Vocal isolado';
+                case 'playback':
+                    return 'Playback';
+                case 'voice':
+                    switch (variation.subtype) {
+                        case 'soprano':
+                            return 'Soprano';
+                        case 'contralto':
+                            return 'Contralto';
+                        case 'tenor':
+                            return 'Tenor';
+                        case 'tenor1':
+                            return '1º Tenor (agudo)';
+                        case 'tenor2':
+                            return '2º Tenor (grave)';
+                        case 'baixo':
+                            return 'Baixo';
+                        default:
+                            return 'Voice';
+                    }
+                default:
+                    return 'Audio';
+            }
+        }
+
+        // Helper function to get icon for variation
+        function getVariationIcon(variation) {
+            switch (variation.type) {
+                case 'original':
+                    return '🎵';
+                case 'vocal':
+                    return '🎙️';
+                case 'playback':
+                    return '🎤';
+                case 'voice':
+                    return '🎶';
+                default:
+                    return '🎵';
+            }
+        }
+
+        // Normalize song names for use as HTML IDs and CSS selectors
+        function normalizeSongId(songName, songNumber) {
+            // Use song number as base if available
+            if (songNumber) {
+                return `song_${songNumber}`;
+            }
+
+            // Fallback: normalize the song name
+            return songName
+                .toLowerCase()
+                .replace(/[áàâãä]/g, 'a')
+                .replace(/[éèêë]/g, 'e')
+                .replace(/[íìîï]/g, 'i')
+                .replace(/[óòôõö]/g, 'o')
+                .replace(/[úùûü]/g, 'u')
+                .replace(/[ç]/g, 'c')
+                .replace(/[^\w]/g, '_')  // Replace non-word characters with underscore
+                .replace(/_{2,}/g, '_')  // Replace multiple underscores with single
+                .replace(/^_|_$/g, '');  // Remove leading/trailing underscores
+        }
+
+        // Generate playlist tracks from config
+        function generatePlaylistTracks() {
+            return songsConfig.map(song => {
+                const originalVariation = song.variations.find(v => v.type === 'original');
+                return {
+                    title: song.name,
+                    src: originalVariation ? originalVariation.src : '',
+                    songConfig: song
+                };
+            });
+        }
+
         function showSong(songNumber) {
             // Hide all song details
             hideSongs();
@@ -2177,23 +1656,22 @@
             btn.addEventListener('touchcancel', stopHold);
         }
 
-        // Playlist functionality
-        const playlistTracks = [
-            { title: 'Isaías 9', src: 'https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/01_isaias_9.mp3' },
-            { title: 'Maria', src: 'https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/02_maria.mp3' },
-            { title: 'Noite Santa e Agnus Dei', src: 'https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/03_noite_santa_e_agnus_dei.mp3' },
-            { title: 'Magos do Oriente', src: 'https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/04_magos_do_oriente.mp3' },
-            { title: 'Isaías 53 e Foi na Cruz', src: 'https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/05_isaias_53_e_foi_na_cruz.mp3' },
-            { title: 'O Leão e o Cordeiro', src: 'https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/06_o_leao_e_o_cordeiro.mp3' },
-            { title: 'O Dia da Vitória', src: 'https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/07_o_dia_da_vitoria.mp3' },
-            { title: 'Lhe Amostrando Jesus', src: 'https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/08_lhe_amostrando_jesus.mp3' }
-        ];
+        // Playlist functionality - now dynamic
+        let playlistTracks = [];
 
         let currentTrackIndex = 0;
         let playlistAudio = null;
         let playlistPlayer = null;
 
-        function showPlaylist() {
+        async function showPlaylist() {
+            // Make sure songs config is loaded
+            if (!songsConfig || songsConfig.length === 0) {
+                console.log('Loading songs config...');
+                await loadSongsConfig();
+            }
+
+            console.log('Songs config available:', songsConfig.length, 'songs');
+
             // Hide songs section
             document.querySelector('.songs-section').style.display = 'none';
             document.querySelector('.quick-links').style.display = 'none';
@@ -2203,6 +1681,14 @@
 
             // Show playlist section
             document.getElementById('playlist-section').style.display = 'flex';
+
+            // Generate playlist tracks from config
+            playlistTracks = generatePlaylistTracks();
+
+            // Generate and insert playlist HTML
+            const playlistContainer = document.querySelector('.playlist-tracks');
+            const playlistHTML = generatePlaylistHTML();
+            playlistContainer.innerHTML = playlistHTML;
 
             // Initialize playlist player
             playlistAudio = document.getElementById('playlist-audio');
@@ -2233,6 +1719,14 @@
                     if (playlistAudio.paused) {
                         playlistAudio.play();
                     }
+                });
+            });
+
+            // Add collapse button click functionality
+            document.querySelectorAll('.collapse-btn').forEach((collapseBtn) => {
+                collapseBtn.addEventListener('click', () => {
+                    const trackIndex = parseInt(collapseBtn.getAttribute('data-track-index'));
+                    toggleSubTracks(trackIndex);
                 });
             });
 
@@ -2282,7 +1776,10 @@
 
                 // Close any expanded sub-tracks when switching songs
                 if (currentExpandedTrack !== null) {
-                    const prevSubTracks = document.getElementById(`sub-tracks-${currentExpandedTrack}`);
+                    const prevTrack = playlistTracks[currentExpandedTrack];
+                    const prevSongConfig = prevTrack.songConfig;
+                    const prevNormalizedId = normalizeSongId(prevSongConfig.name, prevSongConfig.number);
+                    const prevSubTracks = document.getElementById(`sub-tracks-${prevNormalizedId}`);
                     const prevCollapseBtn = document.querySelector(`[data-index="${currentExpandedTrack}"] .collapse-btn`);
                     if (prevSubTracks) {
                         prevSubTracks.style.display = 'none';
@@ -2515,51 +2012,59 @@
         let currentExpandedTrack = null;
         let currentSubTrack = null;
 
+        // Generate playlist HTML dynamically from config
+        function generatePlaylistHTML() {
+            let html = '';
+
+            playlistTracks.forEach((track, mainIndex) => {
+                const songConfig = track.songConfig;
+                const normalizedId = normalizeSongId(songConfig.name, songConfig.number);
+
+                // Main track
+                html += `
+                    <div class="playlist-track" data-index="${mainIndex}" data-song-id="${normalizedId}">
+                        <span class="track-number">${songConfig.number}</span>
+                        <span class="track-title">${track.title}</span>
+                        <button class="collapse-btn" data-track-index="${mainIndex}">▼</button>
+                    </div>
+                `;
+
+                // Sub-tracks (excluding original)
+                const nonOriginalVariations = songConfig.variations.filter(v => v.type !== 'original');
+                if (nonOriginalVariations.length > 0) {
+                    html += `<div class="sub-tracks" id="sub-tracks-${normalizedId}" style="display: none;">`;
+
+                    nonOriginalVariations.forEach((variation, variationIndex) => {
+                        // Find the actual index in the full variations array
+                        const actualVariationIndex = songConfig.variations.indexOf(variation);
+                        const displayName = getVariationDisplayName(variation);
+                        const icon = getVariationIcon(variation);
+
+                        html += `
+                            <div class="sub-track" data-main-index="${mainIndex}" data-variation-index="${actualVariationIndex}">
+                                <span class="sub-track-title">${icon} ${displayName}</span>
+                            </div>
+                        `;
+                    });
+
+                    html += '</div>';
+                }
+            });
+
+            return html;
+        }
+
         // Check if sub-track audio files exist and hide those that don't
         function checkSubTrackFiles() {
             playlistTracks.forEach((track, mainIndex) => {
-                const subTrackTypes = ['vocal', 'playback', 'soprano', 'contralto', 'tenor', 'baixo'];
+                const songConfig = track.songConfig;
 
-                // For song 8 (index 7), also check tenor1 and tenor2
-                if (mainIndex === 7) {
-                    subTrackTypes.push('tenor1', 'tenor2');
-                }
-
-                subTrackTypes.forEach(subType => {
-                    const subTrackElement = document.querySelector(`[data-main-index="${mainIndex}"][data-sub-type="${subType}"]`);
-                    if (subTrackElement) {
-                        let audioSrc;
-
-                        switch(subType) {
-                            case 'vocal':
-                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/${getFileNameFromSrc(track.src)}-vocals.mp3`;
-                                break;
-                            case 'playback':
-                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/${getFileNameFromSrc(track.src)}.mp3`;
-                                break;
-                            case 'soprano':
-                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_soprano_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
-                                break;
-                            case 'contralto':
-                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_contralto_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
-                                break;
-                            case 'tenor':
-                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_tenor_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
-                                break;
-                            case 'tenor1':
-                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_tenor_1_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
-                                break;
-                            case 'tenor2':
-                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_tenor_2_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
-                                break;
-                            case 'baixo':
-                                audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_baixo_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
-                                break;
-                        }
-
-                        // Check if file exists
-                        if (audioSrc) {
-                            fetch(audioSrc, { method: 'HEAD' })
+                songConfig.variations.forEach((variation, variationIndex) => {
+                    if (variation.type !== 'original') {
+                        const subTrackElement = document.querySelector(`[data-main-index="${mainIndex}"][data-variation-index="${variationIndex}"]`);
+                        if (subTrackElement) {
+                            // Check if file exists
+                            fetch(variation.src, { method: 'HEAD' })
                                 .then(response => {
                                     if (response.ok) {
                                         subTrackElement.style.display = 'flex';
@@ -2577,12 +2082,20 @@
         }
 
         function toggleSubTracks(trackIndex) {
-            const subTracks = document.getElementById(`sub-tracks-${trackIndex}`);
+            // Get the normalized ID for this track
+            const track = playlistTracks[trackIndex];
+            const songConfig = track.songConfig;
+            const normalizedId = normalizeSongId(songConfig.name, songConfig.number);
+
+            const subTracks = document.getElementById(`sub-tracks-${normalizedId}`);
             const collapseBtn = document.querySelector(`[data-index="${trackIndex}"] .collapse-btn`);
 
             // Close any previously expanded track
             if (currentExpandedTrack !== null && currentExpandedTrack !== trackIndex) {
-                const prevSubTracks = document.getElementById(`sub-tracks-${currentExpandedTrack}`);
+                const prevTrack = playlistTracks[currentExpandedTrack];
+                const prevSongConfig = prevTrack.songConfig;
+                const prevNormalizedId = normalizeSongId(prevSongConfig.name, prevSongConfig.number);
+                const prevSubTracks = document.getElementById(`sub-tracks-${prevNormalizedId}`);
                 const prevCollapseBtn = document.querySelector(`[data-index="${currentExpandedTrack}"] .collapse-btn`);
                 if (prevSubTracks) {
                     prevSubTracks.style.display = 'none';
@@ -2601,8 +2114,8 @@
                 subTrackElements.forEach(subTrack => {
                     subTrack.addEventListener('click', () => {
                         const mainIndex = parseInt(subTrack.getAttribute('data-main-index'));
-                        const subType = subTrack.getAttribute('data-sub-type');
-                        playSubTrack(mainIndex, subType);
+                        const variationIndex = parseInt(subTrack.getAttribute('data-variation-index'));
+                        playSubTrack(mainIndex, variationIndex);
                     });
                 });
             } else {
@@ -2612,61 +2125,24 @@
             }
         }
 
-        function playSubTrack(mainIndex, subType) {
+        function playSubTrack(mainIndex, variationIndex) {
             // Update current track index
             currentTrackIndex = mainIndex;
-            currentSubTrack = subType;
+            currentSubTrack = variationIndex;
 
-            // Get the correct audio source based on sub-type
+            // Get the track and variation from config
             const track = playlistTracks[mainIndex];
-            let audioSrc;
-            let displaySuffix;
-
-            switch(subType) {
-                case 'vocal':
-                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/${getFileNameFromSrc(track.src)}-vocals.mp3`;
-                    displaySuffix = ' - Vocal isolado';
-                    break;
-                case 'playback':
-                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/${getFileNameFromSrc(track.src)}.mp3`;
-                    displaySuffix = ' - Playback';
-                    break;
-                case 'soprano':
-                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_soprano_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
-                    displaySuffix = ' - Soprano';
-                    break;
-                case 'contralto':
-                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_contralto_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
-                    displaySuffix = ' - Contralto';
-                    break;
-                case 'tenor':
-                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_tenor_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
-                    displaySuffix = ' - Tenor';
-                    break;
-                case 'tenor1':
-                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_tenor_1_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
-                    displaySuffix = ' - 1º Tenor (agudo)';
-                    break;
-                case 'tenor2':
-                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_tenor_2_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
-                    displaySuffix = ' - 2º Tenor (grave)';
-                    break;
-                case 'baixo':
-                    audioSrc = `https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/${getFileNameFromSrc(track.src)}/${getFileNumberFromSrc(track.src)}_baixo_${getFileNameFromSrc(track.src).replace(/^\d+_/, '')}.mp3`;
-                    displaySuffix = ' - Baixo';
-                    break;
-                default:
-                    audioSrc = track.src;
-                    displaySuffix = '';
-            }
+            const songConfig = track.songConfig;
+            const variation = songConfig.variations[variationIndex];
 
             // Update audio source
-            playlistAudio.src = audioSrc;
+            playlistAudio.src = variation.src;
 
-            // Update current song display
+            // Update current song display with variation name
             const songDisplay = document.getElementById('current-song-display');
             if (songDisplay) {
-                songDisplay.textContent = `${String(mainIndex + 1).padStart(2, '0')} - ${track.title}${displaySuffix}`;
+                const displayName = getVariationDisplayName(variation);
+                songDisplay.textContent = `${songConfig.number} - ${track.title} - ${displayName}`;
             }
 
             // Update track highlighting
@@ -2704,25 +2180,107 @@
             }
 
             // Highlight current sub-track if any
-            if (currentSubTrack) {
-                const currentSubTrackElement = document.querySelector(`[data-main-index="${currentTrackIndex}"][data-sub-type="${currentSubTrack}"]`);
+            if (currentSubTrack !== null) {
+                const currentSubTrackElement = document.querySelector(`[data-main-index="${currentTrackIndex}"][data-variation-index="${currentSubTrack}"]`);
                 if (currentSubTrackElement) {
                     currentSubTrackElement.classList.add('current');
                 }
             }
         }
 
+        // Generate songs grid and details from JSON
+        function generateSongsFromJSON() {
+            if (!songsConfig || songsConfig.length === 0) {
+                console.log('No songs configuration available');
+                return;
+            }
+
+            // Generate songs grid
+            const songsGrid = document.getElementById('songs-grid');
+            if (songsGrid) {
+                songsGrid.innerHTML = songsConfig.map((song, index) => `
+                    <div class="song-card" onclick="showSong(${index + 1})">
+                        <div class="song-content">
+                            <div class="song-number">${song.number}</div>
+                            <div class="song-title">${song.name}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Generate song details
+            const songDetailsContainer = document.getElementById('song-details-container');
+            if (songDetailsContainer) {
+                songDetailsContainer.innerHTML = songsConfig.map((song, index) => {
+                    const audioItems = song.variations.map(variation => {
+                        const displayName = getVariationDisplayName(variation);
+                        return `
+                            <div class="audio-item">
+                                <h4>${displayName}</h4>
+                                <audio class="audioPlayer" src="${variation.src}"></audio>
+                                <div class="custom-audio-player">
+                                    <div class="audio-progress-row">
+                                        <div class="progress-container">
+                                            <div class="progress-bar"></div>
+                                            <div class="progress-thumb"></div>
+                                        </div>
+                                    </div>
+                                    <div class="audio-controls-row">
+                                        <div class="audio-time">0:00 / 0:00</div>
+                                        <div class="audio-controls">
+                                            <button class="custom-rw-btn">&lt;&lt;</button>
+                                            <button class="play-btn">▶</button>
+                                            <button class="custom-ff-btn">&gt;&gt;</button>
+                                        </div>
+                                        <div class="volume-control">
+                                            <button class="volume-btn">🔊</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    return `
+                        <div id="song${index + 1}" class="song-details">
+                            <div class="song-header">
+                                <button class="back-btn" onclick="hideSongs()">←</button>
+                                <h3>${song.number} - ${song.name}</h3>
+                                <button class="stop-all-btn" onclick="stopAllAudio()">⏹</button>
+                            </div>
+                            <div class="audio-list">
+                                ${audioItems}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // Setup audio players for newly created elements
+            setTimeout(() => {
+                const audioPlayers = document.querySelectorAll('.audioPlayer');
+                audioPlayers.forEach(audio => {
+                    createCustomAudioPlayer(audio);
+                    checkAudioFile(audio);
+                });
+                setupAudioControls();
+            }, 100);
+        }
+
+        // Initialize application
+        async function initializeApp() {
+            // Load songs configuration
+            await loadSongsConfig();
+            console.log('Songs configuration loaded:', songsConfig);
+
+            // Generate songs from JSON
+            generateSongsFromJSON();
+        }
+
         // Improved mobile experience
         document.addEventListener('DOMContentLoaded', function() {
-            // Create custom players for all audio elements
-            const audioPlayers = document.querySelectorAll('.audioPlayer');
-            audioPlayers.forEach(audio => {
-                createCustomAudioPlayer(audio);
-                checkAudioFile(audio);
-            });
-
-            // Setup audio control buttons (legacy - now handled in createCustomAudioPlayer)
-            setupAudioControls();
+            // Initialize the app with JSON data
+            initializeApp();
 
             // Add touch feedback for mobile
             if ('ontouchstart' in window) {
@@ -2738,6 +2296,113 @@
                 });
             }
         });
+
+        // Songs configuration data (moved from songs.json to avoid CORS issues)
+        function getSongsData() {
+            return [
+                {
+                    "name": "Isaías 9",
+                    "number": "01",
+                    "variations": [
+                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/01_isaias_9.mp3"},
+                        {"type": "vocal", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/01_isaias_9-vocals.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/01_isaias_9.mp3"},
+                        {"type": "voice", "subtype": "soprano", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_soprano_isaias_9.mp3"},
+                        {"type": "voice", "subtype": "contralto", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_contralto_isaias_9.mp3"},
+                        {"type": "voice", "subtype": "tenor", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_tenor_isaias_9.mp3"},
+                        {"type": "voice", "subtype": "baixo", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_baixo_isaias_9.mp3"}
+                    ]
+                },
+                {
+                    "name": "Maria",
+                    "number": "02",
+                    "variations": [
+                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/02_maria.mp3"},
+                        {"type": "vocal", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/02_maria-vocals.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/02_maria.mp3"},
+                        {"type": "voice", "subtype": "soprano", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_soprano_maria.mp3"},
+                        {"type": "voice", "subtype": "contralto", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_contralto_maria.mp3"},
+                        {"type": "voice", "subtype": "tenor", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_tenor_maria.mp3"},
+                        {"type": "voice", "subtype": "baixo", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_baixo_maria.mp3"}
+                    ]
+                },
+                {
+                    "name": "Noite Santa e Agnus Dei",
+                    "number": "03",
+                    "variations": [
+                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/03_noite_santa_e_agnus_dei.mp3"},
+                        {"type": "vocal", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/03_noite_santa_e_agnus_dei-vocals.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/03_noite_santa_e_agnus_dei.mp3"},
+                        {"type": "voice", "subtype": "soprano", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_soprano_noite_santa_e_agnus_dei.mp3"},
+                        {"type": "voice", "subtype": "contralto", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_contralto_noite_santa_e_agnus_dei.mp3"},
+                        {"type": "voice", "subtype": "tenor", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_tenor_noite_santa_e_agnus_dei.mp3"},
+                        {"type": "voice", "subtype": "baixo", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_baixo_noite_santa_e_agnus_dei.mp3"}
+                    ]
+                },
+                {
+                    "name": "Magos do Oriente",
+                    "number": "04",
+                    "variations": [
+                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/04_magos_do_oriente.mp3"},
+                        {"type": "vocal", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/04_magos_do_oriente-vocals.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/04_magos_do_oriente.mp3"}
+                    ]
+                },
+                {
+                    "name": "Isaías 53 e Foi na Cruz",
+                    "number": "05",
+                    "variations": [
+                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/05_isaias_53_e_foi_na_cruz.mp3"},
+                        {"type": "vocal", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/05_isaias_53_e_foi_na_cruz-vocals.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/05_isaias_53_e_foi_na_cruz.mp3"},
+                        {"type": "voice", "subtype": "soprano", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_soprano_isaias_53_e_foi_na_cruz.mp3"},
+                        {"type": "voice", "subtype": "contralto", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_contralto_isaias_53_e_foi_na_cruz.mp3"},
+                        {"type": "voice", "subtype": "tenor", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_tenor_isaias_53_e_foi_na_cruz.mp3"},
+                        {"type": "voice", "subtype": "baixo", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_baixo_isaias_53_e_foi_na_cruz.mp3"}
+                    ]
+                },
+                {
+                    "name": "O Leão e o Cordeiro",
+                    "number": "06",
+                    "variations": [
+                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/06_o_leao_e_o_cordeiro.mp3"},
+                        {"type": "vocal", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/06_o_leao_e_o_cordeiro-vocals.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/06_o_leao_e_o_cordeiro.mp3"},
+                        {"type": "voice", "subtype": "soprano", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_soprano_o_leao_e_o_cordeiro.mp3"},
+                        {"type": "voice", "subtype": "contralto", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_contralto_o_leao_e_o_cordeiro.mp3"},
+                        {"type": "voice", "subtype": "tenor", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_tenor_o_leao_e_o_cordeiro.mp3"},
+                        {"type": "voice", "subtype": "baixo", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_baixo_o_leao_e_o_cordeiro.mp3"}
+                    ]
+                },
+                {
+                    "name": "O Dia da Vitória",
+                    "number": "07",
+                    "variations": [
+                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/07_o_dia_da_vitoria.mp3"},
+                        {"type": "vocal", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/07_o_dia_da_vitoria-vocals.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/07_o_dia_da_vitoria.mp3"},
+                        {"type": "voice", "subtype": "soprano", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_soprano_o_dia_da_vitoria.mp3"},
+                        {"type": "voice", "subtype": "contralto", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_contralto_o_dia_da_vitoria.mp3"},
+                        {"type": "voice", "subtype": "tenor", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_tenor_o_dia_da_vitoria.mp3"},
+                        {"type": "voice", "subtype": "baixo", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_baixo_o_dia_da_vitoria.mp3"}
+                    ]
+                },
+                {
+                    "name": "Lhe Amostrando Jesus",
+                    "number": "08",
+                    "variations": [
+                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/08_lhe_amostrando_jesus.mp3"},
+                        {"type": "vocal", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/08_lhe_amostrando_jesus-vocals.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/08_lhe_amostrando_jesus.mp3"},
+                        {"type": "voice", "subtype": "soprano", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_soprano_lhe_amostrando_jesus.mp3"},
+                        {"type": "voice", "subtype": "contralto", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_contralto_lhe_amostrando_jesus.mp3"},
+                        {"type": "voice", "subtype": "tenor1", "name": "1º Tenor (agudo)", "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_tenor_1_lhe_amostrando_jesus.mp3"},
+                        {"type": "voice", "subtype": "tenor2", "name": "2º Tenor (grave)", "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_tenor_2_lhe_amostrando_jesus.mp3"},
+                        {"type": "voice", "subtype": "baixo", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_baixo_lhe_amostrando_jesus.mp3"}
+                    ]
+                }
+            ];
+        }
     </script>
 </body>
 </html>

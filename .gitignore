@@ -1,14 +1,4 @@
-sources/original/04_magos_do_oriente_full.mp3
-sources/original/.DS_Store
-sources/.DS_Store
-sources/original/01_isaias_9_full.mp3
-sources/original/peaks/01_isaias_9.mp3.reapeaks
+*full.mp3
 *.reapeaks
 *.reapindex
-sources/voz/.DS_Store
-/sources/voz
-sources/playback/01_isaias_9_full.mp3
-sources/playback/.DS_Store
-sources/playback/.DS_Store
-sources/original/.DS_Store
-sources/.DS_Store
+*.DS_Store
