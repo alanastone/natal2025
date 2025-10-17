@@ -1787,41 +1787,6 @@
                     currentExpandedTrack = null;
                 }
 
-                // Update media session
-                if ('mediaSession' in navigator) {
-                    // Get the original variation to show the track type
-                    const originalVariation = track.songConfig.variations.find(v => v.type === 'original');
-                    const trackType = originalVariation ? getVariationDisplayName(originalVariation) : '🎵 Original';
-
-                    navigator.mediaSession.metadata = new MediaMetadata({
-                        title: `${track.title}`,
-                        artist: `${trackType} - Musical de Natal 2025`,
-                        album: 'Natal 2025',
-                        artwork: [
-                            { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎄</text></svg>', sizes: '96x96', type: 'image/svg+xml' }
-                        ]
-                    });
-
-                    // Set up playlist media session action handlers
-                    navigator.mediaSession.setActionHandler('play', () => {
-                        if (playlistAudio) playlistAudio.play();
-                    });
-                    navigator.mediaSession.setActionHandler('pause', () => {
-                        if (playlistAudio) playlistAudio.pause();
-                    });
-                    navigator.mediaSession.setActionHandler('seekbackward', () => {
-                        if (playlistAudio) playlistAudio.currentTime = Math.max(playlistAudio.currentTime - 10, 0);
-                    });
-                    navigator.mediaSession.setActionHandler('seekforward', () => {
-                        if (playlistAudio) playlistAudio.currentTime = Math.min(playlistAudio.currentTime + 10, playlistAudio.duration || 0);
-                    });
-                    navigator.mediaSession.setActionHandler('previoustrack', () => {
-                        skipToPrevious();
-                    });
-                    navigator.mediaSession.setActionHandler('nexttrack', () => {
-                        skipToNext();
-                    });
-                }
 
                 updateTrackStatus();
                 updateTrackHighlighting();
@@ -1846,6 +1811,54 @@
                 if (playlistAudio && !playlistAudio.paused) {
                     playlistAudio.play();
                 }
+            }
+        }
+
+        // Update media session for currently playing playlist track
+        function updatePlaylistMediaSession() {
+            if ('mediaSession' in navigator && playlistTracks.length > 0) {
+                const track = playlistTracks[currentTrackIndex];
+                let trackType = '🎵 Original';
+                let songTitle = track.title;
+
+                // If we're playing a sub-track, get the specific variation info
+                if (currentSubTrack !== null) {
+                    const variation = track.songConfig.variations[currentSubTrack];
+                    trackType = getVariationDisplayName(variation);
+                } else {
+                    // Main track - get the original variation
+                    const originalVariation = track.songConfig.variations.find(v => v.type === 'original');
+                    trackType = originalVariation ? getVariationDisplayName(originalVariation) : '🎵 Original';
+                }
+
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: songTitle,
+                    artist: `${trackType} - Musical de Natal 2025`,
+                    album: 'Natal 2025',
+                    artwork: [
+                        { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎄</text></svg>', sizes: '96x96', type: 'image/svg+xml' }
+                    ]
+                });
+
+                // Set up playlist media session action handlers
+                navigator.mediaSession.setActionHandler('play', () => {
+                    if (playlistAudio) playlistAudio.play();
+                });
+                navigator.mediaSession.setActionHandler('pause', () => {
+                    if (playlistAudio) playlistAudio.pause();
+                });
+                navigator.mediaSession.setActionHandler('seekbackward', () => {
+                    if (playlistAudio) playlistAudio.currentTime = Math.max(playlistAudio.currentTime - 10, 0);
+                });
+                navigator.mediaSession.setActionHandler('seekforward', () => {
+                    if (playlistAudio) playlistAudio.currentTime = Math.min(playlistAudio.currentTime + 10, playlistAudio.duration || 0);
+                });
+                navigator.mediaSession.setActionHandler('previoustrack', () => {
+                    skipToPrevious();
+                });
+                navigator.mediaSession.setActionHandler('nexttrack', () => {
+                    skipToNext();
+                });
             }
         }
 
@@ -1973,13 +1986,14 @@
             // Play/pause button
             playBtn.addEventListener('click', () => {
                 if (playBtn.textContent == '▶') {
+                    updatePlaylistMediaSession();
                     playlistAudio.play();
-                    playBtn.textContent = '▶';
+                    playBtn.textContent = '⏸';
                     playBtn.classList.add('playing');
                     console.log('Started playing audio');
                 } else {
                     playlistAudio.pause();
-                    playBtn.textContent = '⏸';
+                    playBtn.textContent = '▶';
                     playBtn.classList.remove('playing');
                     console.log('Paused audio');
                 }
@@ -1996,6 +2010,7 @@
             });
             playlistAudio.addEventListener('click', () => {
                 if (playBtn.textContent == '▶') {
+                    updatePlaylistMediaSession();
                     playlistAudio.play();
                     playBtn.textContent = '⏸';
                     playBtn.classList.add('playing');
@@ -2005,8 +2020,13 @@
                     playBtn.textContent = '▶';
                     playBtn.classList.remove('playing');
                 }
-                
+
                 updateTrackStatus();
+            });
+
+            // Update media session when audio starts playing
+            playlistAudio.addEventListener('play', () => {
+                updatePlaylistMediaSession();
             });
             playlistAudio.addEventListener('canplay', () => {
                 console.log('Audio can play, duration:', playlistAudio.duration);
@@ -2168,37 +2188,6 @@
                 songDisplay.textContent = `${songConfig.number} - ${track.title} - ${displayName}`;
             }
 
-            // Update media session for sub-track
-            if ('mediaSession' in navigator) {
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: `${track.title}`,
-                    artist: `${displayName} - Musical de Natal 2025`,
-                    album: 'Natal 2025',
-                    artwork: [
-                        { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎄</text></svg>', sizes: '96x96', type: 'image/svg+xml' }
-                    ]
-                });
-
-                // Set up playlist media session action handlers (same as main track)
-                navigator.mediaSession.setActionHandler('play', () => {
-                    if (playlistAudio) playlistAudio.play();
-                });
-                navigator.mediaSession.setActionHandler('pause', () => {
-                    if (playlistAudio) playlistAudio.pause();
-                });
-                navigator.mediaSession.setActionHandler('seekbackward', () => {
-                    if (playlistAudio) playlistAudio.currentTime = Math.max(playlistAudio.currentTime - 10, 0);
-                });
-                navigator.mediaSession.setActionHandler('seekforward', () => {
-                    if (playlistAudio) playlistAudio.currentTime = Math.min(playlistAudio.currentTime + 10, playlistAudio.duration || 0);
-                });
-                navigator.mediaSession.setActionHandler('previoustrack', () => {
-                    skipToPrevious();
-                });
-                navigator.mediaSession.setActionHandler('nexttrack', () => {
-                    skipToNext();
-                });
-            }
 
             // Update track highlighting
             updateTrackHighlighting();
