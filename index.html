@@ -1659,6 +1659,7 @@
         let playlistTracks = [];
 
         let currentTrackIndex = 0;
+        updatePlaylistMediaSession();
         let playlistAudio = null;
         let playlistPlayer = null;
 
@@ -1710,7 +1711,6 @@
                     loadTrack(index);
                     if (playlistAudio.paused) {
                         playlistAudio.play();
-                        updatePlaylistMediaSession();
                     }
                 });
             });
@@ -1758,7 +1758,7 @@
                 currentTrackIndex = index;
                 currentSubTrack = null; // Reset sub-track when loading main track
                 const track = playlistTracks[index];
-
+                updatePlaylistMediaSession();
                 playlistAudio.src = track.src;
 
                 // Update current song display
@@ -1792,7 +1792,6 @@
                 loadTrack(currentTrackIndex + 1);
                 if (playlistAudio && !playlistAudio.paused) {
                     playlistAudio.play();
-                    updatePlaylistMediaSession();
                 }
             } else {
                 // End of playlist
@@ -1805,7 +1804,6 @@
                 loadTrack(currentTrackIndex - 1);
                 if (playlistAudio && !playlistAudio.paused) {
                     playlistAudio.play();
-                    updatePlaylistMediaSession();
                 }
             }
         }
@@ -1867,7 +1865,6 @@
             if (currentTrackIndex < playlistTracks.length - 1) {
                 loadTrack(currentTrackIndex + 1);
                 playlistAudio.play();
-                updatePlaylistMediaSession();
             }
         }
 
@@ -1884,7 +1881,6 @@
             if (currentTrackIndex > 0) {
                 loadTrack(currentTrackIndex - 1);
                 playlistAudio.play();
-                updatePlaylistMediaSession();
             } else {
                 // If first song, just restart it
                 if (playlistAudio) {
@@ -1998,7 +1994,6 @@
             playlistAudio.addEventListener('click', () => {
                 if (playBtn.textContent == '▶') {
                     playlistAudio.play();
-                    updatePlaylistMediaSession();
                     playBtn.textContent = '⏸';
                     playBtn.classList.add('playing');
                 } else {
@@ -2165,6 +2160,7 @@
             const songConfig = track.songConfig;
             const variation = songConfig.variations[variationIndex];
 
+            updatePlaylistMediaSession();
             // Update audio source
             playlistAudio.src = variation.src;
 
@@ -2181,7 +2177,6 @@
 
             // Start playing
             playlistAudio.play();
-            updatePlaylistMediaSession();
         }
 
         function getFileNameFromSrc(src) {
