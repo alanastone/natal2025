@@ -74,7 +74,7 @@
 
         .links-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
         }
 
@@ -88,6 +88,9 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             font-weight: 500;
             font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .playlist-btn {
@@ -546,7 +549,7 @@
             }
 
             .links-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                grid-template-columns: repeat(3, 1fr);
                 gap: 10px;
             }
 
@@ -925,18 +928,15 @@
         <!-- Quick Links -->
         <div class="quick-links">
             <div class="links-grid">
-                <!-- <a href="" target="_blank" class="link-card">
-                    📄 Letras: Em breve
-                </a>
-                <a href="" target="_blank" class="link-card">
-                    📅 Ensaios: Em breve
-                </a> -->
-                <a href="https://www.youtube.com/watch?v=mSXgE_SS2y8&list=PLWaADBxwbjQK9InaSgqfma39JAiug1v4r" target="_blank" class="link-card">
-                    🎵 Ouça no Youtube
+                <a href="sources/Musical de Natal 2025.pdf" target="_blank" class="link-card">
+                    📄 Letras
                 </a>
                 <button onclick="showPlaylist()" class="link-card playlist-btn">
-                    🎧 Ouvir aqui!
+                    🎧 Ouvir todas
                 </button>
+                <a href="https://www.youtube.com/watch?v=mSXgE_SS2y8&list=PLWaADBxwbjQK9InaSgqfma39JAiug1v4r" target="_blank" class="link-card">
+                    🎵 Ouça no Youtube
+                </a> 
             </div>
         </div>
 
