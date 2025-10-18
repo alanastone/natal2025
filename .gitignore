@@ -2,3 +2,7 @@
 *.reapeaks
 *.reapindex
 *.DS_Store
+sources/.DS_Store
+sources/divisao_voz/.DS_Store
+/sources/tom
+sources/divisao_voz/.DS_Store
