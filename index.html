@@ -1700,8 +1700,9 @@
             // Setup playlist player (this attaches all event listeners including 'ended')
             setupPlaylistPlayer();
 
-            // Load first track (without auto-play)
+            // Load and auto-play first track
             loadTrack(0);
+            playlistAudio.play();
 
 
             // Update status when play/pause changes
