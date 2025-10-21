@@ -74,7 +74,7 @@
 
         .links-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
         }
 
@@ -273,8 +273,15 @@
             height: 100%;
             background: #c41e3a;
             border-radius: 3px;
-            width: 0%;
-            transition: width 0.1s;
+            width: 100%;
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 0.1s;
+            will-change: transform;
+        }
+
+        .progress-bar.dragging {
+            transition: none;
         }
 
         .progress-thumb {
@@ -549,7 +556,7 @@
             }
 
             .links-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(3, 1fr);
                 gap: 10px;
             }
 
@@ -934,6 +941,9 @@
                 <button onclick="showPlaylist()" class="link-card playlist-btn">
                     🎧 Ouvir todas
                 </button>
+                <a href="sources/ensaios.jpeg" target="_blank" class="link-card">
+                    📅 Ensaios
+                </a>
                 <!-- <a href="https://www.youtube.com/watch?v=mSXgE_SS2y8&list=PLWaADBxwbjQK9InaSgqfma39JAiug1v4r" target="_blank" class="link-card">
                     🎵 Ouça no Youtube
                 </a>  -->
@@ -966,7 +976,7 @@
                 <div class="current-song-title">
                     <h4 id="current-song-display">01 - Isaías 9</h4>
                 </div>
-                <audio id="playlist-audio" class="audioPlayer"></audio>
+                <audio id="playlist-audio"></audio>
                 <div class="custom-audio-player">
                     <div class="audio-progress-row">
                         <div class="progress-container">
@@ -1376,18 +1386,39 @@
             const volumeBtn = customPlayer.querySelector('.volume-btn');
 
             let isDragging = false;
+            let dragPosition = 0;
 
             // Update progress and time
             function updateProgress() {
                 if (!isDragging && audioElement.duration) {
-                    const progress = (audioElement.currentTime / audioElement.duration) * 100;
-                    progressBar.style.width = progress + '%';
-                    progressThumb.style.left = progress + '%';
+                    const percent = Math.max(0, Math.min(1, audioElement.currentTime / audioElement.duration));
+
+                    // Use transform for hardware acceleration
+                    progressBar.style.transform = `scaleX(${percent})`;
+                    progressThumb.style.left = `${percent * 100}%`;
+                    progressThumb.style.transform = 'translate(-50%, -50%)';
                 }
 
                 const current = formatTime(audioElement.currentTime || 0);
                 const total = formatTime(audioElement.duration || 0);
                 timeDisplay.textContent = `${current} / ${total}`;
+            }
+
+            // Update visuals only during dragging
+            function updateDragVisuals(percent) {
+                if (audioElement.duration) {
+                    const clampedPercent = Math.max(0, Math.min(1, percent));
+
+                    // Use transform for hardware acceleration - no transitions during drag
+                    progressBar.style.transform = `scaleX(${clampedPercent})`;
+                    progressThumb.style.left = `${clampedPercent * 100}%`;
+                    progressThumb.style.transform = 'translate(-50%, -50%)';
+
+                    const dragTime = clampedPercent * audioElement.duration;
+                    const current = formatTime(dragTime);
+                    const total = formatTime(audioElement.duration);
+                    timeDisplay.textContent = `${current} / ${total}`;
+                }
             }
 
             // Format time helper
@@ -1400,9 +1431,9 @@
             // Progress bar click/drag functionality
             function updateAudioTime(e) {
                 const rect = progressContainer.getBoundingClientRect();
-                const percent = (e.clientX - rect.left) / rect.width;
+                const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
                 const newTime = percent * audioElement.duration;
-                if (newTime >= 0 && newTime <= audioElement.duration) {
+                if (audioElement.duration && newTime >= 0 && newTime <= audioElement.duration) {
                     audioElement.currentTime = newTime;
                     updateProgress();
                 }
@@ -1412,33 +1443,53 @@
 
             progressThumb.addEventListener('mousedown', (e) => {
                 isDragging = true;
+                progressBar.classList.add('dragging');
                 e.preventDefault();
             });
 
             document.addEventListener('mousemove', (e) => {
                 if (isDragging) {
-                    updateAudioTime(e);
+                    const rect = progressContainer.getBoundingClientRect();
+                    dragPosition = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                    updateDragVisuals(dragPosition);
                 }
             });
 
             document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    const newTime = dragPosition * audioElement.duration;
+                    if (audioElement.duration && newTime >= 0 && newTime <= audioElement.duration) {
+                        audioElement.currentTime = newTime;
+                    }
+                    progressBar.classList.remove('dragging');
+                }
                 isDragging = false;
             });
 
             // Touch events for mobile
             progressThumb.addEventListener('touchstart', (e) => {
                 isDragging = true;
+                progressBar.classList.add('dragging');
                 e.preventDefault();
             });
 
             document.addEventListener('touchmove', (e) => {
                 if (isDragging) {
                     const touch = e.touches[0];
-                    updateAudioTime(touch);
+                    const rect = progressContainer.getBoundingClientRect();
+                    dragPosition = Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width));
+                    updateDragVisuals(dragPosition);
                 }
             });
 
             document.addEventListener('touchend', () => {
+                if (isDragging) {
+                    const newTime = dragPosition * audioElement.duration;
+                    if (audioElement.duration && newTime >= 0 && newTime <= audioElement.duration) {
+                        audioElement.currentTime = newTime;
+                    }
+                    progressBar.classList.remove('dragging');
+                }
                 isDragging = false;
             });
 
@@ -1491,7 +1542,9 @@
                     // Stop audio from other songs only (not same song)
                     stopAudioFromOtherSongs(audioElement);
                     updateMediaSession(audioElement);
-                    audioElement.play();
+                    audioElement.play().catch(error => {
+                        console.error('Error playing audio:', error);
+                    });
                     playBtn.textContent = '⏸';
                     playBtn.classList.add('playing');
                     const audioItem = audioElement.closest('.audio-item');
@@ -1709,12 +1762,14 @@
             playlistAudio.addEventListener('play', updateTrackStatus);
             playlistAudio.addEventListener('pause', updateTrackStatus);
 
-            // Add track title click functionality (not the whole track)
+            // Add track title click functionality
             document.querySelectorAll('.playlist-track .track-title').forEach((trackTitle, index) => {
                 trackTitle.addEventListener('click', () => {
                     loadTrack(index);
                     if (playlistAudio.paused) {
-                        playlistAudio.play();
+                        playlistAudio.play().catch(error => {
+                            console.error('Error playing track:', error);
+                        });
                     }
                 });
             });
@@ -1916,18 +1971,39 @@
             }
 
             let isDragging = false;
+            let dragPosition = 0;
 
             // Update progress and time
             function updateProgress() {
                 if (!isDragging && playlistAudio.duration) {
-                    const progress = (playlistAudio.currentTime / playlistAudio.duration) * 100;
-                    progressBar.style.width = progress + '%';
-                    progressThumb.style.left = progress + '%';
+                    const percent = Math.max(0, Math.min(1, playlistAudio.currentTime / playlistAudio.duration));
+
+                    // Use transform for hardware acceleration
+                    progressBar.style.transform = `scaleX(${percent})`;
+                    progressThumb.style.left = `${percent * 100}%`;
+                    progressThumb.style.transform = 'translate(-50%, -50%)';
                 }
 
                 const current = formatTime(playlistAudio.currentTime || 0);
                 const total = formatTime(playlistAudio.duration || 0);
                 timeDisplay.textContent = `${current} / ${total}`;
+            }
+
+            // Update visuals only during dragging
+            function updateDragVisuals(percent) {
+                if (playlistAudio.duration) {
+                    const clampedPercent = Math.max(0, Math.min(1, percent));
+
+                    // Use transform for hardware acceleration - no transitions during drag
+                    progressBar.style.transform = `scaleX(${clampedPercent})`;
+                    progressThumb.style.left = `${clampedPercent * 100}%`;
+                    progressThumb.style.transform = 'translate(-50%, -50%)';
+
+                    const dragTime = clampedPercent * playlistAudio.duration;
+                    const current = formatTime(dragTime);
+                    const total = formatTime(playlistAudio.duration);
+                    timeDisplay.textContent = `${current} / ${total}`;
+                }
             }
 
             // Format time helper
@@ -1940,9 +2016,9 @@
             // Progress bar click/drag functionality
             function updateAudioTime(e) {
                 const rect = progressContainer.getBoundingClientRect();
-                const percent = (e.clientX - rect.left) / rect.width;
+                const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
                 const newTime = percent * playlistAudio.duration;
-                if (newTime >= 0 && newTime <= playlistAudio.duration) {
+                if (playlistAudio.duration && newTime >= 0 && newTime <= playlistAudio.duration) {
                     playlistAudio.currentTime = newTime;
                     updateProgress();
                 }
@@ -1952,33 +2028,53 @@
 
             progressThumb.addEventListener('mousedown', (e) => {
                 isDragging = true;
+                progressBar.classList.add('dragging');
                 e.preventDefault();
             });
 
             document.addEventListener('mousemove', (e) => {
                 if (isDragging) {
-                    updateAudioTime(e);
+                    const rect = progressContainer.getBoundingClientRect();
+                    dragPosition = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                    updateDragVisuals(dragPosition);
                 }
             });
 
             document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    const newTime = dragPosition * playlistAudio.duration;
+                    if (playlistAudio.duration && newTime >= 0 && newTime <= playlistAudio.duration) {
+                        playlistAudio.currentTime = newTime;
+                    }
+                    progressBar.classList.remove('dragging');
+                }
                 isDragging = false;
             });
 
             // Touch events for mobile
             progressThumb.addEventListener('touchstart', (e) => {
                 isDragging = true;
+                progressBar.classList.add('dragging');
                 e.preventDefault();
             });
 
             document.addEventListener('touchmove', (e) => {
                 if (isDragging) {
                     const touch = e.touches[0];
-                    updateAudioTime(touch);
+                    const rect = progressContainer.getBoundingClientRect();
+                    dragPosition = Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width));
+                    updateDragVisuals(dragPosition);
                 }
             });
 
             document.addEventListener('touchend', () => {
+                if (isDragging) {
+                    const newTime = dragPosition * playlistAudio.duration;
+                    if (playlistAudio.duration && newTime >= 0 && newTime <= playlistAudio.duration) {
+                        playlistAudio.currentTime = newTime;
+                    }
+                    progressBar.classList.remove('dragging');
+                }
                 isDragging = false;
             });
 
@@ -1995,9 +2091,13 @@
                 skipToNext();
             });
             console.log('Added ended event listener to playlist audio');
-            playlistAudio.addEventListener('click', () => {
+
+            // Playlist play/pause button
+            playBtn.addEventListener('click', () => {
                 if (playBtn.textContent == '▶') {
-                    playlistAudio.play();
+                    playlistAudio.play().catch(error => {
+                        console.error('Error playing playlist audio:', error);
+                    });
                     playBtn.textContent = '⏸';
                     playBtn.classList.add('playing');
                 } else {
@@ -2013,6 +2113,14 @@
             // Update media session when audio starts playing
             playlistAudio.addEventListener('play', () => {
                 updatePlaylistMediaSession();
+                playBtn.textContent = '⏸';
+                playBtn.classList.add('playing');
+            });
+
+            // Update play button when audio pauses
+            playlistAudio.addEventListener('pause', () => {
+                playBtn.textContent = '▶';
+                playBtn.classList.remove('playing');
             });
             playlistAudio.addEventListener('canplay', () => {
                 console.log('Audio can play, duration:', playlistAudio.duration);
@@ -2138,10 +2246,16 @@
                 collapseBtn.classList.add('expanded');
                 currentExpandedTrack = trackIndex;
 
-                // Add click listeners to sub-tracks
+                // Add click listeners to sub-tracks with debouncing
                 const subTrackElements = subTracks.querySelectorAll('.sub-track');
+                let subTrackClickDebounce = false;
                 subTrackElements.forEach(subTrack => {
                     subTrack.addEventListener('click', () => {
+                        // Debounce to prevent rapid sub-track switching
+                        if (subTrackClickDebounce) return;
+                        subTrackClickDebounce = true;
+                        setTimeout(() => { subTrackClickDebounce = false; }, 300);
+
                         const mainIndex = parseInt(subTrack.getAttribute('data-main-index'));
                         const variationIndex = parseInt(subTrack.getAttribute('data-variation-index'));
                         playSubTrack(mainIndex, variationIndex);
@@ -2179,8 +2293,10 @@
             // Update track highlighting
             updateTrackHighlighting();
 
-            // Start playing
-            playlistAudio.play();
+            // Start playing with error handling
+            playlistAudio.play().catch(error => {
+                console.error('Error playing sub-track:', error);
+            });
         }
 
         function getFileNameFromSrc(src) {
