@@ -2449,40 +2449,43 @@
         });
 
         // Songs configuration data (moved from songs.json to avoid CORS issues)
+        //const SONG_BASE_URL = "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/";
+        const SONG_BASE_URL = "http://alanastone.github.io/natal2025/sources/";
+
         function getSongsData() {
             return [
                 {
                     "name": "Isaías 9",
                     "number": "01",
                     "variations": [
-                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/01_isaias_9.mp3"},
-                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/01_isaias_9.mp3"},
-                        {"type": "voice", "subtype": "contralto", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_contralto_isaias_9.mp3"},
-                        {"type": "voice", "subtype": "tenor", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/01_isaias_9/01_tenor_isaias_9.mp3"},
-                        {"type": "vocal", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/01_isaias_9-vocals.mp3"},
+                        {"type": "original", "subtype": null, "name": null, "src": SONG_BASE_URL + "original/01_isaias_9.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": SONG_BASE_URL + "playback/01_isaias_9.mp3"},
+                        {"type": "voice", "subtype": "contralto", "name": null, "src": SONG_BASE_URL + "divisao_voz/01_isaias_9/01_contralto_isaias_9.mp3"},
+                        {"type": "voice", "subtype": "tenor", "name": null, "src": SONG_BASE_URL + "divisao_voz/01_isaias_9/01_tenor_isaias_9.mp3"},
+                        {"type": "vocal", "subtype": null, "name": null, "src": SONG_BASE_URL + "voz/01_isaias_9-vocals.mp3"},
                     ]
                 },
                 {
                     "name": "Maria",
                     "number": "02",
                     "variations": [
-                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/02_maria.mp3"},
-                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/02_maria.mp3"},
-                        {"type": "voice", "subtype": "contralto", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_contralto_maria.mp3"},
-                        {"type": "voice", "subtype": "tenor", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/02_maria/02_tenor_maria.mp3"},
-                        {"type": "vocal", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/02_maria-vocals.mp3"},
+                        {"type": "original", "subtype": null, "name": null, "src": SONG_BASE_URL + "original/02_maria.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": SONG_BASE_URL + "playback/02_maria.mp3"},
+                        {"type": "voice", "subtype": "contralto", "name": null, "src": SONG_BASE_URL + "divisao_voz/02_maria/02_contralto_maria.mp3"},
+                        {"type": "voice", "subtype": "tenor", "name": null, "src": SONG_BASE_URL + "divisao_voz/02_maria/02_tenor_maria.mp3"},
+                        {"type": "vocal", "subtype": null, "name": null, "src": SONG_BASE_URL + "voz/02_maria-vocals.mp3"},
                     ]
                 },
                 {
                     "name": "Noite Santa e Agnus Dei",
                     "number": "03",
                     "variations": [
-                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/03_noite_santa_e_agnus_dei.mp3"},
-                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/03_noite_santa_e_agnus_dei.mp3"},
-                        {"type": "voice", "subtype": "soprano", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_soprano_1_noite_santa_e_agnus_dei.mp3"},
-                        {"type": "voice", "subtype": "soprano", "name": "Soprano e Tenor (2a voz)", "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_soprano_2_noite_santa_e_agnus_dei.mp3"},
-                        {"type": "voice", "subtype": "contralto", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/03_noite_santa_e_agnus_dei/03_contralto_noite_santa_e_agnus_dei.mp3"},
-                        {"type": "vocal", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/03_noite_santa_e_agnus_dei-vocals.mp3"},
+                        {"type": "original", "subtype": null, "name": null, "src": SONG_BASE_URL + "original/03_noite_santa_e_agnus_dei.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": SONG_BASE_URL + "playback/03_noite_santa_e_agnus_dei.mp3"},
+                        {"type": "voice", "subtype": "soprano", "name": null, "src": SONG_BASE_URL + "divisao_voz/03_noite_santa_e_agnus_dei/03_soprano_1_noite_santa_e_agnus_dei.mp3"},
+                        {"type": "voice", "subtype": "soprano", "name": "Soprano e Tenor (2a voz)", "src": SONG_BASE_URL + "divisao_voz/03_noite_santa_e_agnus_dei/03_soprano_2_noite_santa_e_agnus_dei.mp3"},
+                        {"type": "voice", "subtype": "contralto", "name": null, "src": SONG_BASE_URL + "divisao_voz/03_noite_santa_e_agnus_dei/03_contralto_noite_santa_e_agnus_dei.mp3"},
+                        {"type": "vocal", "subtype": null, "name": null, "src": SONG_BASE_URL + "voz/03_noite_santa_e_agnus_dei-vocals.mp3"},
                         
                     ]
                 },
@@ -2490,48 +2493,48 @@
                     "name": "Magos do Oriente",
                     "number": "04",
                     "variations": [
-                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/04_magos_do_oriente.mp3"},
-                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/04_magos_do_oriente.mp3"},
-                        {"type": "vocal", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/04_magos_do_oriente-vocals.mp3"}
+                        {"type": "original", "subtype": null, "name": null, "src": SONG_BASE_URL + "original/04_magos_do_oriente.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": SONG_BASE_URL + "playback/04_magos_do_oriente.mp3"},
+                        {"type": "vocal", "subtype": null, "name": null, "src": SONG_BASE_URL + "voz/04_magos_do_oriente-vocals.mp3"}
                     ]
                 },
                 {
                     "name": "Isaías 53 e Foi na Cruz",
                     "number": "05",
                     "variations": [
-                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/05_isaias_53_e_foi_na_cruz.mp3"},
-                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/05_isaias_53_e_foi_na_cruz.mp3"},
-                        {"type": "voice", "subtype": "soprano", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_soprano_isaias_53_e_foi_na_cruz.mp3"},
-                        {"type": "voice", "subtype": "contralto", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_contralto_isaias_53_e_foi_na_cruz.mp3"},
-                        {"type": "voice", "subtype": "tenor", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_tenor_isaias_53_e_foi_na_cruz.mp3"},
-                        {"type": "voice", "subtype": "baixo", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/05_isaias_53_e_foi_na_cruz/05_baixo_isaias_53_e_foi_na_cruz.mp3"},
-                        {"type": "vocal", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/05_isaias_53_e_foi_na_cruz-vocals.mp3"},
+                        {"type": "original", "subtype": null, "name": null, "src": SONG_BASE_URL + "original/05_isaias_53_e_foi_na_cruz.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": SONG_BASE_URL + "playback/05_isaias_53_e_foi_na_cruz.mp3"},
+                        {"type": "voice", "subtype": "soprano", "name": null, "src": SONG_BASE_URL + "divisao_voz/05_isaias_53_e_foi_na_cruz/05_soprano_isaias_53_e_foi_na_cruz.mp3"},
+                        {"type": "voice", "subtype": "contralto", "name": null, "src": SONG_BASE_URL + "divisao_voz/05_isaias_53_e_foi_na_cruz/05_contralto_isaias_53_e_foi_na_cruz.mp3"},
+                        {"type": "voice", "subtype": "tenor", "name": null, "src": SONG_BASE_URL + "divisao_voz/05_isaias_53_e_foi_na_cruz/05_tenor_isaias_53_e_foi_na_cruz.mp3"},
+                        {"type": "voice", "subtype": "baixo", "name": null, "src": SONG_BASE_URL + "divisao_voz/05_isaias_53_e_foi_na_cruz/05_baixo_isaias_53_e_foi_na_cruz.mp3"},
+                        {"type": "vocal", "subtype": null, "name": null, "src": SONG_BASE_URL + "voz/05_isaias_53_e_foi_na_cruz-vocals.mp3"},
                     ]
                 },
                 {
                     "name": "O Leão e o Cordeiro",
                     "number": "06",
                     "variations": [
-                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/06_o_leao_e_o_cordeiro.mp3"},
-                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/06_o_leao_e_o_cordeiro.mp3"},
-                        {"type": "voice", "subtype": "soprano", "name": "Soprano e Tenor", "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_soprano_o_leao_e_o_cordeiro.mp3"},
-                        {"type": "voice", "subtype": "contralto", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_contralto_o_leao_e_o_cordeiro.mp3"},
-                        {"type": "voice", "subtype": "mezzo", "name": "Barítono e Mezzo-Soprano", "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_mezzo_o_leao_e_o_cordeiro.mp3"},
-                        {"type": "voice", "subtype": "baixo", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/06_o_leao_e_o_cordeiro/06_baixo_o_leao_e_o_cordeiro.mp3"},
-                        {"type": "vocal", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/06_o_leao_e_o_cordeiro-vocals.mp3"},
+                        {"type": "original", "subtype": null, "name": null, "src": SONG_BASE_URL + "original/06_o_leao_e_o_cordeiro.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": SONG_BASE_URL + "playback/06_o_leao_e_o_cordeiro.mp3"},
+                        {"type": "voice", "subtype": "soprano", "name": "Soprano e Tenor", "src": SONG_BASE_URL + "divisao_voz/06_o_leao_e_o_cordeiro/06_soprano_o_leao_e_o_cordeiro.mp3"},
+                        {"type": "voice", "subtype": "contralto", "name": null, "src": SONG_BASE_URL + "divisao_voz/06_o_leao_e_o_cordeiro/06_contralto_o_leao_e_o_cordeiro.mp3"},
+                        {"type": "voice", "subtype": "mezzo", "name": "Barítono e Mezzo-Soprano", "src": SONG_BASE_URL + "divisao_voz/06_o_leao_e_o_cordeiro/06_mezzo_o_leao_e_o_cordeiro.mp3"},
+                        {"type": "voice", "subtype": "baixo", "name": null, "src": SONG_BASE_URL + "divisao_voz/06_o_leao_e_o_cordeiro/06_baixo_o_leao_e_o_cordeiro.mp3"},
+                        {"type": "vocal", "subtype": null, "name": null, "src": SONG_BASE_URL + "voz/06_o_leao_e_o_cordeiro-vocals.mp3"},
                     ]
                 },
                 {
                     "name": "O Dia da Vitória",
                     "number": "07",
                     "variations": [
-                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/07_o_dia_da_vitoria.mp3"},
-                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/07_o_dia_da_vitoria.mp3"},
-                        {"type": "voice", "subtype": "soprano", "name": "Soprano 2", "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_soprano_2_o_dia_da_vitoria.mp3"},
-                        {"type": "voice", "subtype": "contralto", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_contralto_o_dia_da_vitoria.mp3"},
-                        {"type": "voice", "subtype": "tenor", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_tenor_o_dia_da_vitoria.mp3"},
-                        {"type": "voice", "subtype": "baixo", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/07_o_dia_da_vitoria/07_baixo_o_dia_da_vitoria.mp3"},
-                        {"type": "vocal", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/voz/07_o_dia_da_vitoria-vocals.mp3"}
+                        {"type": "original", "subtype": null, "name": null, "src": SONG_BASE_URL + "original/07_o_dia_da_vitoria.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": SONG_BASE_URL + "playback/07_o_dia_da_vitoria.mp3"},
+                        {"type": "voice", "subtype": "soprano", "name": "Soprano 2", "src": SONG_BASE_URL + "divisao_voz/07_o_dia_da_vitoria/07_soprano_2_o_dia_da_vitoria.mp3"},
+                        {"type": "voice", "subtype": "contralto", "name": null, "src": SONG_BASE_URL + "divisao_voz/07_o_dia_da_vitoria/07_contralto_o_dia_da_vitoria.mp3"},
+                        {"type": "voice", "subtype": "tenor", "name": null, "src": SONG_BASE_URL + "divisao_voz/07_o_dia_da_vitoria/07_tenor_o_dia_da_vitoria.mp3"},
+                        {"type": "voice", "subtype": "baixo", "name": null, "src": SONG_BASE_URL + "divisao_voz/07_o_dia_da_vitoria/07_baixo_o_dia_da_vitoria.mp3"},
+                        {"type": "vocal", "subtype": null, "name": null, "src": SONG_BASE_URL + "voz/07_o_dia_da_vitoria-vocals.mp3"}
                         
                     ]
                 },
@@ -2539,13 +2542,13 @@
                     "name": "Lhe Amostrando Jesus",
                     "number": "08",
                     "variations": [
-                        {"type": "original", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/original/08_lhe_amostrando_jesus.mp3"},
-                        {"type": "playback", "subtype": null, "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/playback/08_lhe_amostrando_jesus.mp3"},
-                        {"type": "voice", "subtype": "soprano", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_soprano_lhe_amostrando_jesus.mp3"},
-                        {"type": "voice", "subtype": "contralto", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_contralto_lhe_amostrando_jesus.mp3"},
-                        {"type": "voice", "subtype": "tenor1", "name": "1º Tenor (agudo)", "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_tenor_1_lhe_amostrando_jesus.mp3"},
-                        {"type": "voice", "subtype": "tenor2", "name": "2º Tenor (grave)", "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_tenor_2_lhe_amostrando_jesus.mp3"},
-                        {"type": "voice", "subtype": "baixo", "name": null, "src": "https://raw.githubusercontent.com/alanastone/natal2025/main/sources/divisao_voz/08_lhe_amostrando_jesus/08_baixo_lhe_amostrando_jesus.mp3"}
+                        {"type": "original", "subtype": null, "name": null, "src": SONG_BASE_URL + "original/08_lhe_amostrando_jesus.mp3"},
+                        {"type": "playback", "subtype": null, "name": null, "src": SONG_BASE_URL + "playback/08_lhe_amostrando_jesus.mp3"},
+                        {"type": "voice", "subtype": "soprano", "name": null, "src": SONG_BASE_URL + "divisao_voz/08_lhe_amostrando_jesus/08_soprano_lhe_amostrando_jesus.mp3"},
+                        {"type": "voice", "subtype": "contralto", "name": null, "src": SONG_BASE_URL + "divisao_voz/08_lhe_amostrando_jesus/08_contralto_lhe_amostrando_jesus.mp3"},
+                        {"type": "voice", "subtype": "tenor1", "name": "1º Tenor (agudo)", "src": SONG_BASE_URL + "divisao_voz/08_lhe_amostrando_jesus/08_tenor_1_lhe_amostrando_jesus.mp3"},
+                        {"type": "voice", "subtype": "tenor2", "name": "2º Tenor (grave)", "src": SONG_BASE_URL + "divisao_voz/08_lhe_amostrando_jesus/08_tenor_2_lhe_amostrando_jesus.mp3"},
+                        {"type": "voice", "subtype": "baixo", "name": null, "src": SONG_BASE_URL + "divisao_voz/08_lhe_amostrando_jesus/08_baixo_lhe_amostrando_jesus.mp3"}
                     ]
                 }
             ];
