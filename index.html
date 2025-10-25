@@ -718,7 +718,7 @@
             max-width: 100%;
         }
 
-        .skip-prev-btn, .skip-next-btn {
+        .skip-prev-btn, .skip-next-btn, .repeat-btn {
             background: transparent;
             color: #666;
             border: none;
@@ -735,8 +735,49 @@
             font-weight: bold;
         }
 
+        .repeat-btn {
+            position: relative;
+        }
+
+        .repeat-btn:not(.active)::after {
+            content: "❌";
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            font-size: 0.8em;
+            color: #ff4444;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .repeat-btn.active {
+            color: #ff6b6b;
+        }
+
+        .repeat-btn.active::after {
+            content: "✓";
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            font-size: 1.4em;
+            color: #4CAF50;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
         @media (hover: hover) {
-            .skip-prev-btn:hover, .skip-next-btn:hover {
+            .skip-prev-btn:hover, .skip-next-btn:hover, .repeat-btn:hover {
                 color: #c41e3a;
             }
         }
@@ -992,6 +1033,7 @@
                             <button class="play-btn">▶</button>
                             <button class="custom-ff-btn">&gt;&gt;</button>
                             <button class="skip-next-btn" onclick="skipToNext()">|&gt;</button>
+                            <button class="repeat-btn" onclick="toggleRepeatManual()">🔁</button>
                         </div>
                         <div class="volume-control">
                             <button class="volume-btn">🔊</button>
@@ -1011,6 +1053,9 @@
     <script>
         // Global songs configuration loaded from JSON
         let songsConfig = [];
+
+        // Global repeat state
+        let isRepeatMode = false;
 
         // Load songs configuration from JSON
         async function loadSongsConfig() {
@@ -1366,6 +1411,7 @@
                             <button class="custom-rw-btn">&lt;&lt;</button>
                             <button class="play-btn">▶</button>
                             <button class="custom-ff-btn">&gt;&gt;</button>
+                            <button class="repeat-btn" onclick="toggleRepeatManual()">🔁</button>
                         </div>
                         <div class="volume-control">
                             <button class="volume-btn">🔊</button>
@@ -1576,15 +1622,22 @@
             audioElement.addEventListener('loadedmetadata', updateProgress);
             audioElement.addEventListener('timeupdate', updateProgress);
             audioElement.addEventListener('ended', () => {
-                playBtn.textContent = '▶';
-                playBtn.classList.remove('playing');
-                const audioItem = audioElement.closest('.audio-item');
-                if (audioItem) {
-                    audioItem.classList.remove('playing');
-                    // Remove playing icon from title
-                    const playingIcon = audioItem.querySelector('.playing-icon');
-                    if (playingIcon) {
-                        playingIcon.remove();
+                if (isRepeatMode) {
+                    // If repeat mode is active, restart the current track
+                    audioElement.currentTime = 0;
+                    audioElement.play();
+                } else {
+                    // Normal behavior - stop playback
+                    playBtn.textContent = '▶';
+                    playBtn.classList.remove('playing');
+                    const audioItem = audioElement.closest('.audio-item');
+                    if (audioItem) {
+                        audioItem.classList.remove('playing');
+                        // Remove playing icon from title
+                        const playingIcon = audioItem.querySelector('.playing-icon');
+                        if (playingIcon) {
+                            playingIcon.remove();
+                        }
                     }
                 }
             });
@@ -1719,6 +1772,8 @@
         let playlistAudio = null;
         let playlistPlayer = null;
 
+        let lastRepeatState = null;
+
         async function showPlaylist() {
             stopAllAudio();
             // Make sure songs config is loaded
@@ -1767,6 +1822,7 @@
             document.querySelectorAll('.playlist-track .track-title').forEach((trackTitle, index) => {
                 trackTitle.addEventListener('click', () => {
                     loadTrack(index);
+                    toggleRepeat(lastRepeatState);
                     if (playlistAudio.paused) {
                         playlistAudio.play().catch(error => {
                             console.error('Error playing track:', error);
@@ -1922,7 +1978,15 @@
 
         // Skip to next song function
         function skipToNext() {
-            if (currentTrackIndex < playlistTracks.length - 1) {
+            // Get the track and variation from config
+            const track = playlistTracks[currentTrackIndex];
+            const variations = track.songConfig.variations;
+            if (currentSubTrack && currentSubTrack < variations.length - 1) {
+                // Move to next sub-track
+                currentSubTrack++;
+                playSubTrack(currentTrackIndex, currentSubTrack);
+            }
+            else if (currentTrackIndex < playlistTracks.length - 1) {
                 loadTrack(currentTrackIndex + 1);
                 playlistAudio.play();
             }
@@ -1937,16 +2001,35 @@
                 return;
             }
 
-            // If we're within 3 seconds or at beginning, go to previous song
-            if (currentTrackIndex > 0) {
+            if (currentSubTrack && currentSubTrack > 0) {
+                // Move to next sub-track
+                currentSubTrack--;
+                playSubTrack(currentTrackIndex, currentSubTrack);
+            }
+            else if (currentTrackIndex > 0) {
                 loadTrack(currentTrackIndex - 1);
                 playlistAudio.play();
-            } else {
-                // If first song, just restart it
-                if (playlistAudio) {
-                    playlistAudio.currentTime = 0;
-                }
+            } else  if (playlistAudio) {
+                playlistAudio.currentTime = 0;
             }
+        }
+
+        function toggleRepeatManual() {
+            lastRepeatState = !isRepeatMode
+            toggleRepeat();
+        }
+
+        // Toggle repeat mode
+        function toggleRepeat(force) {
+            isRepeatMode = force == undefined ? !isRepeatMode : force;
+            const repeatBtns = document.querySelectorAll('.repeat-btn');
+            repeatBtns.forEach(btn => {
+                if (isRepeatMode) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
         }
 
         // Setup playlist player manually
@@ -2083,13 +2166,21 @@
             playlistAudio.addEventListener('loadedmetadata', updateProgress);
             playlistAudio.addEventListener('timeupdate', updateProgress);
             playlistAudio.addEventListener('ended', () => {
-                console.log('Audio ended - auto-advancing using skipToNext()');
-                playBtn.textContent = '▶';
-                playBtn.classList.remove('playing');
-                updateTrackStatus();
+                if (isRepeatMode) {
+                    // If repeat mode is active, restart the current track
+                    console.log('Repeating current track');
+                    playlistAudio.currentTime = 0;
+                    playlistAudio.play();
+                } else {
+                    // Normal behavior - advance to next track
+                    console.log('Audio ended - auto-advancing using skipToNext()');
+                    playBtn.textContent = '▶';
+                    playBtn.classList.remove('playing');
+                    updateTrackStatus();
 
-                // Auto-advance using the same method as skip button
-                skipToNext();
+                    // Auto-advance using the same method as skip button
+                    skipToNext();
+                }
             });
             console.log('Added ended event listener to playlist audio');
 
@@ -2270,6 +2361,9 @@
         }
 
         function playSubTrack(mainIndex, variationIndex) {
+
+            toggleRepeat(true);
+
             // Update current track index
             currentTrackIndex = mainIndex;
             currentSubTrack = variationIndex;
