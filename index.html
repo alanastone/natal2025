@@ -787,44 +787,12 @@
         }
 
         .repeat-btn {
-            position: relative;
-        }
-
-        .repeat-btn:not(.active)::after {
-            content: "❌";
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            font-size: 0.8em;
-            color: #ff4444;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 50%;
-            width: 14px;
-            height: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            opacity: 0.4;
         }
 
         .repeat-btn.active {
             color: #ff6b6b;
-        }
-
-        .repeat-btn.active::after {
-            content: "✓";
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            font-size: 1.4em;
-            color: #4CAF50;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+            opacity: 1;
         }
 
         @media (hover: hover) {
@@ -1079,13 +1047,13 @@
                     <div class="audio-controls-row">
                         <div class="audio-time">0:00 / 0:00</div>
                         <div class="audio-controls">
-                            <button class="markers-toggle-btn" onclick="togglePlaylistMarkers()" title="Toggle markers">📍</button>
+                            <button class="repeat-btn" onclick="toggleRepeatManual()">🔁</button>
                             <button class="skip-prev-btn" onclick="skipToPrevious()">&lt;|</button>
                             <button class="custom-rw-btn">&lt;&lt;</button>
                             <button class="play-btn">▶</button>
                             <button class="custom-ff-btn">&gt;&gt;</button>
                             <button class="skip-next-btn" onclick="skipToNext()">|&gt;</button>
-                            <button class="repeat-btn" onclick="toggleRepeatManual()">🔁</button>
+                            <button class="markers-toggle-btn" onclick="togglePlaylistMarkers()" title="Toggle markers">📍</button>
                         </div>
                         <div class="volume-control">
                             <button class="volume-btn">🔊</button>
@@ -1111,7 +1079,7 @@
         let isRepeatMode = false;
 
         // Global playlist markers visibility state
-        let playlistMarkersVisible = true;
+        let playlistMarkersVisible = false;
 
         // Load songs configuration from JSON
         async function loadSongsConfig() {
@@ -2028,7 +1996,9 @@
             document.querySelectorAll('.playlist-track .track-title').forEach((trackTitle, index) => {
                 trackTitle.addEventListener('click', () => {
                     loadTrack(index);
-                    toggleRepeat(lastRepeatState);
+                    if (lastRepeatState != undefined) {
+                        toggleRepeat(lastRepeatState);
+                    }
                     if (playlistAudio.paused) {
                         playlistAudio.play().catch(error => {
                             console.error('Error playing track:', error);
@@ -2247,7 +2217,12 @@
 
         // Toggle repeat mode
         function toggleRepeat(force) {
-            isRepeatMode = force == undefined ? !isRepeatMode : force;
+            if (force != undefined) {
+                lastRepeatState = isRepeatMode;
+                isRepeatMode = force;
+            } else {
+                isRepeatMode = !isRepeatMode;   
+            }
             const repeatBtns = document.querySelectorAll('.repeat-btn');
             repeatBtns.forEach(btn => {
                 if (isRepeatMode) {
@@ -2302,7 +2277,8 @@
             // Initialize markers toggle button state
             const markersToggleBtn = playlistPlayer.querySelector('.markers-toggle-btn');
             if (markersToggleBtn) {
-                markersToggleBtn.classList.add('active'); // Start with markers visible
+                // Start with markers hidden (no active class)
+                markersToggleBtn.classList.remove('active');
             }
 
             let isDragging = false;
