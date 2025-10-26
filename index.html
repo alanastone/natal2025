@@ -261,6 +261,31 @@
             margin-bottom: 8px;
         }
 
+        .audio-markers-row {
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .marker-link {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 0.85em;
+            color: #666;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .marker-link:hover {
+            background: #e8f4fd;
+            border-color: #c41e3a;
+            color: #c41e3a;
+        }
+
         .progress-container {
             position: relative;
             height: 6px;
@@ -282,6 +307,23 @@
 
         .progress-bar.dragging {
             transition: none;
+        }
+
+        .progress-marker {
+            position: absolute;
+            top: -2px;
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 8px solid #ff6b6b;
+            transform: translateX(-50%);
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .progress-marker:hover {
+            border-top-color: #ff4444;
         }
 
         .progress-thumb {
@@ -1039,6 +1081,7 @@
                             <button class="volume-btn">🔊</button>
                         </div>
                     </div>
+                    <div class="audio-markers-row"></div>
                 </div>
             </div>
 
@@ -1254,6 +1297,141 @@
             });
         }
 
+        // Function to parse time string (e.g., "2:15") to seconds
+        function parseTimeToSeconds(timeString) {
+            if (typeof timeString === 'number') return timeString;
+            const parts = timeString.split(':');
+            const minutes = parseInt(parts[0]) || 0;
+            const seconds = parseInt(parts[1]) || 0;
+            return minutes * 60 + seconds;
+        }
+
+        // Function to parse marker strings and expand markers with multiple times
+        function parseAndExpandMarkers(markers) {
+            const expandedMarkers = [];
+            markers.forEach(marker => {
+                if (typeof marker === 'string') {
+                    // Parse string format: "1:00, 1:20 - Refrao" or "2:00 - Coral"
+                    const dashIndex = marker.lastIndexOf(' - ');
+                    if (dashIndex === -1) return; // Invalid format
+
+                    const timePart = marker.substring(0, dashIndex);
+                    const label = marker.substring(dashIndex + 3);
+
+                    if (timePart.includes(',')) {
+                        // Multiple times: "1:00, 1:20"
+                        const times = timePart.split(',').map(t => t.trim());
+                        times.forEach(time => {
+                            expandedMarkers.push({
+                                time: time,
+                                label: label
+                            });
+                        });
+                    } else {
+                        // Single time: "2:00"
+                        expandedMarkers.push({
+                            time: timePart,
+                            label: label
+                        });
+                    }
+                } else {
+                    // Legacy object format support
+                    if (marker.time.includes(',')) {
+                        // Split comma-separated times and create individual markers
+                        const times = marker.time.split(',').map(t => t.trim());
+                        times.forEach(time => {
+                            expandedMarkers.push({
+                                time: time,
+                                label: marker.label
+                            });
+                        });
+                    } else {
+                        // Single time, add as-is
+                        expandedMarkers.push(marker);
+                    }
+                }
+            });
+            return expandedMarkers;
+        }
+
+        // Function to create marker links in the markers row
+        function createMarkerLinks(markersRow, variation, audioElement) {
+            if (variation.markers) {
+                // Parse and expand markers with multiple times
+                const expandedMarkers = parseAndExpandMarkers(variation.markers);
+
+                // Sort markers by time in ascending order
+                const sortedMarkers = expandedMarkers.slice().sort((a, b) => {
+                    const timeA = parseTimeToSeconds(a.time);
+                    const timeB = parseTimeToSeconds(b.time);
+                    return timeA - timeB;
+                });
+
+                sortedMarkers.forEach(marker => {
+                    const timeInSeconds = parseTimeToSeconds(marker.time);
+                    const displayTime = typeof marker.time === 'string' ? marker.time : `${Math.floor(timeInSeconds / 60)}:${(timeInSeconds % 60).toString().padStart(2, '0')}`;
+
+                    const markerLink = document.createElement('span');
+                    markerLink.className = 'marker-link';
+                    markerLink.textContent = `${displayTime} → ${marker.label}`;
+                    markerLink.title = `Ir para ${marker.label} em ${displayTime}`;
+
+                    // Add click handler to jump to marker time
+                    markerLink.addEventListener('click', () => {
+                        audioElement.currentTime = timeInSeconds;
+                        // Play the audio if it's not already playing
+                        if (audioElement.paused) {
+                            audioElement.play();
+                        }
+                    });
+
+                    markersRow.appendChild(markerLink);
+                });
+            }
+        }
+
+        // Function to create progress markers
+        function createProgressMarkers(progressContainer, variation, audioElement) {
+            if (variation.markers) {
+                // Parse and expand markers with multiple times
+                const expandedMarkers = parseAndExpandMarkers(variation.markers);
+
+                expandedMarkers.forEach(marker => {
+                    const markerElement = document.createElement('div');
+                    markerElement.className = 'progress-marker';
+                    const timeInSeconds = parseTimeToSeconds(marker.time);
+                    const displayTime = typeof marker.time === 'string' ? marker.time : `${Math.floor(timeInSeconds / 60)}:${(timeInSeconds % 60).toString().padStart(2, '0')}`;
+                    markerElement.title = `${marker.label} - ${displayTime}`;
+
+                    // Position marker based on duration when metadata loads
+                    const updateMarkerPosition = () => {
+                        if (audioElement.duration && !isNaN(audioElement.duration)) {
+                            const percentage = (timeInSeconds / audioElement.duration) * 100;
+                            markerElement.style.left = `${percentage}%`;
+                            console.log(`Marker positioned at ${percentage}% for time ${timeInSeconds}s of ${audioElement.duration}s`);
+                        }
+                    };
+
+                    // Add click handler to jump to marker time
+                    markerElement.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        audioElement.currentTime = timeInSeconds;
+                    });
+
+                    // Try to position immediately if duration is already available
+                    if (audioElement.duration && !isNaN(audioElement.duration)) {
+                        updateMarkerPosition();
+                    } else {
+                        // Otherwise wait for metadata to load
+                        audioElement.addEventListener('loadedmetadata', updateMarkerPosition);
+                        audioElement.addEventListener('canplay', updateMarkerPosition);
+                    }
+
+                    progressContainer.appendChild(markerElement);
+                });
+            }
+        }
+
         // Audio control functionality (fast forward and rewind)
         function setupAudioControls() {
             const ffButtons = document.querySelectorAll('.ff-btn');
@@ -1394,6 +1572,9 @@
 
         // Custom audio player functionality
         function createCustomAudioPlayer(audioElement) {
+            // Get variation data from audio element
+            const variationData = audioElement.dataset.variation ? JSON.parse(audioElement.dataset.variation) : null;
+
             // Create custom player HTML if it doesn't exist
             if (!audioElement.nextElementSibling || !audioElement.nextElementSibling.classList.contains('custom-audio-player')) {
                 const customPlayer = document.createElement('div');
@@ -1417,6 +1598,7 @@
                             <button class="volume-btn">🔊</button>
                         </div>
                     </div>
+                    <div class="audio-markers-row"></div>
                 `;
                 audioElement.parentNode.insertBefore(customPlayer, audioElement.nextSibling);
             }
@@ -1430,6 +1612,17 @@
             const rwBtn = customPlayer.querySelector('.custom-rw-btn');
             const ffBtn = customPlayer.querySelector('.custom-ff-btn');
             const volumeBtn = customPlayer.querySelector('.volume-btn');
+
+            // Create markers if variation data exists
+            if (variationData) {
+                createProgressMarkers(progressContainer, variationData, audioElement);
+
+                // Create marker links in the markers row
+                const markersRow = customPlayer.querySelector('.audio-markers-row');
+                if (markersRow) {
+                    createMarkerLinks(markersRow, variationData, audioElement);
+                }
+            }
 
             let isDragging = false;
             let dragPosition = 0;
@@ -1881,6 +2074,23 @@
                 const songDisplay = document.getElementById('current-song-display');
                 if (songDisplay) {
                     songDisplay.textContent = `${String(index + 1).padStart(2, '0')} - ${track.title}`;
+                }
+
+                // Clear previous markers and add new ones if available
+                const markersRow = playlistPlayer.querySelector('.audio-markers-row');
+                const progressContainer = playlistPlayer.querySelector('.progress-container');
+                if (markersRow && progressContainer) {
+                    // Clear existing markers
+                    markersRow.innerHTML = '';
+                    const existingMarkers = progressContainer.querySelectorAll('.progress-marker');
+                    existingMarkers.forEach(marker => marker.remove());
+
+                    // Add markers for current track if available
+                    const originalVariation = track.songConfig.variations.find(v => v.type === 'original');
+                    if (originalVariation && originalVariation.markers) {
+                        createProgressMarkers(progressContainer, originalVariation, playlistAudio);
+                        createMarkerLinks(markersRow, originalVariation, playlistAudio);
+                    }
                 }
 
                 // Close any expanded sub-tracks when switching songs
@@ -2384,6 +2594,21 @@
                 songDisplay.textContent = `${songConfig.number} - ${track.title} - ${displayName}`;
             }
 
+            // Clear previous markers and add new ones if available
+            const markersRow = playlistPlayer.querySelector('.audio-markers-row');
+            const progressContainer = playlistPlayer.querySelector('.progress-container');
+            if (markersRow && progressContainer) {
+                // Clear existing markers
+                markersRow.innerHTML = '';
+                const existingMarkers = progressContainer.querySelectorAll('.progress-marker');
+                existingMarkers.forEach(marker => marker.remove());
+
+                // Add markers for current variation if available
+                if (variation.markers) {
+                    createProgressMarkers(progressContainer, variation, playlistAudio);
+                    createMarkerLinks(markersRow, variation, playlistAudio);
+                }
+            }
 
             // Update track highlighting
             updateTrackHighlighting();
@@ -2459,7 +2684,7 @@
                         return `
                             <div class="audio-item">
                                 <h4>${displayName}</h4>
-                                <audio class="audioPlayer" src="${variation.src}"></audio>
+                                <audio class="audioPlayer" src="${variation.src}" data-variation='${JSON.stringify(variation)}'></audio>
                                 <div class="custom-audio-player">
                                     <div class="audio-progress-row">
                                         <div class="progress-container">
@@ -2478,6 +2703,7 @@
                                             <button class="volume-btn">🔊</button>
                                         </div>
                                     </div>
+                                    <div class="audio-markers-row"></div>
                                 </div>
                             </div>
                         `;
@@ -2553,8 +2779,14 @@
                     "name": "Isaías 9",
                     "number": "01",
                     "variations": [
-                        {"type": "original", "subtype": null, "name": null, "src": SONG_BASE_URL + "original/01_isaias_9.mp3"},
-                        {"type": "playback", "subtype": null, "name": null, "src": SONG_BASE_URL + "playback/01_isaias_9.mp3"},
+                        {"type": "original", "subtype": null, "name": null, "src": SONG_BASE_URL + "original/01_isaias_9.mp3",
+                            "markers": ["0:08, 1:55, 3:54 - Estrofe",
+                                        "1:02, 2:44 - Refrão"]
+                        },
+                        {"type": "playback", "subtype": null, "name": null, "src": SONG_BASE_URL + "playback/01_isaias_9.mp3",
+                            "markers": ["0:08, 1:55, 3:54 - Estrofe",
+                                        "1:02, 2:44 - Refrão"]
+                        },
                         {"type": "voice", "subtype": "contralto", "name": null, "src": SONG_BASE_URL + "divisao_voz/01_isaias_9/01_contralto_isaias_9.mp3"},
                         {"type": "voice", "subtype": "tenor", "name": null, "src": SONG_BASE_URL + "divisao_voz/01_isaias_9/01_tenor_isaias_9.mp3"},
                         {"type": "vocal", "subtype": null, "name": null, "src": SONG_BASE_URL + "voz/01_isaias_9-vocals.mp3"},
@@ -2564,8 +2796,18 @@
                     "name": "Maria",
                     "number": "02",
                     "variations": [
-                        {"type": "original", "subtype": null, "name": null, "src": SONG_BASE_URL + "original/02_maria.mp3"},
-                        {"type": "playback", "subtype": null, "name": null, "src": SONG_BASE_URL + "playback/02_maria.mp3"},
+                        {"type": "original", "subtype": null, "name": null, "src": SONG_BASE_URL + "original/02_maria.mp3",
+                            "markers": ["0:15 - 1ª Estrofe",
+                                        "0:52, 1:56, 2:26 - Refrão",
+                                        "0:39, 1:42 - Alcançou graça...",
+                                        "1:21 - 2ª Estrofe"]
+                        },
+                        {"type": "playback", "subtype": null, "name": null, "src": SONG_BASE_URL + "playback/02_maria.mp3",
+                             "markers": ["0:15 - 1ª Estrofe",
+                                        "0:52, 1:56, 2:26 - Refrão",
+                                        "0:39, 1:42 - Alcançou graça...",
+                                        "1:21 - 2ª Estrofe"]
+                        },
                         {"type": "voice", "subtype": "contralto", "name": null, "src": SONG_BASE_URL + "divisao_voz/02_maria/02_contralto_maria.mp3"},
                         {"type": "voice", "subtype": "tenor", "name": null, "src": SONG_BASE_URL + "divisao_voz/02_maria/02_tenor_maria.mp3"},
                         {"type": "vocal", "subtype": null, "name": null, "src": SONG_BASE_URL + "voz/02_maria-vocals.mp3"},
@@ -2575,8 +2817,22 @@
                     "name": "Noite Santa e Agnus Dei",
                     "number": "03",
                     "variations": [
-                        {"type": "original", "subtype": null, "name": null, "src": SONG_BASE_URL + "original/03_noite_santa_e_agnus_dei.mp3"},
-                        {"type": "playback", "subtype": null, "name": null, "src": SONG_BASE_URL + "playback/03_noite_santa_e_agnus_dei.mp3"},
+                        {"type": "original", "subtype": null, "name": null, "src": SONG_BASE_URL + "original/03_noite_santa_e_agnus_dei.mp3",
+                            "markers": ["1:05, 2:40 - Coral entra", 
+                                        "3:44, 4:08 - Santo", 
+                                        "3:22 - Arranjo Coral", 
+                                        "0:28 - 1ª Estrofe",
+                                        "2:04 - 2ª Estrofe", 
+                                        "1:22, 2:58, 4:35 - Refrão"]
+                        },
+                        {"type": "playback", "subtype": null, "name": null, "src": SONG_BASE_URL + "playback/03_noite_santa_e_agnus_dei.mp3", 
+                            "markers": ["1:05, 2:40 - Coral entra", 
+                                        "3:44, 4:08 - Santo", 
+                                        "3:22 - Arranjo Coral", 
+                                        "0:28 - 1ª Estrofe",
+                                        "2:04 - 2ª Estrofe", 
+                                        "1:22, 2:58, 4:35 - Refrão"]
+                        },
                         {"type": "voice", "subtype": "soprano", "name": null, "src": SONG_BASE_URL + "divisao_voz/03_noite_santa_e_agnus_dei/03_soprano_1_noite_santa_e_agnus_dei.mp3"},
                         {"type": "voice", "subtype": "soprano", "name": "Soprano e Tenor (2a voz)", "src": SONG_BASE_URL + "divisao_voz/03_noite_santa_e_agnus_dei/03_soprano_2_noite_santa_e_agnus_dei.mp3"},
                         {"type": "voice", "subtype": "contralto", "name": null, "src": SONG_BASE_URL + "divisao_voz/03_noite_santa_e_agnus_dei/03_contralto_noite_santa_e_agnus_dei.mp3"},
