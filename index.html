@@ -760,7 +760,7 @@
             max-width: 100%;
         }
 
-        .skip-prev-btn, .skip-next-btn, .repeat-btn {
+        .skip-prev-btn, .skip-next-btn, .repeat-btn, .markers-toggle-btn {
             background: transparent;
             color: #666;
             border: none;
@@ -775,6 +775,15 @@
             user-select: none;
             font-family: monospace;
             font-weight: bold;
+        }
+
+        .markers-toggle-btn {
+            opacity: 0.4;
+        }
+
+        .markers-toggle-btn.active {
+            color: #c41e3a;
+            opacity: 1;
         }
 
         .repeat-btn {
@@ -819,7 +828,7 @@
         }
 
         @media (hover: hover) {
-            .skip-prev-btn:hover, .skip-next-btn:hover, .repeat-btn:hover {
+            .skip-prev-btn:hover, .skip-next-btn:hover, .repeat-btn:hover, .markers-toggle-btn:hover {
                 color: #c41e3a;
             }
         }
@@ -1070,6 +1079,7 @@
                     <div class="audio-controls-row">
                         <div class="audio-time">0:00 / 0:00</div>
                         <div class="audio-controls">
+                            <button class="markers-toggle-btn" onclick="togglePlaylistMarkers()" title="Toggle markers">📍</button>
                             <button class="skip-prev-btn" onclick="skipToPrevious()">&lt;|</button>
                             <button class="custom-rw-btn">&lt;&lt;</button>
                             <button class="play-btn">▶</button>
@@ -1099,6 +1109,9 @@
 
         // Global repeat state
         let isRepeatMode = false;
+
+        // Global playlist markers visibility state
+        let playlistMarkersVisible = true;
 
         // Load songs configuration from JSON
         async function loadSongsConfig() {
@@ -2091,6 +2104,9 @@
                         createProgressMarkers(progressContainer, originalVariation, playlistAudio);
                         createMarkerLinks(markersRow, originalVariation, playlistAudio);
                     }
+
+                    // Set initial visibility based on toggle state
+                    markersRow.style.display = playlistMarkersVisible ? 'flex' : 'none';
                 }
 
                 // Close any expanded sub-tracks when switching songs
@@ -2242,6 +2258,25 @@
             });
         }
 
+        // Toggle playlist markers visibility
+        function togglePlaylistMarkers() {
+            playlistMarkersVisible = !playlistMarkersVisible;
+            const markersToggleBtn = document.querySelector('.markers-toggle-btn');
+            const markersRow = playlistPlayer ? playlistPlayer.querySelector('.audio-markers-row') : null;
+
+            if (markersToggleBtn) {
+                if (playlistMarkersVisible) {
+                    markersToggleBtn.classList.add('active');
+                } else {
+                    markersToggleBtn.classList.remove('active');
+                }
+            }
+
+            if (markersRow) {
+                markersRow.style.display = playlistMarkersVisible ? 'flex' : 'none';
+            }
+        }
+
         // Setup playlist player manually
         function setupPlaylistPlayer() {
             console.log('Setting up playlist player with event listeners...');
@@ -2262,6 +2297,12 @@
             if (!playBtn || !playlistAudio || !progressContainer || !timeDisplay) {
                 console.error('Missing required elements for playlist player setup');
                 return;
+            }
+
+            // Initialize markers toggle button state
+            const markersToggleBtn = playlistPlayer.querySelector('.markers-toggle-btn');
+            if (markersToggleBtn) {
+                markersToggleBtn.classList.add('active'); // Start with markers visible
             }
 
             let isDragging = false;
@@ -2608,6 +2649,9 @@
                     createProgressMarkers(progressContainer, variation, playlistAudio);
                     createMarkerLinks(markersRow, variation, playlistAudio);
                 }
+
+                // Set initial visibility based on toggle state
+                markersRow.style.display = playlistMarkersVisible ? 'flex' : 'none';
             }
 
             // Update track highlighting
