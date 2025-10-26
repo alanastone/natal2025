@@ -1081,6 +1081,9 @@
         // Global playlist markers visibility state
         let playlistMarkersVisible = false;
 
+        // Individual player marker states (keyed by audio element)
+        const playerMarkerStates = new Map();
+
         // Load songs configuration from JSON
         async function loadSongsConfig() {
             try {
@@ -1573,7 +1576,7 @@
                             <button class="custom-rw-btn">&lt;&lt;</button>
                             <button class="play-btn">▶</button>
                             <button class="custom-ff-btn">&gt;&gt;</button>
-                            <button class="repeat-btn" onclick="toggleRepeatManual()">🔁</button>
+                            <button class="markers-toggle-btn" onclick="toggleIndividualMarkers(this)" title="Toggle markers">📍</button>
                         </div>
                         <div class="volume-control">
                             <button class="volume-btn">🔊</button>
@@ -1594,15 +1597,36 @@
             const ffBtn = customPlayer.querySelector('.custom-ff-btn');
             const volumeBtn = customPlayer.querySelector('.volume-btn');
 
+            // Initialize marker toggle button state
+            const markersToggleBtn = customPlayer.querySelector('.markers-toggle-btn');
+            const markersRow = customPlayer.querySelector('.audio-markers-row');
+
+            // Get or set initial state for this specific player (default to false)
+            const playerMarkerState = playerMarkerStates.get(audioElement) || false;
+            playerMarkerStates.set(audioElement, playerMarkerState);
+
+            if (markersToggleBtn) {
+                // Set initial button state based on this player's state
+                if (playerMarkerState) {
+                    markersToggleBtn.classList.add('active');
+                } else {
+                    markersToggleBtn.classList.remove('active');
+                }
+            }
+
             // Create markers if variation data exists
             if (variationData) {
                 createProgressMarkers(progressContainer, variationData, audioElement);
 
                 // Create marker links in the markers row
-                const markersRow = customPlayer.querySelector('.audio-markers-row');
                 if (markersRow) {
                     createMarkerLinks(markersRow, variationData, audioElement);
+                    // Set initial visibility based on this player's state
+                    markersRow.style.display = playerMarkerState ? 'flex' : 'none';
                 }
+            } else if (markersRow) {
+                // If no markers, hide the row
+                markersRow.style.display = 'none';
             }
 
             let isDragging = false;
@@ -2236,7 +2260,7 @@
         // Toggle playlist markers visibility
         function togglePlaylistMarkers() {
             playlistMarkersVisible = !playlistMarkersVisible;
-            const markersToggleBtn = document.querySelector('.markers-toggle-btn');
+            const markersToggleBtn = playlistPlayer ? playlistPlayer.querySelector('.markers-toggle-btn') : null;
             const markersRow = playlistPlayer ? playlistPlayer.querySelector('.audio-markers-row') : null;
 
             if (markersToggleBtn) {
@@ -2249,6 +2273,40 @@
 
             if (markersRow) {
                 markersRow.style.display = playlistMarkersVisible ? 'flex' : 'none';
+            }
+        }
+
+        // Toggle individual player markers visibility
+        function toggleIndividualMarkers(buttonElement) {
+            // Find the audio element for this specific player
+            const customPlayer = buttonElement.closest('.custom-audio-player');
+            const audioElement = customPlayer.previousElementSibling;
+
+            if (!audioElement || !audioElement.classList.contains('audioPlayer')) {
+                console.error('Could not find associated audio element');
+                return;
+            }
+
+            // Get current state for this specific player (default to false)
+            const currentState = playerMarkerStates.get(audioElement) || false;
+            const newState = !currentState;
+
+            // Update state for this specific player
+            playerMarkerStates.set(audioElement, newState);
+
+            // Update this specific player's button and markers row
+            const markersRow = customPlayer.querySelector('.audio-markers-row');
+
+            if (newState) {
+                buttonElement.classList.add('active');
+                if (markersRow) {
+                    markersRow.style.display = 'flex';
+                }
+            } else {
+                buttonElement.classList.remove('active');
+                if (markersRow) {
+                    markersRow.style.display = 'none';
+                }
             }
         }
 
@@ -2718,6 +2776,7 @@
                                             <button class="custom-rw-btn">&lt;&lt;</button>
                                             <button class="play-btn">▶</button>
                                             <button class="custom-ff-btn">&gt;&gt;</button>
+                                            <button class="markers-toggle-btn" onclick="toggleIndividualMarkers(this)" title="Toggle markers">📍</button>
                                         </div>
                                         <div class="volume-control">
                                             <button class="volume-btn">🔊</button>
